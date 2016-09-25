@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		07235FAF1D8AB6FB00534408 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 07235FAE1D8AB6FB00534408 /* main.c */; };
+		079805CA1D8D2B1D00E32B52 /* machine_time.c in Sources */ = {isa = PBXBuildFile; fileRef = 079805C81D8D2B1D00E32B52 /* machine_time.c */; };
+		07EA05631D8ADBA70017FDE6 /* program_menu.c in Sources */ = {isa = PBXBuildFile; fileRef = 07EA05611D8ADBA70017FDE6 /* program_menu.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,10 @@
 /* Begin PBXFileReference section */
 		07235FAB1D8AB6FB00534408 /* courseWork */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = courseWork; sourceTree = BUILT_PRODUCTS_DIR; };
 		07235FAE1D8AB6FB00534408 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		079805C81D8D2B1D00E32B52 /* machine_time.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = machine_time.c; sourceTree = "<group>"; };
+		079805C91D8D2B1D00E32B52 /* machine_time.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machine_time.h; sourceTree = "<group>"; };
+		07EA05611D8ADBA70017FDE6 /* program_menu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = program_menu.c; sourceTree = "<group>"; };
+		07EA05621D8ADBA70017FDE6 /* program_menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = program_menu.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +63,11 @@
 		07235FAD1D8AB6FB00534408 /* courseWork */ = {
 			isa = PBXGroup;
 			children = (
+				079805C91D8D2B1D00E32B52 /* machine_time.h */,
+				079805C81D8D2B1D00E32B52 /* machine_time.c */,
 				07235FAE1D8AB6FB00534408 /* main.c */,
+				07EA05611D8ADBA70017FDE6 /* program_menu.c */,
+				07EA05621D8ADBA70017FDE6 /* program_menu.h */,
 			);
 			path = courseWork;
 			sourceTree = "<group>";
@@ -119,6 +129,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				079805CA1D8D2B1D00E32B52 /* machine_time.c in Sources */,
+				07EA05631D8ADBA70017FDE6 /* program_menu.c in Sources */,
 				07235FAF1D8AB6FB00534408 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,14 +228,20 @@
 		07235FB31D8AB6FB00534408 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GENERATE_MASTER_OBJECT_FILE = NO;
+				OTHER_LDFLAGS = "-lncurses";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
 			name = Debug;
 		};
 		07235FB41D8AB6FB00534408 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GENERATE_MASTER_OBJECT_FILE = NO;
+				OTHER_LDFLAGS = "-lncurses";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 			};
 			name = Release;
 		};
@@ -246,6 +264,7 @@
 				07235FB41D8AB6FB00534408 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

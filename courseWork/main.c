@@ -1,15 +1,17 @@
-//
-//  main.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 15.09.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
+#include "machine_time.h"
+//#include "program_menu.h"
 #include <stdio.h>
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    printf("Hello, World!\n");
-    return 0;
+int main()
+{
+    FILE *machineTimeFile = NULL;
+    char *buffer;
+    if ( loadFile(&machineTimeFile, "/Users/deniskuliev/Library/Developer/Xcode/DerivedData/courseWork-csjasbpzgqmfwtcyokgaikxvneev/Build/Products/Debug/data", MACHINE_FILE_HEADER) == FILE_LOADED)
+    {
+        buffer = loadToBuffer(machineTimeFile);
+        //printf("%s\n", buffer);
+        parseBuffer(buffer, 299);
+    }
+//    init_menu();
+//    render_menu(0);
 }
