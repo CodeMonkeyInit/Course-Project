@@ -22,6 +22,13 @@ struct MachineTime
     struct MachineTime *next;
 };
 
+int getBlockSize()
+{
+    struct stat fileSystem;
+    stat("/", &fileSystem);
+    return fileSystem.st_blksize;
+}
+
 int checkFileHeader(FILE *unknown, const char *refernceHeader)
 {
     char fileHeader[200];
@@ -40,7 +47,7 @@ int checkFileHeader(FILE *unknown, const char *refernceHeader)
 
 int loadFile(FILE **file,const char *filename,const char *header)
 {
-    *file = fopen(filename, "r");
+    *file = fopen(filename, "rb");
     
     if (*file == NULL)
     {
@@ -63,7 +70,7 @@ char *loadToBuffer(FILE *machineTimeFile)
     fseek(machineTimeFile, 0, SEEK_END);
     
     long fileLength = ftell(machineTimeFile);
-    int blockSize = 1024;
+    int blockSize = getBlockSize();
     long blockCount = fileLength / blockSize + 1;
     
     rewind(machineTimeFile);
@@ -80,11 +87,50 @@ char *loadToBuffer(FILE *machineTimeFile)
 
 int parseBuffer(char *buffer,int startPosition)
 {
-    for(long i = startPosition;; i++)
+    long recordEnd;
+    
+    char cafedraCode[4],
+            cafedraName[40],
+            поФакту[8],
+            поПлану[8];
+    
+    for (recordEnd = startPosition;buffer[recordEnd] != L'\n'; recordEnd++)
     {
-        if (buffer[i] == '\0')
-            break;
-        printf("%c", buffer[i]);
+        printf("%lc", buffer[recordEnd]);
     }
+    
+    int recordLength = (int) recordEnd - startPosition;
+    char record[recordLength];
+    
+    for (int i = startPosition,j = 0; i <= recordEnd; i++,j++)
+    {
+        record[j] = buffer[i];
+    }
+    
+    printf("%s", record);
+    
+    for (int i = 16,j = 0; i < 16+5; i++,j++)
+    {
+        cafedraCode[j] = record[i];
+    }
+    
+    int cafedraNameEnd = recordLength - 26;
+    
+    for(int i = 24,j = 0;i <= cafedraNameEnd; i++,j++)
+    {
+        cafedraName[j] = record[i];
+    }
+    
+    for (int i = cafedraNameEnd + 4,j = 0; i < cafedraNameEnd + 4 + 8 ; i++,j++)
+    {
+        поФакту[j] = record[i];
+    }
+    
+    for (int i = cafedraNameEnd + 4 + 8 + 3,j = 0; i < cafedraNameEnd + 4 + 8 + 3 + 8; i++,j++)
+    {
+        поПлану[j] = record[i];
+    }
+    
+    
     return 0;
 }

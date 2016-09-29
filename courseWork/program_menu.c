@@ -1,14 +1,7 @@
-//
-//  program_menu.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 15.09.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "program_menu.h"
 
-char *choices[] = {
+char *choices[] =
+{
     "Ввод",
     "Вывод",
     "Choice 3",
@@ -73,7 +66,7 @@ void init_menu()
     {
         start_color();
         init_pair(1,COLOR_GREEN, COLOR_BLACK);
-        init_pair(2,COLOR_WHITE,COLOR_RED);
+        init_pair(2,COLOR_WHITE,COLOR_BLUE);
     }
     refresh();
 }
@@ -119,6 +112,8 @@ void render_menu(int highlight)
                   offsetY,
                   offsetX);
     box(menu, 0, 0);
+    
+    
     
     wbkgd(menu, COLOR_PAIR(2));
     //bkgd(COLOR_PAIR(2));

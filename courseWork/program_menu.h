@@ -1,11 +1,3 @@
-//
-//  program_menu.h
-//  courseWork
-//
-//  Created by Денис Кулиев on 15.09.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #ifndef program_menu_h
 #define program_menu_h
 
