@@ -5,42 +5,11 @@
 //  Created by Денис Кулиев on 13.10.16.
 //  Copyright © 2016 Денис Кулиев. All rights reserved.
 //
-#include "programMenuChoices.h"
 #include "programMenu.h"
 
 int _nCols,
     _nRows;
 
-void stub(int choice)
-{
-    clear();
-    refresh();
-    
-    do
-    {
-        WINDOW *dialog;
-        int offsetX = (COLS - DIALOG_WIDTH) / 2,
-        offsetY = (LINES - DIALOG_HEIGHT) / 2;
-        refreshIfNeeded();
-        
-        print_help(HELP_MENU);
-        
-        dialog = newwin(DIALOG_HEIGHT,
-                        DIALOG_WIDTH,
-                        offsetY,
-                        offsetX);
-        
-        box(dialog, 0, 0);
-        mvwprintw(dialog, 3, 3, "Вы выбрали %s", choices[choice]);
-        wbkgd(dialog, COLOR_PAIR(1));
-        wrefresh(dialog);
-        delwin(dialog);
-    } while ( !keyWasPressed(KEY_MAC_ENTER) );
-    
-    clear();
-    refresh();
-    
-}
 
 
 bool refreshIfNeeded()

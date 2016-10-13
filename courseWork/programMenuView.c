@@ -9,8 +9,9 @@
 #include "programMenu.h"
 
 
-void printTable()
+void printTable(int mode)
 {
+    
     int linesAvailable = LINES - 6;
     struct MachineTime *start = getMachineTimeStartingPointer();
     struct MachineTime *end = getTableEnd(start, linesAvailable);

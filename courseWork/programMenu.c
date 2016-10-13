@@ -1,4 +1,3 @@
-#include "programMenuChoices.h"
 #include "programMenu.h"
 
 
@@ -10,6 +9,7 @@ char *choices[] =
     "Choice 4",
     "Выход",
 };
+const int choices_count = 5;
 
 bool colorAvailable;
 
@@ -35,6 +35,37 @@ void init_menu()
     refresh();
 }
 
+void stub(int choice)
+{
+    clear();
+    refresh();
+    
+    do
+    {
+        WINDOW *dialog;
+        int offsetX = (COLS - DIALOG_WIDTH) / 2,
+        offsetY = (LINES - DIALOG_HEIGHT) / 2;
+        refreshIfNeeded();
+        
+        print_help(HELP_MENU);
+        
+        dialog = newwin(DIALOG_HEIGHT,
+                        DIALOG_WIDTH,
+                        offsetY,
+                        offsetX);
+        
+        box(dialog, 0, 0);
+        mvwprintw(dialog, 3, 3, "Вы выбрали %s", choices[choice]);
+        wbkgd(dialog, COLOR_PAIR(1));
+        wrefresh(dialog);
+        delwin(dialog);
+    } while ( !keyWasPressed(KEY_MAC_ENTER) );
+    
+    clear();
+    refresh();
+    
+}
+
 void call_function(int function)
 {
     switch (function)
@@ -45,7 +76,7 @@ void call_function(int function)
             exit(0);
             break;
         case 2:
-            printTable();
+            printTable(VIEW_MODE);
             break;
         case 0:case 1:case 3:case 4:
             stub(function - 1);

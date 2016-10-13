@@ -17,7 +17,7 @@
 		0702C41C1DAFE661006C31C3 /* getMachineTimeAsTable.c in Sources */ = {isa = PBXBuildFile; fileRef = 0702C41B1DAFE661006C31C3 /* getMachineTimeAsTable.c */; };
 		0702C42C1DAFEE2C006C31C3 /* programMenu.c in Sources */ = {isa = PBXBuildFile; fileRef = 0702C4281DAFEE2C006C31C3 /* programMenu.c */; };
 		0702C42D1DAFEE2C006C31C3 /* programMenuExtras.c in Sources */ = {isa = PBXBuildFile; fileRef = 0702C42A1DAFEE2C006C31C3 /* programMenuExtras.c */; };
-		0702C42E1DAFEE2C006C31C3 /* programMenuView.c in Sources */ = {isa = PBXBuildFile; fileRef = 0702C42B1DAFEE2C006C31C3 /* programMenuView.c */; };
+		0702C4311DAFF26E006C31C3 /* programMenuView.c in Sources */ = {isa = PBXBuildFile; fileRef = 0702C42B1DAFEE2C006C31C3 /* programMenuView.c */; };
 		07235FAF1D8AB6FB00534408 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 07235FAE1D8AB6FB00534408 /* main.c */; };
 		073EFC9D1DAD8694003EFF93 /* machineTime.c in Sources */ = {isa = PBXBuildFile; fileRef = 079805C81D8D2B1D00E32B52 /* machineTime.c */; };
 /* End PBXBuildFile section */
@@ -52,7 +52,6 @@
 		0702C4291DAFEE2C006C31C3 /* programMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = programMenu.h; path = courseWork/programMenu.h; sourceTree = "<group>"; };
 		0702C42A1DAFEE2C006C31C3 /* programMenuExtras.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = programMenuExtras.c; path = courseWork/programMenuExtras.c; sourceTree = "<group>"; };
 		0702C42B1DAFEE2C006C31C3 /* programMenuView.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = programMenuView.c; path = courseWork/programMenuView.c; sourceTree = "<group>"; };
-		0702C4301DAFEF1E006C31C3 /* programMenuChoices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = programMenuChoices.h; sourceTree = "<group>"; };
 		07235FAB1D8AB6FB00534408 /* courseWork */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = courseWork; sourceTree = BUILT_PRODUCTS_DIR; };
 		07235FAE1D8AB6FB00534408 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		079805C81D8D2B1D00E32B52 /* machineTime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = machineTime.c; sourceTree = "<group>"; };
@@ -104,7 +103,6 @@
 				0702C4291DAFEE2C006C31C3 /* programMenu.h */,
 				0702C42A1DAFEE2C006C31C3 /* programMenuExtras.c */,
 				0702C42B1DAFEE2C006C31C3 /* programMenuView.c */,
-				0702C4301DAFEF1E006C31C3 /* programMenuChoices.h */,
 			);
 			name = programMenu;
 			path = ..;
@@ -199,7 +197,7 @@
 				0702C42D1DAFEE2C006C31C3 /* programMenuExtras.c in Sources */,
 				073EFC9D1DAD8694003EFF93 /* machineTime.c in Sources */,
 				0702C42C1DAFEE2C006C31C3 /* programMenu.c in Sources */,
-				0702C42E1DAFEE2C006C31C3 /* programMenuView.c in Sources */,
+				0702C4311DAFF26E006C31C3 /* programMenuView.c in Sources */,
 				0702C4151DAFDAE2006C31C3 /* saveMachineTimeStruct.c in Sources */,
 				0702C4181DAFE168006C31C3 /* loadBinaryMachineTime.c in Sources */,
 				0702C41C1DAFE661006C31C3 /* getMachineTimeAsTable.c in Sources */,

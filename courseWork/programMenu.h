@@ -20,6 +20,8 @@
 #define DIALOG_HEIGHT 10
 #define FUNCTION_EXIT 5
 #define TABLE_WIDTH 69
+#define VIEW_MODE 0
+#define EDIT_MODE 1
 
 bool refreshIfNeeded();
 bool keyWasPressed(int key);
@@ -29,6 +31,6 @@ void print_help(int type);
 void call_function(int function);
 void render_menu();
 void choose_menu();
-void printTable();
+void printTable(int mode);
 
 #endif /* program_menu_h */
