@@ -1,0 +1,42 @@
+//
+//  customFileFunctions.c
+//  courseWork
+//
+//  Created by Денис Кулиев on 12.10.16.
+//  Copyright © 2016 Денис Кулиев. All rights reserved.
+//
+
+#include "customFileFunctions.h"
+
+int checkFileHeader(FILE *unknown, const char *refernceHeader)
+{
+    char fileHeader[200];
+    fscanf(unknown, "%s", fileHeader);
+    
+    if ( strcmp(fileHeader, refernceHeader) )
+    {
+        return HEADERS_MISMATCH;
+    }
+    else
+    {
+        return HEADERS_MATCH;
+    }
+}
+
+int loadFile(FILE **file,const char *path,const char *header)
+{
+    *file = fopen(path, "rb");
+    
+    if (*file == NULL)
+    {
+        return FILE_NOT_OPEN;
+    }
+    
+    if ( checkFileHeader(*file, header) == HEADERS_MISMATCH )
+    {
+        fclose(*file);
+        return INCORRECT_FILE;
+    }
+    
+    return FILE_LOADED;
+}

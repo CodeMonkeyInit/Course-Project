@@ -1,4 +1,6 @@
-#include "program_menu.h"
+#include "programMenuChoices.h"
+#include "programMenu.h"
+
 
 char *choices[] =
 {
@@ -8,47 +10,8 @@ char *choices[] =
     "Choice 4",
     "Выход",
 };
-const int choices_count = 5;
 
 bool colorAvailable;
-
-int _nCols,
-    _nRows;
-
-void refreshIfNeeded()
-{
-    if ( (_nCols != COLS) || (_nRows != LINES) )
-    {
-        _nCols = COLS;
-        _nRows = LINES;
-        clear();
-        refresh();
-    }
-}
-
-void stub(int choice)
-{
-    WINDOW *dialog;
-    int offsetX = (COLS - DIALOG_WIDTH) / 2,
-        offsetY = (LINES - DIALOG_HEIGHT) / 2;
-    
-    dialog = newwin(DIALOG_HEIGHT,
-                    DIALOG_WIDTH,
-                    offsetY,
-                    offsetX);
-    _nCols = COLS;
-    _nRows = LINES;
-    
-    box(dialog, 0, 0);
-    mvwprintw(dialog, 3, 3, "Вы выбрали %s", choices[choice]);
-    wbkgd(dialog, COLOR_PAIR(1));
-    wrefresh(dialog);
-    sleep(1);
-    delwin(dialog);
-    
-    clear();
-    refresh();
-}
 
 void init_menu()
 {
@@ -59,6 +22,7 @@ void init_menu()
     noecho();
     cbreak();
     curs_set(0);
+    set_escdelay(0);
 
     colorAvailable = has_colors();
     
@@ -71,13 +35,6 @@ void init_menu()
     refresh();
 }
 
-void print_exit()
-{
-    attron(COLOR_PAIR(1));
-    mvprintw(LINES - 1, 0, "F1 - для того чтобы выйти, стрелочки для навигации и enter для потверждения");
-    attroff(COLOR_PAIR(1));
-}
-
 void call_function(int function)
 {
     switch (function)
@@ -87,7 +44,10 @@ void call_function(int function)
             refresh();
             exit(0);
             break;
-        case 0:case 1:case 2:case 3:case 4:
+        case 2:
+            printTable();
+            break;
+        case 0:case 1:case 3:case 4:
             stub(function - 1);
             break;
         default:
@@ -101,11 +61,10 @@ void render_menu(int highlight)
     refreshIfNeeded();
     
     WINDOW *menu;
-    print_exit();
+    print_help(HELP_MENU);
     
     int offsetX = (COLS - MENU_WIDTH) / 2;
     int offsetY = (LINES - MENU_HEIGHT) / 2;
-    
     
     menu = newwin(MENU_HEIGHT,
                   MENU_WIDTH,
@@ -113,10 +72,8 @@ void render_menu(int highlight)
                   offsetX);
     box(menu, 0, 0);
     
-    
-    
     wbkgd(menu, COLOR_PAIR(2));
-    //bkgd(COLOR_PAIR(2));
+    
     
     wmove(menu, 7, 0);
     
@@ -150,7 +107,6 @@ void render_menu(int highlight)
 
 void choose_menu(int key, int highlight)
 {
-    usleep(13);
     switch (key)
     {
         case KEY_DOWN:
@@ -167,7 +123,7 @@ void choose_menu(int key, int highlight)
                 highlight = choices_count - 1;
             }
             break;
-        case KEY_F(1):
+        case KEY_ESC:
             clear();
             refresh();
             return;
