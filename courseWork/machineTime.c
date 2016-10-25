@@ -35,4 +35,37 @@ struct MachineTime *createRecord(char **recordStrings)
     return newRecord;
 }
 
-
+int deleteRecord(struct MachineTime **record)
+{
+    struct MachineTime *deleting = *record,
+                       *previous = deleting -> previous,
+                       *next = deleting -> next;
+    int position;
+    
+    if ( (NULL == previous) && (NULL == next)  )
+    {
+        machineTimeEnding = machineTimeBegining = *record = NULL;
+        position = EMPTY;
+    }
+    else if (NULL == next)
+    {
+        machineTimeEnding = *record = previous;
+        (*record) -> next = NULL;
+        position = ENDING;
+    }
+    else if (NULL == previous)
+    {
+        machineTimeBegining = *record = next;
+        (*record) -> previous = NULL;
+        position = BEGINING;
+    }
+    else
+    {
+        *record = next;
+        (*record) -> previous = deleting -> previous;
+        previous -> next = *record;
+        position = MIDDLE;
+    }
+    free(deleting);
+    return position;
+}

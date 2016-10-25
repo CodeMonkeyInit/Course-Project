@@ -28,16 +28,24 @@
 #define BINARY_TYPE_FILE 1
 #define UNKNOWN_FILE_TYPE -1
 #define NOTHING_TO_SAVE -2
-#define RECORD_SIZE 109
+#define RECORD_SIZE 102
 #define TABLE_BOUNDRIES_SIZE 29
 #define CAFEDRA_NAME_FORMAT_LENGTH 20
 #define BUFFER_EMPTY -1
+#define GET_NORMAL 0
+#define GET_REVERSE 1
+#define MIDDLE 0
+#define BEGINING 1
+#define ENDING 2
+#define EMPTY -1
 
 struct MachineTime *getMachineTimeStartingPointer();
-struct MachineTime *getTableEnd(struct MachineTime *start,long recordsCount);
+struct MachineTime *getTableEnd(struct MachineTime *start,long recordsCount, int mode);
+long getRecordCount(struct MachineTime *begin,struct MachineTime *end);
 int loadBinary(FILE **binaryFile);
 char *loadToBuffer(FILE *file);
 void addRecord(struct MachineTime *record);
+int deleteRecord(struct MachineTime **record);
 struct MachineTime *createRecord(char **recordStrings);
 int parseBuffer(char *buffer,long startPosition);
 char *recordsToTable(struct MachineTime *begin, struct MachineTime *end);

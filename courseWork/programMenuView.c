@@ -6,45 +6,179 @@
 //  Copyright © 2016 Денис Кулиев. All rights reserved.
 //
 
-#include "programMenu.h"
+#include "programMenuTableExtras.h"
 
+int linesAvailable;
 
-void printTable(int mode)
+WINDOW *table;
+
+struct MachineTime *start,
+                   *end;
+char *tableString;
+long currentPage;
+bool refreshTable;
+bool controlsLocked;
+
+void printTable(int helpType)
 {
+    print_help(helpType);
+    wattron(table,COLOR_PAIR(2));
     
-    int linesAvailable = LINES - 6;
-    struct MachineTime *start = getMachineTimeStartingPointer();
-    struct MachineTime *end = getTableEnd(start, linesAvailable);
+    wprintw(table, "%s", TABLE_HEAD);
+    wprintw(table, "%s", tableString);
+    wprintw(table, "%s", TABLE_BOTTOM);
     
-    char *tableString = recordsToTable(start, end);
+    wattroff(table, COLOR_PAIR(2));
+}
+
+void loadNextPage()
+{
+    struct MachineTime *temp;
+    
+    if (NULL == end -> next)
+    {
+        refreshTable = false;
+        return;
+    }
+    
+    temp = end -> next;
+    temp = getTableEnd(temp, linesAvailable, GET_NORMAL);
+    
+    free(tableString);
+    tableString = recordsToTable(end -> next, temp);
+    if ( tableString != NULL )
+    {
+        refreshTable = true;
+        start = end -> next;
+        end = temp;
+        currentPage++;
+    }
+    else
+    {
+        refreshTable = false;
+        tableString = recordsToTable(start, end);
+    }
+}
+
+void loadPreviousPage()
+{
+    if (currentPage <= 0 )
+    {
+        refreshTable = false;
+        return;
+    }
+    else
+    {
+        currentPage--;
+        refreshTable = true;
+        start = start -> previous;
+        end = start;
+        start = getTableEnd(end, linesAvailable, GET_REVERSE);
+        
+        free(tableString);
+        tableString = recordsToTable(start, end);
+    }
+}
+
+bool keypressHandler(int key)
+{
+    if (controlsLocked)
+    {
+        if (NULL != machineTimeBegining)
+        {
+            start = machineTimeBegining;
+            end = getTableEnd(start, linesAvailable, GET_NORMAL);
+            currentPage = 0;
+            controlsLocked = false;
+            updateTable();
+            refreshTable = true;
+        }
+        if (KEY_ESC == key)
+        {
+            return EXIT;
+        }
+    }
+    else
+    {
+        switch (key)
+        {
+            case KEY_DOWN:
+                loadNextPage();
+                break;
+            case KEY_UP:
+                loadPreviousPage();
+                break;
+            case KEY_MAC_ENTER:
+                editStruct();
+                refreshTable = true;
+                clear();
+                refresh();
+                break;
+            case KEY_ESC:
+                return EXIT;
+                break;
+            default:
+                break;
+        }
+    }
+    return CONTINUE;
+}
+
+void updateTable()
+{
+    if ( (NULL != tableString) && (EMPTY_TABLE != tableString) )
+    {
+        free(tableString);
+    }
+    
+    tableString = recordsToTable(start, end);
+    if (NULL == tableString)
+    {
+        tableString  = EMPTY_TABLE;
+        controlsLocked = true;
+    }
+}
+
+void printStruct()
+{
+    controlsLocked = false;
+    
+    linesAvailable = LINES - 6;
+    
+    currentPage = 0;
+    
+    int offsetX = (COLS - TABLE_WIDTH) / 2,
+        offsetY = ( LINES - (linesAvailable + 6) ) / 2 ;
+    
+    table = newwin(LINES,
+                   TABLE_WIDTH,
+                   offsetY,
+                   offsetX);
+    tableString = NULL;
+    start = getMachineTimeStartingPointer();
+    end = getTableEnd(start, linesAvailable, GET_NORMAL);
+    updateTable();
+    
+    refreshTable = true;
     
     do
     {
-        WINDOW *table;
+        if (!refreshTable)
+        {
+            continue;
+        }
+        printTable(HELP_TABLE);
+        windowRefreshAndClear(table);
+        refreshTable = false;
         
-        int offsetX = (COLS - TABLE_WIDTH) / 2,
-        offsetY = ( LINES - (linesAvailable + 6) ) / 2 ;
-        
-        table = newwin(LINES,
-                       TABLE_WIDTH,
-                       offsetY,
-                       offsetX);
-        refreshIfNeeded();
-        
-        wattron(table,COLOR_PAIR(2));
-        
-        print_help(HELP_TABLE);
-        
-        wprintw(table, "%s", TABLE_HEAD);
-        wprintw(table, "%s", tableString);
-        wprintw(table, "%s", TABLE_BOTTOM);
-        
-        wattroff(table, COLOR_PAIR(2));
-        
-        wrefresh(table);
-        delwin(table);
-        
-    } while ( !keyWasPressed(KEY_ESC) );
+    } while ( EXIT != keypressHandler( getch() ) );
+    
+    if (EMPTY_TABLE != tableString)
+    {
+        free(tableString);
+    }
+    
+    delwin(table);
     
     clear();
     refresh();

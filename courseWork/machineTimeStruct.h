@@ -17,8 +17,8 @@ struct TimeSpent
 
 struct MachineTime
 {
-    char cafedraCode[6];
-    char cafedraName[40];
+    char cafedraCode[12];
+    char cafedraName[41];
     struct TimeSpent timeSpent;
     struct MachineTime *previous;
     struct MachineTime *next;

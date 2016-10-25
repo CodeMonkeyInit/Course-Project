@@ -81,10 +81,12 @@ int parseBuffer(char *buffer,long startPosition)
         for (recordEnd = startPosition;buffer[recordEnd] != '\n'; recordEnd++);
         
         char *record = getStringFromBuffer(buffer, startPosition, recordEnd);
-        
+
         startPosition = recordEnd + 1;
         
         parseMachineTimeRecord(record);
+        
+        free(record);
         recordsProcessed++;
     }
     

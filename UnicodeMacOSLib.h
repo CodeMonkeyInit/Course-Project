@@ -12,9 +12,11 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 int getBlockSize();
 size_t utf8len(char *s);
 char *formatUtf8String(char *utf8string, const size_t formatLength);
+bool isUTF8charBeginning(char c);
 
 #endif /* UnicodeMacOSLib_h */

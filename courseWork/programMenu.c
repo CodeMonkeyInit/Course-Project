@@ -76,7 +76,7 @@ void call_function(int function)
             exit(0);
             break;
         case 2:
-            printTable(VIEW_MODE);
+            printStruct();
             break;
         case 0:case 1:case 3:case 4:
             stub(function - 1);
@@ -89,11 +89,10 @@ void call_function(int function)
 
 void render_menu(int highlight)
 {
-    refreshIfNeeded();
-    
     WINDOW *menu;
-    print_help(HELP_MENU);
     
+    refreshIfNeeded();
+
     int offsetX = (COLS - MENU_WIDTH) / 2;
     int offsetY = (LINES - MENU_HEIGHT) / 2;
     
@@ -104,7 +103,7 @@ void render_menu(int highlight)
     box(menu, 0, 0);
     
     wbkgd(menu, COLOR_PAIR(2));
-    
+    print_help(HELP_MENU);
     
     wmove(menu, 7, 0);
     
@@ -116,7 +115,6 @@ void render_menu(int highlight)
             y = getcury(menu);
         
         mvwprintw(menu, y + 1, x + 4, "%d: ", i + 1);
-        wrefresh(menu);
     
         for (int j = 0; j < choice_lenght; j++)
         {

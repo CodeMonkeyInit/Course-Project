@@ -14,6 +14,17 @@ int getBlockSize()
     stat("/", &fileSystem);
     return fileSystem.st_blksize;
 }
+bool isUTF8charBeginning(char c)
+{
+    if ( (c & 0xC0) != 0x80 )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 
 size_t utf8len(char *s)
 {
@@ -21,7 +32,7 @@ size_t utf8len(char *s)
     for (; *s != '\0'; s++)
     {
         //проверка не равны ли первые два бита кода 0b10 т.к все многобайтовые utf-8 коды которые начинаются с 0b10 являются продолжениями символов
-        if ((*s & 0xC0) != 0x80)
+        if ( isUTF8charBeginning(*s) )
         {
             length++;
         }

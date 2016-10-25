@@ -10,7 +10,11 @@
 int _nCols,
     _nRows;
 
-
+void windowRefreshAndClear(WINDOW *window)
+{
+    wrefresh(window);
+    wclear(window);
+}
 
 bool refreshIfNeeded()
 {
@@ -52,6 +56,8 @@ void print_help(int type)
         case HELP_TABLE:
             mvprintw(LINES - 1, 0, "ESC чтобы вернутся в меню, ↑↓ смена страниц  ↲ режим редактирования");
             break;
+        case HELP_EDIT_MODE:
+            mvprintw(LINES - 1, 0, "ESC чтобы вернутся, ↑↓ движение вверх/вниз ↲ редактировать ← удалить запись");
         default:
             break;
     }
