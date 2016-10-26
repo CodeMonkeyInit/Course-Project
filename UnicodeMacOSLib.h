@@ -15,8 +15,10 @@
 #include <stdbool.h>
 
 int getBlockSize();
-size_t utf8len(char *s);
-char *formatUtf8String(char *utf8string, const size_t formatLength);
 bool isUTF8charBeginning(char c);
+size_t utf8len(const char *s);
+bool isUnicodeMultibyteString(const char *string);
+char *formatUtf8String(char *utf8string, const size_t formatLength);
+
 
 #endif /* UnicodeMacOSLib_h */

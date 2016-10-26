@@ -14,6 +14,12 @@ int getBlockSize()
     stat("/", &fileSystem);
     return fileSystem.st_blksize;
 }
+
+bool isUnicodeMultibyteString(const char *string)
+{
+    return utf8len(string) != strlen(string);
+}
+
 bool isUTF8charBeginning(char c)
 {
     if ( (c & 0xC0) != 0x80 )
@@ -26,7 +32,7 @@ bool isUTF8charBeginning(char c)
     }
 }
 
-size_t utf8len(char *s)
+size_t utf8len(const char *s)
 {
     size_t length = 0;
     for (; *s != '\0'; s++)

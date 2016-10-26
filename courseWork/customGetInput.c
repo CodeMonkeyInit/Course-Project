@@ -8,25 +8,43 @@
 
 #include "customGetInput.h"
 
-void deleteBackspace(WINDOW *win)
+void tabToSpace(char * string)
+{
+    long stringLength = strlen(string);
+    for (long i = 0; i < stringLength; i++)
+    {
+        if ('\t' == string[i])
+        {
+            string[i] = ' ';
+        }
+    }
+    return;
+}
+
+bool isControlSymbol(char c)
+{
+    return (0 < c && c < 30);
+}
+
+void deleteCharacter(WINDOW *win, int character)
 {
     int currentX = getcurx(win);
     int currentY = getcury(win);
-    mvwprintw(win,currentY, currentX - BACKSPACE_AND_CHARACTER, "   ");
-    wrefresh(win);
-    wmove(win, currentY, currentX - BACKSPACE_AND_CHARACTER);
+    mvwprintw(win,currentY, currentX - character, "   ");
+    //wrefresh(win);
+    wmove(win, currentY, currentX - character);
 }
 
 int getString(WINDOW *win, int length,char *string)
 {
     if (length == 0)
     {
-        length = 0xFFFFFFF;
+        length = 0xFFFF;
     }
     
     int i;
     int key;
-    int utfLength = length * 2;
+    int utfLength = length * 4;
     int utfCurrentLength = 0;
     
     char *tempString = (char *) calloc(utfLength + 1, sizeof(char) );
@@ -34,24 +52,32 @@ int getString(WINDOW *win, int length,char *string)
     for(i = 0; i < utfLength ; i++)
     {
         key = wgetch(win);
+
         tempString[i] = key;
         if (KEY_MAC_ENTER == key)
         {
             break;
         }
-        else if ( KEY_ESC == key)
+        else if ( KEY_ESC == key || isControlSymbol(key) )
         {
             return INPUT_ABORTED;
         }
         else if ( MAC_BACKSPACE == key )
         {
+            if (i == 0)
+            {
+                deleteCharacter(win, BACKSPACE_ONLY);
+                i--;
+                continue;
+            }
             i -= 2;
+            utfCurrentLength--;
             // i+1 to capture deleting symbol
             while ( !isUTF8charBeginning(tempString[i + 1]) )
             {
                 i--;
             }
-            deleteBackspace(win);
+            deleteCharacter(win, BACKSPACE_AND_CHARACTER);
             continue;
         }
         if ( isUTF8charBeginning(key) )
@@ -110,7 +136,6 @@ int parseFormat(const char *format, int *argument)
     {
         return WRONG_FORMAT;
     }
-    
     
     if ('%' == format[i])
     {

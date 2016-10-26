@@ -72,7 +72,7 @@ void editMode()
     wattron(table,COLOR_PAIR(2));
     curs_set(1);
     echo();
-    char tempString[41];
+    char tempString[81];
     char *tempFormatString;
     int time;
     switch (currentField)
@@ -83,8 +83,12 @@ void editMode()
                       CAFEDRA_CODE_TABLE_OFFSET,
                       "%11s"," ");
             wmove(table, currentChoice + TABLE_HEAD_SIZE, CAFEDRA_CODE_TABLE_OFFSET);
-            if ( INPUT_ABORTED != windowGetInput(table, "%5s", tempString) )
+            
+            //if user inputs multibyte symbols such as russian abort input
+            if ( INPUT_ABORTED != windowGetInput(table, "%5s", tempString)
+                && (!isUnicodeMultibyteString(tempString)) )
             {
+                tabToSpace(tempString);
                 strcpy(currentChoicePointer -> cafedraCode, tempString);
             }
             break;
@@ -94,8 +98,10 @@ void editMode()
                       CAFEDRA_NAME_TABLE_OFFSET,
                       "%20s"," ");
             wmove(table, currentChoice + TABLE_HEAD_SIZE, CAFEDRA_NAME_TABLE_OFFSET);
+            
             if ( INPUT_ABORTED != windowGetInput(table, "%20s", tempString) )
             {
+                tabToSpace(tempString);
                 tempFormatString = formatUtf8String(tempString, 20);
                 strcpy(currentChoicePointer -> cafedraName, tempFormatString);
                 free(tempFormatString);
@@ -103,6 +109,7 @@ void editMode()
             break;
         case TABLE_TIME_PLANNED:
             time = getTimeFromUser(currentChoice + TABLE_HEAD_SIZE, TIME_PLANNED_TABLE_OFFSET);
+            
             if (time != INPUT_ABORTED)
             {
                 currentChoicePointer -> timeSpent.plan = time;
@@ -112,6 +119,7 @@ void editMode()
             time = getTimeFromUser(currentChoice + TABLE_HEAD_SIZE, TIME_USED_TABLE_OFFSET);
             if (time != INPUT_ABORTED)
             {
+                
                 currentChoicePointer -> timeSpent.realLife = time;
             }
         default:
@@ -161,7 +169,6 @@ bool editRecordKeypressHandler(int key)
     
     toogleChoiceField(currentField, A_REVERSE);
     wrefresh(table);
-    
     return CONTINUE;
 }
 

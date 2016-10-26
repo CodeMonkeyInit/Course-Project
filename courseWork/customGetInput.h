@@ -27,7 +27,9 @@
 #define WRONG_FORMAT -1
 #define INPUT_ABORTED -1
 #define BACKSPACE_AND_CHARACTER 3
+#define BACKSPACE_ONLY 2
 
+void tabToSpace(char * string);
 int windowGetInput(WINDOW *win, char *format,...);
 
 #endif /* customGetInput_h */

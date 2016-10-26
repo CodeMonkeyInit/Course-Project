@@ -14,7 +14,7 @@
 #include "machineTimeStruct.h"
 #include "customGetInput.h"
 
-#define TABLE_HEAD_SIZE 3
+#define TABLE_HEAD_SIZE 2
 #define CAFEDRA_CODE_TABLE_OFFSET 6
 #define CAFEDRA_NAME_TABLE_OFFSET 18
 #define TIME_PLANNED_TABLE_OFFSET 39

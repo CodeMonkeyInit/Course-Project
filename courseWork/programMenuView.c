@@ -21,13 +21,13 @@ bool controlsLocked;
 
 void printTable(int helpType)
 {
-    print_help(helpType);
+    const char MENU_TABLE_HEAD[] = "┌──────────────────────────────────────────────────────────────────┐\n│   №│Код Кафедры│    Название Кафедры|По Плану|По Факту│Отклонения│";
+    printHelp(helpType);
     wattron(table,COLOR_PAIR(2));
     
-    wprintw(table, "%s", TABLE_HEAD);
+    wprintw(table, "%s", MENU_TABLE_HEAD);
     wprintw(table, "%s", tableString);
     wprintw(table, "%s", TABLE_BOTTOM);
-    
     wattroff(table, COLOR_PAIR(2));
 }
 
@@ -163,14 +163,12 @@ void printStruct()
     
     do
     {
-        if (!refreshTable)
+        if (refreshTable)
         {
-            continue;
+            printTable(HELP_TABLE);
+            windowRefreshAndClear(table);
+            refreshTable = false;
         }
-        printTable(HELP_TABLE);
-        windowRefreshAndClear(table);
-        refreshTable = false;
-        
     } while ( EXIT != keypressHandler( getch() ) );
     
     if (EMPTY_TABLE != tableString)

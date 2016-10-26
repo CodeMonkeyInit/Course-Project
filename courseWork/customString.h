@@ -4,8 +4,6 @@
 //
 //  Created by Денис Кулиев on 12.10.16.
 //  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #ifndef customString_h
 #define customString_h
 

@@ -55,7 +55,7 @@ int loadStruct(const char *path, short type)
 void startProgram()
 {
     loadStruct("/Users/deniskuliev/Library/Developer/Xcode/DerivedData/courseWork-csjasbpzgqmfwtcyokgaikxvneev/Build/Products/Debug/data.bin", BINARY_TYPE_FILE);
-    sortStruct(sortByCafedraName);
+    sortStruct(sortByCafedraCode);
     startMenu();
     saveStruct("/Users/deniskuliev/Library/Developer/Xcode/DerivedData/courseWork-csjasbpzgqmfwtcyokgaikxvneev/Build/Products/Debug/data.test", TABLE_TYPE_FILE);
     

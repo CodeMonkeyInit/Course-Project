@@ -45,7 +45,7 @@ bool keyWasPressed(int key)
     }
 }
 
-void print_help(int type)
+void printHelp(int type)
 {
     attron(COLOR_PAIR(1));
     switch (type)

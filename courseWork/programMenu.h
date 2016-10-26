@@ -25,7 +25,7 @@ bool refreshIfNeeded();
 bool keyWasPressed(int key);
 void stub(int choice);
 void init_menu();
-void print_help(int type);
+void printHelp(int type);
 void call_function(int function);
 void render_menu();
 void choose_menu();

@@ -59,8 +59,8 @@ bool sortByTimeSpent (struct MachineTime *a, struct MachineTime *b)
 
 bool sortByDifference (struct MachineTime *a, struct MachineTime *b)
 {
-    int differenceA = abs( (a -> timeSpent.plan) - (a -> timeSpent.realLife) );
-    int differenceB = abs( (a -> timeSpent.plan) - (a -> timeSpent.realLife) );
+    int differenceA = abs( (a -> timeSpent.plan) - (b -> timeSpent.realLife) );
+    int differenceB = abs( (a -> timeSpent.plan) - (b -> timeSpent.realLife) );
     
     if (differenceA > differenceB)
     {
@@ -108,21 +108,22 @@ void sortStruct(bool (*sortFunction)(struct MachineTime *, struct MachineTime *)
         if ( sortFunction(temp, temp -> next) )
         {
             swapElements(temp, temp -> next);
-//            if (temp == machineTimeBegining)
-//            {
-//                continue;
-//            }
-//            struct MachineTime *tempReverse = temp;
-//            while (machineTimeBegining != tempReverse -> previous)
-//            {
-//                if ( sortFunction(tempReverse -> previous, tempReverse) )
-//                {
-//                    swapElements(tempReverse -> previous, tempReverse);
-//                    tempReverse = tempReverse -> next;
-//                }
-//                tempReverse = tempReverse -> previous;
-//            }
-            sortStruct(sortFunction);
+            
+            struct MachineTime *tempReverse = temp;
+            while (machineTimeBegining != tempReverse -> previous)
+            {
+                if (temp == machineTimeBegining)
+                {
+                    continue;
+                }
+                if ( sortFunction(tempReverse -> previous, tempReverse) )
+                {
+                    swapElements(tempReverse -> previous, tempReverse);
+                    tempReverse = tempReverse -> next;
+                }
+                tempReverse = tempReverse -> previous;
+            }
+            //sortStruct(sortFunction);
         }
         temp = temp -> next;
     }

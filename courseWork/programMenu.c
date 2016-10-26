@@ -47,7 +47,7 @@ void stub(int choice)
         offsetY = (LINES - DIALOG_HEIGHT) / 2;
         refreshIfNeeded();
         
-        print_help(HELP_MENU);
+        printHelp(HELP_MENU);
         
         dialog = newwin(DIALOG_HEIGHT,
                         DIALOG_WIDTH,
@@ -103,7 +103,7 @@ void render_menu(int highlight)
     box(menu, 0, 0);
     
     wbkgd(menu, COLOR_PAIR(2));
-    print_help(HELP_MENU);
+    printHelp(HELP_MENU);
     
     wmove(menu, 7, 0);
     
