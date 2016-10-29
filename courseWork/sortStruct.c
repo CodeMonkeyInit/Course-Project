@@ -75,14 +75,23 @@ bool sortByDifference (struct MachineTime *a, struct MachineTime *b)
 
 void swapElements(struct MachineTime *current, struct MachineTime *next)
 {
+    bool updateBegining = false,updateEnding = false;
     if (NULL != current -> previous)
     {
         current -> previous -> next = next;
+    }
+    else
+    {
+        updateBegining = true;
     }
     
     if (NULL != next -> next)
     {
         next -> next -> previous = current;
+    }
+    else
+    {
+        updateEnding = true;
     }
     
     current -> next = next -> next;
@@ -90,6 +99,15 @@ void swapElements(struct MachineTime *current, struct MachineTime *next)
     
     next -> next = current;
     current -> previous = next;
+    
+    if (updateBegining)
+    {
+        machineTimeBegining = next;
+    }
+    if (updateEnding)
+    {
+        machineTimeEnding = current;
+    }
 }
 
 void sortStruct(bool (*sortFunction)(struct MachineTime *, struct MachineTime *))
@@ -108,22 +126,8 @@ void sortStruct(bool (*sortFunction)(struct MachineTime *, struct MachineTime *)
         if ( sortFunction(temp, temp -> next) )
         {
             swapElements(temp, temp -> next);
-            
-            struct MachineTime *tempReverse = temp;
-            while (machineTimeBegining != tempReverse -> previous)
-            {
-                if (temp == machineTimeBegining)
-                {
-                    continue;
-                }
-                if ( sortFunction(tempReverse -> previous, tempReverse) )
-                {
-                    swapElements(tempReverse -> previous, tempReverse);
-                    tempReverse = tempReverse -> next;
-                }
-                tempReverse = tempReverse -> previous;
-            }
-            //sortStruct(sortFunction);
+            temp = machineTimeBegining;
+            continue;
         }
         temp = temp -> next;
     }
