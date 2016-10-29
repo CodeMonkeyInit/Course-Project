@@ -55,7 +55,7 @@ int loadStruct(const char *path, short type)
 void startProgram()
 {
     loadStruct("/Users/deniskuliev/Library/Developer/Xcode/DerivedData/courseWork-csjasbpzgqmfwtcyokgaikxvneev/Build/Products/Debug/data.testsort", TABLE_TYPE_FILE);
-    sortStruct(sortByTimePlanned);
+    sortStruct(sortByDifference);
     //struct MachineTime *begin = getMachineTimeStartingPointer(),*end = getTableEnd(begin, 100, GET_NORMAL);
     //printf("%s", recordsToTable(begin, end));
     startMenu();

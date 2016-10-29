@@ -59,8 +59,8 @@ bool sortByTimeSpent (struct MachineTime *a, struct MachineTime *b)
 
 bool sortByDifference (struct MachineTime *a, struct MachineTime *b)
 {
-    int differenceA = abs( (a -> timeSpent.plan) - (b -> timeSpent.realLife) );
-    int differenceB = abs( (a -> timeSpent.plan) - (b -> timeSpent.realLife) );
+    int differenceA = abs( (a -> timeSpent.plan) - (a -> timeSpent.realLife) );
+    int differenceB = abs( (b -> timeSpent.plan) - (b -> timeSpent.realLife) );
     
     if (differenceA > differenceB)
     {
