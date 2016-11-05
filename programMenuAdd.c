@@ -71,14 +71,14 @@ void inputData()
     {
         case CAFEDRA_CODE_CHOICE:
             //баг с русскими сиволами
-            strcpy(formatString, "%6s");
+            strcpy(formatString, "%-6s");
             strictInput = true;
             break;
         case CAFEDRA_NAME_CHOICE:
-            strcpy(formatString, "%20s");
+            strcpy(formatString, "%-20s");
             break;
         case TIME_PLANNED_CHOICE: case TIME_USED_CHOICE:
-            strcpy(formatString, "%9s");
+            strcpy(formatString, "%-9s");
             break;
         default:
             return;
@@ -92,7 +92,7 @@ void inputData()
     
     if ( INPUT_ABORTED == windowGetInput(add, formatString, recordStrings[currentChoiceAdd]) || strictInput )
     {
-        if ( isUnicodeMultibyteString(recordStrings[currentChoiceAdd]) )
+        if ( strictInput && isUnicodeMultibyteString(recordStrings[currentChoiceAdd]) )
         {
             strcpy(recordStrings[currentChoiceAdd], "");
         }

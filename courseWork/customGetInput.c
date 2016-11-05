@@ -49,7 +49,7 @@ int getString(WINDOW *win, int length,char *string)
     
     char *tempString = (char *) calloc(utfLength + 1, sizeof(char) );
     
-    for(i = 0; i < utfLength ; i++)
+    for (i = 0; i < utfLength ; i++)
     {
         key = wgetch(win);
 
@@ -142,7 +142,11 @@ int parseFormat(const char *format, int *argument)
         char lengthString[4];
         int j;
         // inc i to skip '%'
-        for (j = 0, i++; isdigit(format[i]) ; j++,i++)
+        if ( '-' == format[++i])
+        {
+            i++;
+        }
+        for (j = 0; isdigit(format[i]) ; j++,i++)
         {
             lengthString[j] = format[i];
         }
