@@ -58,6 +58,15 @@ void printHelp(int type)
             break;
         case HELP_EDIT_MODE:
             mvprintw(LINES - 1, 0, "ESC чтобы вернутся, ↑↓ движение вверх/вниз ↲ редактировать ← удалить запись");
+            break;
+        case MESSAGE_HELP:
+            mvprintw(LINES - 1, 0, "Нажмите ↲");
+            break;
+        case ADD_HELP:
+            attron(COLOR_PAIR(2));
+            mvprintw(LINES - 2, 1, "ESC - чтобы выйти, ↑↓ для навигации ↲ для потверждения");
+            attroff(COLOR_PAIR(2));
+            break;
         default:
             break;
     }

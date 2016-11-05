@@ -83,7 +83,7 @@ int getString(WINDOW *win, int length,char *string)
         if ( isUTF8charBeginning(key) )
         {
             utfCurrentLength++;
-            if (utfCurrentLength > length)
+            if (utfCurrentLength > length - 1)
             {
                 break;
             }

@@ -119,7 +119,6 @@ void editMode()
             time = getTimeFromUser(currentChoice + TABLE_HEAD_SIZE, TIME_USED_TABLE_OFFSET);
             if (time != INPUT_ABORTED)
             {
-                
                 currentChoicePointer -> timeSpent.realLife = time;
             }
         default:

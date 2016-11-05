@@ -3,7 +3,7 @@
 
 char *choices[] =
 {
-    "Ввод",
+    "Добавить",
     "Вывод",
     "Choice 3",
     "Choice 4",
@@ -35,7 +35,7 @@ void init_menu()
     refresh();
 }
 
-void stub(int choice)
+void printMessage(char *messageString)
 {
     clear();
     refresh();
@@ -47,7 +47,7 @@ void stub(int choice)
         offsetY = (LINES - DIALOG_HEIGHT) / 2;
         refreshIfNeeded();
         
-        printHelp(HELP_MENU);
+        printHelp(MESSAGE_HELP);
         
         dialog = newwin(DIALOG_HEIGHT,
                         DIALOG_WIDTH,
@@ -55,8 +55,8 @@ void stub(int choice)
                         offsetX);
         
         box(dialog, 0, 0);
-        mvwprintw(dialog, 3, 3, "Вы выбрали %s", choices[choice]);
-        wbkgd(dialog, COLOR_PAIR(1));
+        mvwprintw(dialog, 3, 3, "%s", messageString);
+        wbkgd(dialog, COLOR_PAIR(2));
         wrefresh(dialog);
         delwin(dialog);
     } while ( !keyWasPressed(KEY_MAC_ENTER) );
@@ -75,11 +75,14 @@ void call_function(int function)
             refresh();
             exit(0);
             break;
+        case 1:
+            addNewMTRecord();
+            break;
         case 2:
             printStruct();
             break;
-        case 0:case 1:case 3:case 4:
-            stub(function - 1);
+        case 3:case 4:
+            printMessage("Under Construction 404");
             break;
         default:
             break;

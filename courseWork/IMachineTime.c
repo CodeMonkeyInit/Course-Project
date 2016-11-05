@@ -9,7 +9,6 @@
 #include "IMachineTime.h"
 #include "sortStruct.h"
 
-
 void startMenu()
 {
     setlocale(LC_ALL, "");
@@ -17,7 +16,6 @@ void startMenu()
     init_menu();
     render_menu(0);
 }
-
 
 int loadStructTable(FILE **machineTimeFile)
 {
@@ -57,10 +55,7 @@ void startProgram()
     loadStruct("/Users/deniskuliev/Library/Developer/Xcode/DerivedData/courseWork-csjasbpzgqmfwtcyokgaikxvneev/Build/Products/Debug/data.testsort", TABLE_TYPE_FILE);
     sortStruct(sortByDifference);
     //struct MachineTime *begin = getMachineTimeStartingPointer(),*end = getTableEnd(begin, 100, GET_NORMAL);
-    //printf("%s", recordsToTable(begin, end));
+    //printf("%s", recordsToTable(begin, begin));
     startMenu();
     saveStruct("/Users/deniskuliev/Library/Developer/Xcode/DerivedData/courseWork-csjasbpzgqmfwtcyokgaikxvneev/Build/Products/Debug/data.test", TABLE_TYPE_FILE);
 }
-
-
-

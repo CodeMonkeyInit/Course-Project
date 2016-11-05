@@ -12,11 +12,7 @@
 #include <ncurses.h>
 #include "programMenu.h"
 #include "machineTimeStruct.h"
-
-#define TABLE_CHOICE_WIDTH 66
-#define EXIT true
-#define CONTINUE false
-#define EMPTY_TABLE "\n│                      На этой странице записей нет!               │"
+#include "programMenuConstants.h"
 
 extern struct MachineTime *start,
 *end;

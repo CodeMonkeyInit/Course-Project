@@ -24,7 +24,7 @@ struct MachineTime *createRecord(char **recordStrings)
     struct MachineTime *newRecord = (struct MachineTime*) malloc(sizeof(struct MachineTime));
 
     strcpy(newRecord -> cafedraCode, recordStrings[CAFEDRA_CODE]);
-    strcpy(newRecord -> cafedraName, recordStrings[CAFEDRA_NAME]);
+    strcpy( newRecord -> cafedraName, formatUtf8String(recordStrings[CAFEDRA_NAME], 20) );
     
     newRecord -> timeSpent.plan = atoi(recordStrings[TIME_PLANNED]);
     newRecord -> timeSpent.realLife = atoi(recordStrings[TIME_USED]);
