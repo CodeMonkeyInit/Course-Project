@@ -16,7 +16,6 @@
 #include "customGetInput.h"
 #include "programMenuConstants.h"
 
-
 void addNewMTRecord();
 
 #endif /* programMenuAdd_h */

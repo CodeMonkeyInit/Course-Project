@@ -10,16 +10,37 @@
 #include "macKeys.h"
 #include "programMenuConstants.h"
 #include "programMenuAdd.h"
+#include "programMenuSort.h"
+#include "programMenuSearch.h"
+#include "customGetInput.h"
 
+typedef struct _menu
+{
+    const char **choices;
+    int  choicesCount;
+    int  colorPair;
+    int  highlight;
+    void (*menuCallFunction)(int);
+} MENU;
+
+extern const char *menuChoices[];
+extern const int MENU_CHOICES_COUNT;
+extern bool emergencyExit;
+
+void initMenuParameters(MENU *parameters,
+                        const char *choices[] ,
+                        const int choicesCount,
+                        void (*menuCallFunction)(int));
+int getStringMiddlePostition(const char *string, const int width);
 void windowRefreshAndClear(WINDOW *window);
 bool refreshIfNeeded();
 bool keyWasPressed(int key);
 void printMessage(char *messageString);
+bool getUserInputDialog(char *message, char *response);
 void init_menu();
 void printHelp(int type);
 void call_function(int function);
-void render_menu();
-void choose_menu();
+void render_menu(MENU parameters);
 void printStruct();
 
 #endif /* program_menu_h */

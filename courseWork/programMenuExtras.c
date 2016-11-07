@@ -60,7 +60,7 @@ void printHelp(int type)
             mvprintw(LINES - 1, 0, "ESC чтобы вернутся, ↑↓ движение вверх/вниз ↲ редактировать ← удалить запись");
             break;
         case MESSAGE_HELP:
-            mvprintw(LINES - 1, 0, "Нажмите ↲");
+            mvprintw(LINES - 1, 0, "Нажмите ↲ , чтобы продолжить");
             break;
         case ADD_HELP:
             attron(COLOR_PAIR(2));
@@ -68,10 +68,46 @@ void printHelp(int type)
             attroff(COLOR_PAIR(2));
             break;
         default:
+            mvprintw(LINES - 1, 0, "Нажмите ↲ , чтобы продолжить help to be written...");
             break;
     }
     
     attroff(COLOR_PAIR(1));
+}
+
+void printMessage(char *message)
+{
+    clear();
+    refresh();
+    
+    do
+    {
+        WINDOW *dialog;
+        int offsetX = (COLS - DIALOG_WIDTH) / 2,
+        offsetY = (LINES - DIALOG_HEIGHT) / 2;
+        int buttonOffsetX = getStringMiddlePostition(OK_BUTTON, DIALOG_WIDTH),
+            buttonOffsetY = DIALOG_HEIGHT - 3;
+        refreshIfNeeded();
+        
+        printHelp(MESSAGE_HELP);
+        
+        dialog = newwin(DIALOG_HEIGHT,
+                        DIALOG_WIDTH,
+                        offsetY,
+                        offsetX);
+        
+        box(dialog, 0, 0);
+        wbkgd(dialog, COLOR_PAIR(2));
+        mvwprintw(dialog, 3, 3, "%s", message);
+        mvwprintw(dialog, buttonOffsetY, buttonOffsetX, "%s", OK_BUTTON);
+        mvwchgat(dialog, buttonOffsetY, buttonOffsetX - 2 , utf8len(OK_BUTTON) + 4 , A_REVERSE, 2, NULL);
+        
+        wrefresh(dialog);
+        delwin(dialog);
+    } while ( !keyWasPressed(KEY_MAC_ENTER) );
+    
+    clear();
+    refresh();
 }
 
 

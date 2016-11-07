@@ -11,50 +11,25 @@
 
 bool sortByCafedraCode(struct MachineTime *a, struct MachineTime *b)
 {
-    if ( strcmp(a -> cafedraCode, b -> cafedraCode) > 0 )
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (strcmp(a -> cafedraCode, b -> cafedraCode) > 0);
+    
 }
 
 bool sortByCafedraName(struct MachineTime *a, struct MachineTime *b)
 {
-    if ( strcmp(a -> cafedraName, b -> cafedraName) > 0 )
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (strcmp(a -> cafedraName, b -> cafedraName) > 0);
 }
 
 bool sortByTimePlanned (struct MachineTime *a, struct MachineTime *b)
 {
-    if ( a -> timeSpent.plan > b -> timeSpent.plan)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return ( (a -> timeSpent.plan) > (b -> timeSpent.plan) );
+    
 }
 
 bool sortByTimeSpent (struct MachineTime *a, struct MachineTime *b)
 {
-    if ( a -> timeSpent.realLife > b -> timeSpent.realLife)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return ( (a -> timeSpent.realLife) > (b -> timeSpent.realLife) );
+    
 }
 
 bool sortByDifference (struct MachineTime *a, struct MachineTime *b)
@@ -62,15 +37,40 @@ bool sortByDifference (struct MachineTime *a, struct MachineTime *b)
     int differenceA = abs( (a -> timeSpent.plan) - (a -> timeSpent.realLife) );
     int differenceB = abs( (b -> timeSpent.plan) - (b -> timeSpent.realLife) );
     
-    if (differenceA > differenceB)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return differenceA > differenceB;
 }
+
+bool sortByCafedraCodeDescending(struct MachineTime *a, struct MachineTime *b)
+{
+    return (strcmp(a -> cafedraCode, b -> cafedraCode) < 0);
+    
+}
+
+bool sortByCafedraNameDescending(struct MachineTime *a, struct MachineTime *b)
+{
+    return (strcmp(a -> cafedraName, b -> cafedraName) < 0);
+}
+
+bool sortByTimePlannedDescending (struct MachineTime *a, struct MachineTime *b)
+{
+    return ( (a -> timeSpent.plan) < (b -> timeSpent.plan) );
+    
+}
+
+bool sortByTimeSpentDescending (struct MachineTime *a, struct MachineTime *b)
+{
+    return ( (a -> timeSpent.realLife) < (b -> timeSpent.realLife) );
+    
+}
+
+bool sortByDifferenceDescending (struct MachineTime *a, struct MachineTime *b)
+{
+    int differenceA = abs( (a -> timeSpent.plan) - (a -> timeSpent.realLife) );
+    int differenceB = abs( (b -> timeSpent.plan) - (b -> timeSpent.realLife) );
+    
+    return differenceA < differenceB;
+}
+
 
 
 void swapElements(struct MachineTime *current, struct MachineTime *next)

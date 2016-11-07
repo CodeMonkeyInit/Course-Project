@@ -87,7 +87,7 @@ void inputData()
     mvwprintw(add,
               addLines / 4 + currentChoiceAdd,
               addCols / 4 + NORMAL_CHOICE_SIZE,
-              formatString, " ");
+              "%30s", " ");
     wmove(add, addLines / 4 + currentChoiceAdd, addCols / 4 + NORMAL_CHOICE_SIZE);
     
     if ( INPUT_ABORTED == windowGetInput(add, formatString, recordStrings[currentChoiceAdd]) || strictInput )
@@ -186,7 +186,7 @@ void addNewMTRecord()
     wprintw(add, "%s\n", "                    ДОБАВИТЬ                         ");
     
     toogleAddChoice(A_REVERSE, NORMAL_CHOICE_SIZE);
-    box(add, 0, 0);
+    //box(add, 0, 0);
     printHelp(ADD_HELP);
     wrefresh(add);
     while (!exit)
@@ -209,7 +209,6 @@ void addNewMTRecord()
     clear();
     refresh();
     delwin(add);
-    
     
     freeArrayOfStrings(recordStrings, FIELD_COUNT);
     

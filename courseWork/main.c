@@ -5,7 +5,5 @@
 
 int main()
 {
-    init_menu();
-    //addNewMTRecord();
    startProgram();
 }

@@ -19,11 +19,16 @@
 		0702C42D1DAFEE2C006C31C3 /* programMenuExtras.c in Sources */ = {isa = PBXBuildFile; fileRef = 0702C42A1DAFEE2C006C31C3 /* programMenuExtras.c */; };
 		0702C4311DAFF26E006C31C3 /* programMenuView.c in Sources */ = {isa = PBXBuildFile; fileRef = 0702C42B1DAFEE2C006C31C3 /* programMenuView.c */; };
 		070979211DCCFDF70086C181 /* programMenuAdd.c in Sources */ = {isa = PBXBuildFile; fileRef = 0709791F1DCCFDF70086C181 /* programMenuAdd.c */; };
+		07172BF81DCF8A4A00294710 /* programMenuSearch.c in Sources */ = {isa = PBXBuildFile; fileRef = 07172BF61DCF8A4A00294710 /* programMenuSearch.c */; };
+		07172BFC1DCF8A7200294710 /* programMenuSort.c in Sources */ = {isa = PBXBuildFile; fileRef = 07172BFA1DCF8A7200294710 /* programMenuSort.c */; };
 		071E709F1DBE206F0021E64D /* customGetInput.c in Sources */ = {isa = PBXBuildFile; fileRef = 071E709D1DBE206F0021E64D /* customGetInput.c */; };
 		07235FAF1D8AB6FB00534408 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 07235FAE1D8AB6FB00534408 /* main.c */; };
 		0738FE701DB213F300312D03 /* programMenuEditRecord.c in Sources */ = {isa = PBXBuildFile; fileRef = 0738FE6F1DB213F300312D03 /* programMenuEditRecord.c */; };
 		073EFC9D1DAD8694003EFF93 /* machineTime.c in Sources */ = {isa = PBXBuildFile; fileRef = 079805C81D8D2B1D00E32B52 /* machineTime.c */; };
 		07B6A6AC1DB00F98004EEDB2 /* programMenuEdit.c in Sources */ = {isa = PBXBuildFile; fileRef = 07B6A6AA1DB00F98004EEDB2 /* programMenuEdit.c */; };
+		07BA17161DCFD1DA008C35F5 /* programMenuSortChooseType.c in Sources */ = {isa = PBXBuildFile; fileRef = 07BA17141DCFD1DA008C35F5 /* programMenuSortChooseType.c */; };
+		07BA17191DCFDA93008C35F5 /* searchInStruct.c in Sources */ = {isa = PBXBuildFile; fileRef = 07BA17171DCFDA93008C35F5 /* searchInStruct.c */; };
+		07BA171F1DD0AA47008C35F5 /* programMenuDialog.c in Sources */ = {isa = PBXBuildFile; fileRef = 07BA171E1DD0AA47008C35F5 /* programMenuDialog.c */; };
 		07DCE0571DBE916D00AED055 /* sortStruct.c in Sources */ = {isa = PBXBuildFile; fileRef = 07DCE0551DBE916D00AED055 /* sortStruct.c */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +65,10 @@
 		0709791F1DCCFDF70086C181 /* programMenuAdd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuAdd.c; sourceTree = "<group>"; };
 		070979201DCCFDF70086C181 /* programMenuAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = programMenuAdd.h; sourceTree = "<group>"; };
 		070979231DCD17690086C181 /* programMenuConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = programMenuConstants.h; sourceTree = "<group>"; };
+		07172BF61DCF8A4A00294710 /* programMenuSearch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuSearch.c; sourceTree = "<group>"; };
+		07172BF71DCF8A4A00294710 /* programMenuSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = programMenuSearch.h; sourceTree = "<group>"; };
+		07172BFA1DCF8A7200294710 /* programMenuSort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuSort.c; sourceTree = "<group>"; };
+		07172BFB1DCF8A7200294710 /* programMenuSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = programMenuSort.h; sourceTree = "<group>"; };
 		071E709D1DBE206F0021E64D /* customGetInput.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = customGetInput.c; sourceTree = "<group>"; };
 		071E709E1DBE206F0021E64D /* customGetInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customGetInput.h; sourceTree = "<group>"; };
 		071E70A01DBE3B5E0021E64D /* macKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macKeys.h; sourceTree = "<group>"; };
@@ -71,6 +80,12 @@
 		079805C91D8D2B1D00E32B52 /* machineTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machineTime.h; sourceTree = "<group>"; };
 		07B6A6AA1DB00F98004EEDB2 /* programMenuEdit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuEdit.c; sourceTree = "<group>"; };
 		07B6A6AD1DB01120004EEDB2 /* programMenuTableExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = programMenuTableExtras.h; path = courseWork/programMenuTableExtras.h; sourceTree = "<group>"; };
+		07BA17141DCFD1DA008C35F5 /* programMenuSortChooseType.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuSortChooseType.c; sourceTree = "<group>"; };
+		07BA17151DCFD1DA008C35F5 /* programMenuSortChooseType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = programMenuSortChooseType.h; sourceTree = "<group>"; };
+		07BA17171DCFDA93008C35F5 /* searchInStruct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = searchInStruct.c; sourceTree = "<group>"; };
+		07BA17181DCFDA93008C35F5 /* searchInStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = searchInStruct.h; sourceTree = "<group>"; };
+		07BA171D1DCFDB34008C35F5 /* searchStruct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = searchStruct.h; sourceTree = "<group>"; };
+		07BA171E1DD0AA47008C35F5 /* programMenuDialog.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = programMenuDialog.c; path = courseWork/programMenuDialog.c; sourceTree = "<group>"; };
 		07DCE0551DBE916D00AED055 /* sortStruct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sortStruct.c; sourceTree = "<group>"; };
 		07DCE0561DBE916D00AED055 /* sortStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sortStruct.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,11 +108,10 @@
 				079805C91D8D2B1D00E32B52 /* machineTime.h */,
 				079805C81D8D2B1D00E32B52 /* machineTime.c */,
 				0702C41B1DAFE661006C31C3 /* getMachineTimeAsTable.c */,
-				0702C4191DAFE1DA006C31C3 /* loadTableMachineTime.c */,
-				0702C4171DAFE168006C31C3 /* loadBinaryMachineTime.c */,
 				0702C4141DAFDAE2006C31C3 /* saveMachineTimeStruct.c */,
-				07DCE0551DBE916D00AED055 /* sortStruct.c */,
-				07DCE0561DBE916D00AED055 /* sortStruct.h */,
+				07BA171B1DCFDAD4008C35F5 /* Search */,
+				07BA171C1DCFDAE3008C35F5 /* Load */,
+				07BA171A1DCFDACC008C35F5 /* Sort */,
 			);
 			name = machineTimeStruct;
 			sourceTree = "<group>";
@@ -122,8 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				0702C42A1DAFEE2C006C31C3 /* programMenuExtras.c */,
+				07BA171E1DD0AA47008C35F5 /* programMenuDialog.c */,
 				0738FE6C1DB1483300312D03 /* main */,
-				0738FE6D1DB1484000312D03 /* View and Edit */,
 			);
 			name = programMenu;
 			path = ..;
@@ -136,6 +150,26 @@
 				070979201DCCFDF70086C181 /* programMenuAdd.h */,
 			);
 			name = Add;
+			sourceTree = "<group>";
+		};
+		07172BF91DCF8A5300294710 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				07172BF61DCF8A4A00294710 /* programMenuSearch.c */,
+				07172BF71DCF8A4A00294710 /* programMenuSearch.h */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		07172BFD1DCF8A7E00294710 /* Sort */ = {
+			isa = PBXGroup;
+			children = (
+				07172BFA1DCF8A7200294710 /* programMenuSort.c */,
+				07172BFB1DCF8A7200294710 /* programMenuSort.h */,
+				07BA17141DCFD1DA008C35F5 /* programMenuSortChooseType.c */,
+				07BA17151DCFD1DA008C35F5 /* programMenuSortChooseType.h */,
+			);
+			name = Sort;
 			sourceTree = "<group>";
 		};
 		07235FA21D8AB6FA00534408 = {
@@ -173,6 +207,9 @@
 				070979231DCD17690086C181 /* programMenuConstants.h */,
 				0702C4281DAFEE2C006C31C3 /* programMenu.c */,
 				0702C4291DAFEE2C006C31C3 /* programMenu.h */,
+				0738FE6D1DB1484000312D03 /* View and Edit */,
+				07172BFD1DCF8A7E00294710 /* Sort */,
+				07172BF91DCF8A5300294710 /* Search */,
 				070979221DCCFE020086C181 /* Add */,
 			);
 			name = main;
@@ -196,6 +233,34 @@
 				0738FE6F1DB213F300312D03 /* programMenuEditRecord.c */,
 			);
 			name = Edit;
+			sourceTree = "<group>";
+		};
+		07BA171A1DCFDACC008C35F5 /* Sort */ = {
+			isa = PBXGroup;
+			children = (
+				07DCE0551DBE916D00AED055 /* sortStruct.c */,
+				07DCE0561DBE916D00AED055 /* sortStruct.h */,
+			);
+			name = Sort;
+			sourceTree = "<group>";
+		};
+		07BA171B1DCFDAD4008C35F5 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				07BA171D1DCFDB34008C35F5 /* searchStruct.h */,
+				07BA17181DCFDA93008C35F5 /* searchInStruct.h */,
+				07BA17171DCFDA93008C35F5 /* searchInStruct.c */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		07BA171C1DCFDAE3008C35F5 /* Load */ = {
+			isa = PBXGroup;
+			children = (
+				0702C4191DAFE1DA006C31C3 /* loadTableMachineTime.c */,
+				0702C4171DAFE168006C31C3 /* loadBinaryMachineTime.c */,
+			);
+			name = Load;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,18 +322,23 @@
 			files = (
 				0702C42D1DAFEE2C006C31C3 /* programMenuExtras.c in Sources */,
 				0738FE701DB213F300312D03 /* programMenuEditRecord.c in Sources */,
+				07BA17161DCFD1DA008C35F5 /* programMenuSortChooseType.c in Sources */,
 				073EFC9D1DAD8694003EFF93 /* machineTime.c in Sources */,
 				0702C42C1DAFEE2C006C31C3 /* programMenu.c in Sources */,
 				0702C4311DAFF26E006C31C3 /* programMenuView.c in Sources */,
+				07172BF81DCF8A4A00294710 /* programMenuSearch.c in Sources */,
 				0702C4151DAFDAE2006C31C3 /* saveMachineTimeStruct.c in Sources */,
 				07DCE0571DBE916D00AED055 /* sortStruct.c in Sources */,
 				0702C4181DAFE168006C31C3 /* loadBinaryMachineTime.c in Sources */,
 				0702C41C1DAFE661006C31C3 /* getMachineTimeAsTable.c in Sources */,
+				07BA17191DCFDA93008C35F5 /* searchInStruct.c in Sources */,
+				07BA171F1DD0AA47008C35F5 /* programMenuDialog.c in Sources */,
 				0702C41A1DAFE1DA006C31C3 /* loadTableMachineTime.c in Sources */,
 				0702C40C1DAE553C006C31C3 /* customString.c in Sources */,
 				07B6A6AC1DB00F98004EEDB2 /* programMenuEdit.c in Sources */,
 				0702C4091DAE5442006C31C3 /* customFileFunctions.c in Sources */,
 				071E709F1DBE206F0021E64D /* customGetInput.c in Sources */,
+				07172BFC1DCF8A7200294710 /* programMenuSort.c in Sources */,
 				0702C40F1DAE5720006C31C3 /* IMachineTime.c in Sources */,
 				07235FAF1D8AB6FB00534408 /* main.c in Sources */,
 				0702C4061DAE51C6006C31C3 /* UnicodeMacOSLib.c in Sources */,

@@ -17,7 +17,6 @@ int choicesNumber;
 
 void toogleChoice(int choice,int type)
 {
-    
     mvwchgat(table, choice + TABLE_HEAD_SIZE, 1, TABLE_CHOICE_WIDTH, type, 2, NULL);
     wmove(table, 0, 0);
 }
@@ -122,15 +121,18 @@ void editStruct(int linesAvailable)
         {
             break;
         }
+        
         if (somethingDeleted)
         {
             wclear(table);
             somethingDeleted = false;
         }
+        
         printTable(HELP_EDIT_MODE);
         toogleChoice(currentChoice, A_REVERSE);
         wrefresh(table);
-    } while ( editKeypressHandler( getch() ) != EXIT );
+    
+    } while (editKeypressHandler( getch() ) != EXIT);
     
     toogleChoice(currentChoice, A_NORMAL);
 }

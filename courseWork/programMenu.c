@@ -1,17 +1,49 @@
 #include "programMenu.h"
 
+bool colorAvailable;
 
-char *choices[] =
+const char *menuChoices[] =
 {
+    "ГЛАВНОЕ МЕНЮ",
     "Добавить",
     "Вывод",
-    "Choice 3",
-    "Choice 4",
-    "Выход",
+    "Сортировка",
+    "Поиск",
+    "Открытие/Создание файла",
+    "Выход"
 };
-const int choices_count = 5;
 
-bool colorAvailable;
+const int MENU_CHOICES_COUNT = 7;
+
+bool emergencyExit;
+
+void toogleMenuChoice(WINDOW *menu,int highlight, int type)
+{
+    mvwchgat(menu,
+             (MENU_BORDERS / 2 - 1) + highlight,
+             2,
+             MENU_HIGHLIGHT_LENGTH,
+             type,
+             2,
+             NULL);
+}
+
+void initMenuParameters(MENU *parameters,
+                        const char *choices[] ,
+                        const int choicesCount,
+                        void (*menuCallFunction)(int))
+{
+    parameters -> choices = choices;
+    parameters -> choicesCount = choicesCount;
+    parameters -> colorPair = DEFAULT_COLOR_PAIR;
+    parameters -> highlight = 1;
+    parameters -> menuCallFunction = menuCallFunction;
+}
+
+int getStringMiddlePostition(const char *string, const int width)
+{
+    return ( width - (int)utf8len(string) ) / 2;
+}
 
 void init_menu()
 {
@@ -29,142 +61,168 @@ void init_menu()
     if(colorAvailable)
     {
         start_color();
-        init_pair(1,COLOR_GREEN, COLOR_BLACK);
-        init_pair(2,COLOR_WHITE,COLOR_BLUE);
+        init_pair(1,COLOR_WHITE, COLOR_BLACK);
+        init_pair(2,COLOR_WHITE, COLOR_BLUE);
     }
     refresh();
-}
-
-void printMessage(char *messageString)
-{
-    clear();
-    refresh();
-    
-    do
-    {
-        WINDOW *dialog;
-        int offsetX = (COLS - DIALOG_WIDTH) / 2,
-        offsetY = (LINES - DIALOG_HEIGHT) / 2;
-        refreshIfNeeded();
-        
-        printHelp(MESSAGE_HELP);
-        
-        dialog = newwin(DIALOG_HEIGHT,
-                        DIALOG_WIDTH,
-                        offsetY,
-                        offsetX);
-        
-        box(dialog, 0, 0);
-        mvwprintw(dialog, 3, 3, "%s", messageString);
-        wbkgd(dialog, COLOR_PAIR(2));
-        wrefresh(dialog);
-        delwin(dialog);
-    } while ( !keyWasPressed(KEY_MAC_ENTER) );
-    
-    clear();
-    refresh();
-    
 }
 
 void call_function(int function)
 {
+    char pattern[50];
     switch (function)
     {
-        case FUNCTION_EXIT:
-            clear();
-            refresh();
-            exit(0);
-            break;
-        case 1:
+        case ADD_FUNCTION:
             addNewMTRecord();
             break;
-        case 2:
+        case VIEW_FUNCTION:
             printStruct();
             break;
-        case 3:case 4:
-            printMessage("Under Construction 404");
+        case SORT_FUNCTION:
+            printSortMenu();
+            break;
+        case SEARCH_FUNCTION:
+            getUserInputDialog("Введите условие поиска:", pattern);
+            printSearchResults(pattern);
             break;
         default:
+            printMessage("Under Contruction 404");
             break;
     }
-    
 }
 
-void render_menu(int highlight)
+bool menuHandler(WINDOW *menu, MENU *parameters, bool *refreshNeeded)
 {
-    WINDOW *menu;
+    int *highlight = &(parameters -> highlight);
+    const int CHOICES_COUNT = parameters -> choicesCount;
     
-    refreshIfNeeded();
-
-    int offsetX = (COLS - MENU_WIDTH) / 2;
-    int offsetY = (LINES - MENU_HEIGHT) / 2;
+    int key = getch();
     
-    menu = newwin(MENU_HEIGHT,
-                  MENU_WIDTH,
-                  offsetY,
-                  offsetX);
-    box(menu, 0, 0);
+    toogleMenuChoice(menu, *highlight, A_NORMAL);
     
-    wbkgd(menu, COLOR_PAIR(2));
-    printHelp(HELP_MENU);
-    
-    wmove(menu, 7, 0);
-    
-    for (int i = 0; i < choices_count; i++)
+    if (isdigit(key))
     {
-        int choice_lenght  = (int) strlen(choices[i]);
-        
-        int x = 5,
-            y = getcury(menu);
-        
-        mvwprintw(menu, y + 1, x + 4, "%d: ", i + 1);
-    
-        for (int j = 0; j < choice_lenght; j++)
+        int temp = key - '0';
+        if ( (temp < CHOICES_COUNT) && (temp >= 1) )
         {
-            wprintw(menu, "%c", choices[i][j]);
-        }
-        
-        if (highlight == i)
-        {
-            mvwchgat(menu, y + 1, 2, MENU_HIGHLIGHT_LENGTH, A_REVERSE, 0, NULL);
+            *highlight = temp;
+            key = KEY_WAS_USED;
         }
     }
-    wrefresh(menu);
-    
-    delwin(menu);
-    
-    choose_menu(getch(), highlight);
-    
-}
-
-void choose_menu(int key, int highlight)
-{
     switch (key)
     {
         case KEY_DOWN:
-            highlight++;
-            if (highlight > choices_count - 1)
+            (*highlight)++;
+            if (*highlight >= CHOICES_COUNT)
             {
-                highlight = 0;
+                *highlight = 1;
             }
             break;
         case KEY_UP:
-            highlight--;
-            if (highlight < 0)
+            (*highlight)--;
+            if (*highlight < 1)
             {
-                highlight = choices_count - 1;
+                *highlight = CHOICES_COUNT - 1;
             }
             break;
         case KEY_ESC:
             clear();
             refresh();
-            return;
+            return EXIT;
             break;
         case KEY_MAC_ENTER:
-            call_function(highlight + 1);
+            //FIXME ASAP
+            if (EXIT_CHOICE == *highlight)
+            {
+                return EXIT;
+            }
+            parameters -> menuCallFunction(*highlight);
+            *refreshNeeded = true;
+            break;
+        case KEY_WAS_USED:
             break;
         default:
             break;
     }
-    render_menu(highlight);
+    toogleMenuChoice(menu, *highlight, A_REVERSE);
+    return CONTINUE;
+}
+
+void render_menu(MENU parameters)
+{
+    WINDOW *menu = NULL;
+    bool refreshNeeded = true;
+    const int CHOICES_COUNT = parameters.choicesCount;
+    const char **choices = parameters.choices;
+    emergencyExit = false;
+    refreshIfNeeded();
+    
+    const int MENU_HEIGHT = MENU_BORDERS + CHOICE_SIZE * CHOICES_COUNT;
+    int offsetX = (COLS - MENU_WIDTH) / 2;
+    int offsetY = (LINES - MENU_HEIGHT) / 2;
+    int headerXoffset = getStringMiddlePostition(choices[MENU_HEADER], MENU_WIDTH);
+    
+    do
+    {
+        if (emergencyExit)
+        {
+            emergencyExit = false;
+            break;
+        }
+        
+        if ( refreshIfNeeded() )
+        {
+            refreshNeeded = true;
+        }
+        
+        if (refreshNeeded)
+        {
+            clear();
+            
+            offsetX = (COLS - MENU_WIDTH) / 2;
+            offsetY = (LINES - MENU_HEIGHT) / 2;
+            
+            if (NULL != menu)
+            {
+                delwin(menu);
+            }
+            menu = newwin(MENU_HEIGHT,
+                          MENU_WIDTH,
+                          offsetY,
+                          offsetX);
+            refreshNeeded = false;
+            refreshIfNeeded();
+            //TODO decide if box is needed
+            box(menu, 0, 0);
+            
+            wbkgd(menu, COLOR_PAIR(parameters.colorPair));
+            printHelp(HELP_MENU);
+            
+            mvwprintw(menu, 1, headerXoffset, "%s", choices[MENU_HEADER]);
+            
+            wmove(menu, MENU_BORDERS / 2 - 1, 0);
+            
+            for (int i = 1; i < CHOICES_COUNT; i++)
+            {
+                int choice_lenght  = (int) strlen(choices[i]);
+                
+                int x = 5,
+                y = getcury(menu);
+                
+                mvwprintw(menu, y + 1, x, "%d: ", i);
+                wmove( menu, y + 1, getStringMiddlePostition(choices[i], MENU_WIDTH) );
+                
+                for (int j = 0; j < choice_lenght; j++)
+                {
+                    wprintw(menu, "%c", choices[i][j]);
+                }
+            }
+            refresh();
+        }
+        
+        toogleMenuChoice(menu, parameters.highlight, A_REVERSE);
+        wmove(stdscr, 0, 0);
+        wrefresh(menu);
+    } while (EXIT != menuHandler(menu, &parameters, &refreshNeeded) );
+    delwin(menu);
 }

@@ -21,7 +21,6 @@ bool controlsLocked;
 
 void printTable(int helpType)
 {
-    const char MENU_TABLE_HEAD[] = "┌──────────────────────────────────────────────────────────────────┐\n│   №│Код Кафедры│    Название Кафедры|По Плану|По Факту│Отклонения│";
     printHelp(helpType);
     wattron(table,COLOR_PAIR(2));
     
@@ -143,12 +142,12 @@ void printStruct()
 {
     controlsLocked = false;
     
-    linesAvailable = LINES - 6;
+    linesAvailable = LINES - SPACES_OTHER_THAN_TABLE;
     
     currentPage = 0;
     
     int offsetX = (COLS - TABLE_WIDTH) / 2,
-        offsetY = ( LINES - (linesAvailable + 6) ) / 2 ;
+        offsetY = ( LINES - (linesAvailable + SPACES_OTHER_THAN_TABLE) ) / 2 ;
     
     table = newwin(LINES,
                    TABLE_WIDTH,
