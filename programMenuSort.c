@@ -6,7 +6,7 @@
 //  Copyright © 2016 Денис Кулиев. All rights reserved.
 //
 
-#include "programMenuSort.h"
+#include "programMenu.h"
 
 const char *sortChoices[] =
 {
@@ -28,6 +28,5 @@ void printSortMenu()
 {
     MENU arguments;
     initMenuParameters(&arguments, sortChoices, sortChoicesCount, sortCallFunction);
-    
     render_menu(arguments);
 }

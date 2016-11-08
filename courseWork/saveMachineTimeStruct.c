@@ -29,7 +29,7 @@ int saveFileAsTable(const char *path)
     
     fclose(tableFile);
     
-    return 0;
+    return FILE_SAVED_SUCCESSFULY;
 }
 
 
@@ -55,15 +55,18 @@ int saveFileBinary(const char *path)
                 temp -> timeSpent.plan,
                 temp -> timeSpent.realLife
                 );
-    } while ( NULL != (temp = temp -> next) );
+        temp = temp -> next;
+    } while ( NULL != temp );
     
     fclose(binaryFile);
     
-    return 0;
+    return FILE_SAVED_SUCCESSFULY;
 }
 
-int saveFile(const char *path, int type)
+int saveFile(const char *path)
 {
+    int type = getFileType(path);
+    
     if (NULL == machineTimeBegining)
     {
         return NOTHING_TO_SAVE;
@@ -80,6 +83,4 @@ int saveFile(const char *path, int type)
     {
         return UNKNOWN_FILE_TYPE;
     }
-    
-    return 0;
 }

@@ -11,7 +11,6 @@
 
 #include <stdio.h>
 #include "programMenuTableExtras.h"
-#include "searchInStruct.h"
 #include "machineTime.h"
 
 void printSearchResults(char *pattern);

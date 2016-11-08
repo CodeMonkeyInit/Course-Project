@@ -31,7 +31,6 @@ void deleteCharacter(WINDOW *win, int character)
     int currentX = getcurx(win);
     int currentY = getcury(win);
     mvwprintw(win,currentY, currentX - character, "   ");
-    //wrefresh(win);
     wmove(win, currentY, currentX - character);
 }
 
@@ -47,6 +46,9 @@ int getString(WINDOW *win, int length,char *string)
     int utfLength = length * 4;
     int utfCurrentLength = 0;
     
+    //Иначе getch() возращает escape последовательности
+    keypad(win, TRUE);
+    
     char *tempString = (char *) calloc(utfLength + 1, sizeof(char) );
     
     for (i = 0; i < utfLength ; i++)
@@ -57,6 +59,12 @@ int getString(WINDOW *win, int length,char *string)
         if (KEY_MAC_ENTER == key)
         {
             break;
+        }
+        else if ( ' ' == key)
+        {
+            deleteCharacter(win, 1);
+            i--;
+            continue;
         }
         else if ( KEY_ESC == key || isControlSymbol(key) )
         {

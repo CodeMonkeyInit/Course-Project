@@ -40,3 +40,19 @@ int loadFile(FILE **file,const char *path,const char *header)
     
     return FILE_LOADED;
 }
+
+int getFileType(const char *path)
+{
+    if (NULL != strstr(path, ".table"))
+    {
+        return TABLE_TYPE_FILE;
+    }
+    else if (NULL != strstr(path, ".bin"))
+    {
+        return BINARY_TYPE_FILE;
+    }
+    else
+    {
+        return UNKNOWN_FILE_TYPE;
+    }
+}

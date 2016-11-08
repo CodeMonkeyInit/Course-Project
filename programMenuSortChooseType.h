@@ -12,7 +12,9 @@
 #include <stdio.h>
 #include "programMenuSort.h"
 
-#define ASCENDING false
+#define ASCENDING  1
+#define DESCENDING 2
+#define SORT_ABORTED 0
 
 void printTypeSortMenu(int field);
 

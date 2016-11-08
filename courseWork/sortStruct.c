@@ -6,7 +6,7 @@
 //  Copyright © 2016 Денис Кулиев. All rights reserved.
 //
 
-#include "sortStruct.h"
+#include "machineTime.h"
 #include "machineTimeStruct.h"
 
 bool sortByCafedraCode(struct MachineTime *a, struct MachineTime *b)

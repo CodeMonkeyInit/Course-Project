@@ -7,7 +7,29 @@
 //
 
 #include "IMachineTime.h"
-#include "searchInStruct.h"
+#include <libproc.h>
+
+char path[PATH_MAX];
+
+void setExecutablePathAsWorkDir()
+{
+    char executablePath[PATH_MAX];
+    pid_t pid = getpid();
+    if ( 0 < proc_pidpath ( pid, executablePath, sizeof(executablePath) ) )
+    {
+        //to delete executable name from path
+        for (long i = strlen(executablePath) - 1; i > 0; i-- )
+        {
+            if (executablePath[i] == '/')
+            {
+                executablePath[i] = '\0';
+                break;
+            }
+            
+        }
+        chdir(executablePath);
+    }
+}
 
 void startMenu()
 {
@@ -16,6 +38,11 @@ void startMenu()
     setlocale(LC_ALL, "");
     
     init_menu();
+    
+    if ( FILE_LOADED != loadStruct(path) )
+    {
+        openFileMenu();
+    }
     render_menu(parameters);
 }
 
@@ -27,9 +54,11 @@ int loadStructTable(FILE **machineTimeFile)
     return parseBuffer(buffer, TABLE_START_OFFSET);
 }
 
-int loadStruct(const char *path, short type)
+int loadStruct(char *path)
 {
     FILE *machineTimeFile = NULL;
+    int type = getFileType(path);
+    
     
     if ( loadFile(&machineTimeFile, path, MACHINE_FILE_HEADER) == FILE_LOADED)
     {
@@ -43,6 +72,7 @@ int loadStruct(const char *path, short type)
         }
         else
         {
+            strcat(path, ".bin");
             return UNKNOWN_FILE_TYPE;
         }
     }
@@ -54,9 +84,7 @@ int loadStruct(const char *path, short type)
 
 void startProgram()
 {
-    
-    loadStruct("/Users/deniskuliev/Library/Developer/Xcode/DerivedData/courseWork-csjasbpzgqmfwtcyokgaikxvneev/Build/Products/Debug/data.testsort", TABLE_TYPE_FILE);
-    
+    //TODO lastPath ini
+    setExecutablePathAsWorkDir();
     startMenu();
-    saveStruct("/Users/deniskuliev/Library/Developer/Xcode/DerivedData/courseWork-csjasbpzgqmfwtcyokgaikxvneev/Build/Products/Debug/data.test", TABLE_TYPE_FILE);
 }

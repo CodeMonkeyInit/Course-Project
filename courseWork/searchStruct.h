@@ -17,6 +17,7 @@ typedef struct _strpos
     int cafedraName;
     int timePlanned;
     int timeSpent;
+    int timeDifference;
 } SubstringPositions;
 
 typedef struct _searchMT

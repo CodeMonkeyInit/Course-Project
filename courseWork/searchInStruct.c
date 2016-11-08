@@ -6,7 +6,7 @@
 //  Copyright © 2016 Денис Кулиев. All rights reserved.
 //
 
-#include "searchInStruct.h"
+#include "machineTime.h"
 
 int recordsFound;
 bool searchSuccesfull;
@@ -35,7 +35,7 @@ bool substringFound(SubstringPositions positions)
 SubstringPositions patternFound(struct MachineTime *record ,char *pattern)
 {
     SubstringPositions positions;
-    char timePlanned[10], timeUsed[10];
+    char timePlanned[20], timeUsed[20], timeDifference[20];
     char *substring;
     
     substring = strstr(record -> cafedraCode, pattern);
@@ -57,8 +57,11 @@ SubstringPositions patternFound(struct MachineTime *record ,char *pattern)
     {
         positions.cafedraName = (int) (substring - record -> cafedraName);
     }
-    sprintf(timePlanned, "%d", record -> timeSpent.plan);
-    sprintf(timeUsed, "%d", record -> timeSpent.realLife);
+    //TODO needs refactor
+    sprintf(timePlanned, "%8d", record -> timeSpent.plan);
+    sprintf(timeUsed, "%8d", record -> timeSpent.realLife);
+    sprintf( timeDifference, "%10d", abs(record -> timeSpent.realLife - record -> timeSpent.plan) );
+    
     
     substring = strstr(timePlanned, pattern);
     if (NULL == substring)
@@ -71,6 +74,7 @@ SubstringPositions patternFound(struct MachineTime *record ,char *pattern)
     }
     
     substring = strstr(timeUsed, pattern);
+    
     if (NULL == substring)
     {
         positions.timeSpent = SUBSTRING_NOT_FOUND;
@@ -78,6 +82,17 @@ SubstringPositions patternFound(struct MachineTime *record ,char *pattern)
     else
     {
         positions.timeSpent = (int) (substring - timeUsed);
+    }
+    
+    substring = strstr(timeDifference, pattern);
+    
+    if (NULL == substring)
+    {
+        positions.timeDifference = SUBSTRING_NOT_FOUND;
+    }
+    else
+    {
+        positions.timeDifference = (int) (substring - timeDifference);
     }
     
     return positions;

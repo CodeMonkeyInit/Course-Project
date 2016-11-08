@@ -26,6 +26,51 @@ void updateSearchPointerHead()
         i++;
     }
 }
+void colorSubstring(int startY, int startX ,char *pattern, int substingPosition)
+{
+    int offsetX = startX + substingPosition - 1;
+    mvwchgat(searchResult, startY, offsetX, utf8len(pattern), A_BOLD, 3, NULL);
+}
+
+void colorSearchResult(char *pattern)
+{
+    MTsearch *temp = searchResultHead;
+    if ( has_colors() && temp != NULL )
+    {
+        int offsetY = SEARCH_TABLE_START;
+        {
+            while (temp != searchResultTail -> next)
+            {
+                SubstringPositions positions = temp -> positions;
+                if (SUBSTRING_NOT_FOUND != positions.cafedraCode)
+                {
+                    colorSubstring(offsetY, CAFEDRA_CODE_OFFSET_X, pattern, positions.cafedraCode);
+                }
+                
+                if (SUBSTRING_NOT_FOUND != positions.cafedraName)
+                {
+                    colorSubstring(offsetY, CAFEDRA_NAME_OFFSET_X, pattern, positions.cafedraName);
+                }
+                
+                if (SUBSTRING_NOT_FOUND != positions.timePlanned)
+                {
+                    colorSubstring(offsetY, TIME_PLANNED_OFFSET_X, pattern, positions.timePlanned);
+                }
+                
+                if (SUBSTRING_NOT_FOUND != positions.timeSpent)
+                {
+                    colorSubstring(offsetY, TIME_SPENT_OFFSET_X, pattern, positions.timeSpent);
+                }
+                if (SUBSTRING_NOT_FOUND != positions.timeDifference)
+                {
+                    colorSubstring(offsetY, TIME_DIFFERENCE_OFFSET_X, pattern, positions.timeDifference);
+                }
+                temp = temp -> next;
+                offsetY++;
+            }
+        }
+    }
+}
 
 void updateSearchString()
 {
@@ -34,14 +79,14 @@ void updateSearchString()
     int linesAvailable = LINES - SPACES_OTHER_THAN_TABLE;
     int i = 0;
     
-    if ( (EMPTY_TABLE != searchResultString) && (NULL != searchResultString) )
+    if ( (EMPTY_SEARCH != searchResultString) && (NULL != searchResultString) )
     {
         free(searchResultString);
     }
     
     if ( SEARCH_FAILED == recordsFound || (0 == recordsFound) )
     {
-        searchResultString = EMPTY_TABLE;
+        searchResultString = EMPTY_SEARCH;
     }
     else
     {
@@ -78,7 +123,7 @@ void loadNextSearchPage()
     
     updateSearchString();
     
-    if ( searchResultString != EMPTY_TABLE )
+    if ( searchResultString != EMPTY_SEARCH )
     {
         searchTableNeedsRefresh = true;
         currentSearchPage++;
@@ -100,12 +145,16 @@ void loadSearchPreviousPage()
     }
     else
     {
-        currentSearchPage--;
-        searchTableNeedsRefresh = true;
+        if (NULL != searchResultHead -> previous)
+        {
+            currentSearchPage--;
+            searchTableNeedsRefresh = true;
+            
+            searchResultHead = searchResultHead -> previous;
+            updateSearchPointerHead();
+            updateSearchString();
+        }
         
-        searchResultHead = searchResultHead -> previous;
-        updateSearchPointerHead();
-        updateSearchString();
     }
 }
 
@@ -130,7 +179,7 @@ bool searchKeypressHandler(int key)
         {
             searchResultHead = searchResultPointer;
             currentPage = 0;
-            controlsLocked = false;
+            searchControlsLocked = false;
             updateSearchString();
             searchTableNeedsRefresh = true;
         }
@@ -198,16 +247,18 @@ void printSearchResults(char *pattern)
         if (searchTableNeedsRefresh)
         {
             printSearchResult(HELP_TABLE);
+            colorSearchResult(pattern);
             windowRefreshAndClear(searchResult);
             searchTableNeedsRefresh = false;
         }
     } while ( EXIT != searchKeypressHandler( getch() ) );
     
-    if (EMPTY_TABLE != searchResultString)
+    if (EMPTY_SEARCH != searchResultString)
     {
         free(searchResultString);
     }
     
+    wclear(searchResult);
     delwin(searchResult);
     
     clear();

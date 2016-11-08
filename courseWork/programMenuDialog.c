@@ -30,7 +30,7 @@ void getUserInput(WINDOW *win, int offsetY, int offsetX, bool *inputSuccess)
     {
         *inputSuccess = false;
         wmove(win, inputFieldOffsetY, inputFieldOffsetX);
-        wprintw(win, "%s", userInput);
+        wprintw(win, "%50s", userInput);
     }
     curs_set(0);
     noecho();
@@ -59,6 +59,7 @@ bool dialogKeypressHandeler(WINDOW *dialog, bool *inputSuccess, int *currentChoi
             }
             else
             {
+                *inputSuccess = true;
                 return EXIT;
             }
             break;
@@ -69,7 +70,6 @@ bool dialogKeypressHandeler(WINDOW *dialog, bool *inputSuccess, int *currentChoi
         default:
             break;
     }
-    
     return CONTINUE;
 }
 
@@ -78,7 +78,7 @@ bool getUserInputDialog(char *message, char *response)
     WINDOW *dialog;
     int offsetX = (COLS - DIALOG_WIDTH) / 2;
     int offsetY = (LINES - DIALOG_HEIGHT) / 2;
-    bool inputSuccess = true;
+    bool inputSuccess = false;
     int currentChoice = CHOICE_INPUT_FIELD;
     clear();
     refresh();
@@ -92,16 +92,18 @@ bool getUserInputDialog(char *message, char *response)
     
     do
     {
-        offsetX = (COLS - DIALOG_WIDTH) / 2;
-        offsetY = (LINES - DIALOG_HEIGHT) / 2;
+        if ( refreshIfNeeded() )
+        {
+            offsetX = (COLS - DIALOG_WIDTH) / 2;
+            offsetY = (LINES - DIALOG_HEIGHT) / 2;
+            mvwin(dialog, offsetY, offsetX);
+            
+        }
+        
         int buttonOffsetX = getStringMiddlePostition(OK_BUTTON, DIALOG_WIDTH);
         int buttonOffsetY = DIALOG_HEIGHT - 3;
         
-        refreshIfNeeded();
-        
         printHelp(DIALOG_HELP);
-        
-        wmove(dialog, offsetY, offsetX);
         
         box(dialog, 0, 0);
         wbkgd(dialog, COLOR_PAIR(2));
@@ -117,6 +119,7 @@ bool getUserInputDialog(char *message, char *response)
         }
         
         wrefresh(dialog);
+        refresh();
     } while ( EXIT != dialogKeypressHandeler(dialog ,&inputSuccess, &currentChoice) );
     
     if (inputSuccess)
@@ -125,6 +128,7 @@ bool getUserInputDialog(char *message, char *response)
     }
     free(userInput);
     
+    wclear(dialog);
     delwin(dialog);
     clear();
     refresh();

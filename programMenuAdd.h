@@ -9,12 +9,7 @@
 #ifndef programMenuAdd_h
 #define programMenuAdd_h
 
-#include <stdio.h>
-#include "machineTime.h"
 #include "programMenu.h"
-#include "macKeys.h"
-#include "customGetInput.h"
-#include "programMenuConstants.h"
 
 void addNewMTRecord();
 

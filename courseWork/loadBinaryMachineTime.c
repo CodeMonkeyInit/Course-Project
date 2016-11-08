@@ -10,7 +10,7 @@
 
 int loadBinary(FILE **binaryFile)
 {
-    const int MAX_LEN = 40;
+    const int MAX_LEN = 81;
     
     char **temp = malloc(sizeof(char*) * RECORD_ENTRIES);
     

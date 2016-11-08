@@ -17,7 +17,8 @@
 #define VIEW_FUNCTION         2
 #define SORT_FUNCTION         3
 #define SEARCH_FUNCTION       4
-#define EXIT_CHOICE           6
+#define LOAD_FUNCTION         5
+#define EXIT_FUNCTION         6
 #define MENU_WIDTH            40
 #define MENU_HIGHLIGHT_LENGTH MENU_WIDTH - 4
 #define TABLE_WIDTH           69
@@ -73,6 +74,19 @@
 #define BY_TIME_PLANNED 3
 #define BY_TIME_SPENT   4
 #define BY_DIFFERENCE   5
+
+#define ASCENDING  1
+#define DESCENDING 2
+#define SORT_ABORTED 0
+
+//SEARCH
+#define SEARCH_TABLE_START       2
+#define CAFEDRA_CODE_OFFSET_X    13
+#define CAFEDRA_NAME_OFFSET_X    19
+#define TIME_PLANNED_OFFSET_X    40
+#define TIME_SPENT_OFFSET_X      49
+#define TIME_DIFFERENCE_OFFSET_X 58
+#define EMPTY_SEARCH             "\n│                       Ничего не найдено!                         │"
 
 
 #endif /* programMenuConstants_h */

@@ -51,7 +51,7 @@ void printHelp(int type)
     switch (type)
     {
         case HELP_MENU:
-            mvprintw(LINES - 1, 0, "ESC - чтобы выйти, ↑↓ для навигации ↲ для потверждения выбора");
+            mvprintw(LINES - 1, 0, "ESC - чтобы выйти без сохранения, ↑↓ для навигации ↲ для потверждения выбора");
             break;
         case HELP_TABLE:
             mvprintw(LINES - 1, 0, "ESC чтобы вернутся в меню, ↑↓ смена страниц  ↲ режим редактирования");
@@ -102,7 +102,7 @@ void printMessage(char *message)
         mvwprintw(dialog, buttonOffsetY, buttonOffsetX, "%s", OK_BUTTON);
         mvwchgat(dialog, buttonOffsetY, buttonOffsetX - 2 , utf8len(OK_BUTTON) + 4 , A_REVERSE, 2, NULL);
         
-        wrefresh(dialog);
+        windowRefreshAndClear(dialog);
         delwin(dialog);
     } while ( !keyWasPressed(KEY_MAC_ENTER) );
     

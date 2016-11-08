@@ -13,13 +13,17 @@
 #include "programMenu.h"
 #include <stdbool.h>
 #include <locale.h>
+#include <sys/syslimits.h>
 
 #define TABLE_START_OFFSET 351
-#define saveStruct(path, type) saveFile(path, type)
+#define saveStruct(path) saveFile(path)
+#define DEFAULT_PATH "/Users/deniskuliev/Library/Developer/Xcode/DerivedData/courseWork-csjasbpzgqmfwtcyokgaikxvneev/Build/Products/Debug/data.table"
+
+extern char path[PATH_MAX];
 
 void startMenu();
 int loadStructTable(FILE **machineTimeFile);
-int loadStruct(const char * path, short type);
+int loadStruct(char * path);
 void startProgram();
 
 #endif /* IMachineTime_h */

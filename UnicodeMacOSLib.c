@@ -54,7 +54,7 @@ char *formatUtf8String(char *utf8string, const size_t formatLength)
     size_t spacesNumber = formatLength - utf8StringLength;
     
     size_t charLength = strlen(utf8string);
-    size_t formatStringSize = charLength + spacesNumber + 1;
+    size_t formatStringSize = charLength * 4  + spacesNumber + 1;
     
     formatedString = malloc(sizeof(char) * formatStringSize);
     

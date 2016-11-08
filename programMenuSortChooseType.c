@@ -6,7 +6,7 @@
 //  Copyright © 2016 Денис Кулиев. All rights reserved.
 //
 
-#include "programMenuSortChooseType.h"
+#include "programMenu.h"
 
 const char *sortTypeChoices[] =
 {
@@ -16,81 +16,79 @@ const char *sortTypeChoices[] =
 };
 const int sortTypeChoicesCount = 3;
 
-bool sort;
+int sort;
 
 void sortTypeCallFunction(int function)
 {
-    sort = (bool) function;
-    emergencyExit = true;
+    sort = function;
+    exitMenu = true;
 }
 
-void printTypeSortMenu(int field)
+void sortAscending(int field)
 {
-    MENU arguments;
-    initMenuParameters(&arguments, sortTypeChoices, sortTypeChoicesCount, sortTypeCallFunction);
-    
-    render_menu(arguments);
-    
     switch (field)
     {
         case BY_CAFEDRA_CODE:
-            if (ASCENDING == sort)
-            {
-                sortStruct(sortByCafedraCode);
-            }
-            else
-            {
-                sortStruct(sortByCafedraCodeDescending);
-            }
-            printMessage("Отсортированно по коду кафедры");
+            sortStruct(sortByCafedraCode);
             break;
         case BY_CAFEDRA_NAME:
-            if (ASCENDING == sort)
-            {
-                sortStruct(sortByCafedraName);
-            }
-            else
-            {
-                sortStruct(sortByCafedraNameDescending);
-            }
-            printMessage("Отсортированно по названию кафедры");
+            sortStruct(sortByCafedraName);
             break;
         case BY_TIME_PLANNED:
-            if (ASCENDING == sort)
-            {
-                sortStruct(sortByTimePlanned);
-            }
-            else
-            {
-                sortStruct(sortByTimePlannedDescending);
-            }
-            printMessage("Отсортированно запланированным часам");
+            sortStruct(sortByTimePlanned);
             break;
         case BY_TIME_SPENT:
-            if (ASCENDING == sort)
-            {
-                sortStruct(sortByTimeSpent);
-            }
-            else
-            {
-                sortStruct(sortByTimeSpentDescending);
-            }
-            printMessage("Отсортированно по использованным часам");
+            sortStruct(sortByTimeSpent);
             break;
         case BY_DIFFERENCE:
-            if (ASCENDING == sort)
-            {
-                sortStruct(sortByDifference);
-            }
-            else
-            {
-                sortStruct(sortByDifferenceDescending);
-            }
-            printMessage("Отсортированно по отклонению");
+            sortStruct(sortByDifference);
             break;
         default:
             printMessage("WTF!?");
             break;
     }
+    printMessage("Отсортировано по возрастанию");
+}
 
+void sortDescending(int field)
+{
+    switch (field)
+    {
+        case BY_CAFEDRA_CODE:
+            sortStruct(sortByCafedraCodeDescending);
+            break;
+        case BY_CAFEDRA_NAME:
+            sortStruct(sortByCafedraNameDescending);
+            break;
+        case BY_TIME_PLANNED:
+            sortStruct(sortByTimePlannedDescending);
+            break;
+        case BY_TIME_SPENT:
+            sortStruct(sortByTimeSpentDescending);
+            break;
+        case BY_DIFFERENCE:
+            sortStruct(sortByDifferenceDescending);
+            break;
+        default:
+            printMessage("WTF!?");
+            break;
+    }
+    printMessage("Отсортировано по убыванию");
+}
+
+void printTypeSortMenu(int field)
+{
+    sort = SORT_ABORTED;
+    MENU arguments;
+    initMenuParameters(&arguments, sortTypeChoices, sortTypeChoicesCount, sortTypeCallFunction);
+    
+    render_menu(arguments);
+    if (ASCENDING == sort)
+    {
+        sortAscending(field);
+    }
+    else if (DESCENDING == sort)
+    {
+        sortDescending(field);
+    }
 }

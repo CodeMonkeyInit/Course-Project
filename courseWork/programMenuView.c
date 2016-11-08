@@ -175,6 +175,7 @@ void printStruct()
         free(tableString);
     }
     
+    wclear(table);
     delwin(table);
     
     clear();

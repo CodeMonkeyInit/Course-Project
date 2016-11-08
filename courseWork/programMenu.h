@@ -10,9 +10,11 @@
 #include "macKeys.h"
 #include "programMenuConstants.h"
 #include "programMenuAdd.h"
-#include "programMenuSort.h"
 #include "programMenuSearch.h"
 #include "customGetInput.h"
+#include "IMachineTime.h"
+#include <stdio.h>
+
 
 typedef struct _menu
 {
@@ -25,7 +27,7 @@ typedef struct _menu
 
 extern const char *menuChoices[];
 extern const int MENU_CHOICES_COUNT;
-extern bool emergencyExit;
+extern bool exitMenu;
 
 void initMenuParameters(MENU *parameters,
                         const char *choices[] ,
@@ -42,5 +44,11 @@ void printHelp(int type);
 void call_function(int function);
 void render_menu(MENU parameters);
 void printStruct();
+
+void openFileMenu();
+
+void printSortMenu();
+
+void printTypeSortMenu(int field);
 
 #endif /* program_menu_h */

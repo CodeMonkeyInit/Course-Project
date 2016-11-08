@@ -29,6 +29,8 @@
 		07BA17161DCFD1DA008C35F5 /* programMenuSortChooseType.c in Sources */ = {isa = PBXBuildFile; fileRef = 07BA17141DCFD1DA008C35F5 /* programMenuSortChooseType.c */; };
 		07BA17191DCFDA93008C35F5 /* searchInStruct.c in Sources */ = {isa = PBXBuildFile; fileRef = 07BA17171DCFDA93008C35F5 /* searchInStruct.c */; };
 		07BA171F1DD0AA47008C35F5 /* programMenuDialog.c in Sources */ = {isa = PBXBuildFile; fileRef = 07BA171E1DD0AA47008C35F5 /* programMenuDialog.c */; };
+		07BA17221DD132AB008C35F5 /* programMenuOpenFile.c in Sources */ = {isa = PBXBuildFile; fileRef = 07BA17201DD132AB008C35F5 /* programMenuOpenFile.c */; };
+		07BA17251DD1E43D008C35F5 /* programMenuTempate.c in Sources */ = {isa = PBXBuildFile; fileRef = 07BA17241DD1E43D008C35F5 /* programMenuTempate.c */; };
 		07DCE0571DBE916D00AED055 /* sortStruct.c in Sources */ = {isa = PBXBuildFile; fileRef = 07DCE0551DBE916D00AED055 /* sortStruct.c */; };
 /* End PBXBuildFile section */
 
@@ -68,7 +70,6 @@
 		07172BF61DCF8A4A00294710 /* programMenuSearch.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuSearch.c; sourceTree = "<group>"; };
 		07172BF71DCF8A4A00294710 /* programMenuSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = programMenuSearch.h; sourceTree = "<group>"; };
 		07172BFA1DCF8A7200294710 /* programMenuSort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuSort.c; sourceTree = "<group>"; };
-		07172BFB1DCF8A7200294710 /* programMenuSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = programMenuSort.h; sourceTree = "<group>"; };
 		071E709D1DBE206F0021E64D /* customGetInput.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = customGetInput.c; sourceTree = "<group>"; };
 		071E709E1DBE206F0021E64D /* customGetInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customGetInput.h; sourceTree = "<group>"; };
 		071E70A01DBE3B5E0021E64D /* macKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macKeys.h; sourceTree = "<group>"; };
@@ -81,13 +82,12 @@
 		07B6A6AA1DB00F98004EEDB2 /* programMenuEdit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuEdit.c; sourceTree = "<group>"; };
 		07B6A6AD1DB01120004EEDB2 /* programMenuTableExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = programMenuTableExtras.h; path = courseWork/programMenuTableExtras.h; sourceTree = "<group>"; };
 		07BA17141DCFD1DA008C35F5 /* programMenuSortChooseType.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuSortChooseType.c; sourceTree = "<group>"; };
-		07BA17151DCFD1DA008C35F5 /* programMenuSortChooseType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = programMenuSortChooseType.h; sourceTree = "<group>"; };
 		07BA17171DCFDA93008C35F5 /* searchInStruct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = searchInStruct.c; sourceTree = "<group>"; };
-		07BA17181DCFDA93008C35F5 /* searchInStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = searchInStruct.h; sourceTree = "<group>"; };
 		07BA171D1DCFDB34008C35F5 /* searchStruct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = searchStruct.h; sourceTree = "<group>"; };
 		07BA171E1DD0AA47008C35F5 /* programMenuDialog.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = programMenuDialog.c; path = courseWork/programMenuDialog.c; sourceTree = "<group>"; };
+		07BA17201DD132AB008C35F5 /* programMenuOpenFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuOpenFile.c; sourceTree = "<group>"; };
+		07BA17241DD1E43D008C35F5 /* programMenuTempate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = programMenuTempate.c; path = courseWork/programMenuTempate.c; sourceTree = "<group>"; };
 		07DCE0551DBE916D00AED055 /* sortStruct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sortStruct.c; sourceTree = "<group>"; };
-		07DCE0561DBE916D00AED055 /* sortStruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sortStruct.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,8 +135,7 @@
 		0702C42F1DAFEE38006C31C3 /* programMenu */ = {
 			isa = PBXGroup;
 			children = (
-				0702C42A1DAFEE2C006C31C3 /* programMenuExtras.c */,
-				07BA171E1DD0AA47008C35F5 /* programMenuDialog.c */,
+				072FD4B41DD1E88500ACB66B /* Extras */,
 				0738FE6C1DB1483300312D03 /* main */,
 			);
 			name = programMenu;
@@ -165,9 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				07172BFA1DCF8A7200294710 /* programMenuSort.c */,
-				07172BFB1DCF8A7200294710 /* programMenuSort.h */,
 				07BA17141DCFD1DA008C35F5 /* programMenuSortChooseType.c */,
-				07BA17151DCFD1DA008C35F5 /* programMenuSortChooseType.h */,
 			);
 			name = Sort;
 			sourceTree = "<group>";
@@ -201,12 +198,23 @@
 			path = courseWork;
 			sourceTree = "<group>";
 		};
+		072FD4B41DD1E88500ACB66B /* Extras */ = {
+			isa = PBXGroup;
+			children = (
+				0702C42A1DAFEE2C006C31C3 /* programMenuExtras.c */,
+				07BA171E1DD0AA47008C35F5 /* programMenuDialog.c */,
+			);
+			name = Extras;
+			sourceTree = "<group>";
+		};
 		0738FE6C1DB1483300312D03 /* main */ = {
 			isa = PBXGroup;
 			children = (
 				070979231DCD17690086C181 /* programMenuConstants.h */,
 				0702C4281DAFEE2C006C31C3 /* programMenu.c */,
 				0702C4291DAFEE2C006C31C3 /* programMenu.h */,
+				07BA17241DD1E43D008C35F5 /* programMenuTempate.c */,
+				07BA17231DD132D9008C35F5 /* Open File */,
 				0738FE6D1DB1484000312D03 /* View and Edit */,
 				07172BFD1DCF8A7E00294710 /* Sort */,
 				07172BF91DCF8A5300294710 /* Search */,
@@ -239,7 +247,6 @@
 			isa = PBXGroup;
 			children = (
 				07DCE0551DBE916D00AED055 /* sortStruct.c */,
-				07DCE0561DBE916D00AED055 /* sortStruct.h */,
 			);
 			name = Sort;
 			sourceTree = "<group>";
@@ -248,7 +255,6 @@
 			isa = PBXGroup;
 			children = (
 				07BA171D1DCFDB34008C35F5 /* searchStruct.h */,
-				07BA17181DCFDA93008C35F5 /* searchInStruct.h */,
 				07BA17171DCFDA93008C35F5 /* searchInStruct.c */,
 			);
 			name = Search;
@@ -261,6 +267,14 @@
 				0702C4171DAFE168006C31C3 /* loadBinaryMachineTime.c */,
 			);
 			name = Load;
+			sourceTree = "<group>";
+		};
+		07BA17231DD132D9008C35F5 /* Open File */ = {
+			isa = PBXGroup;
+			children = (
+				07BA17201DD132AB008C35F5 /* programMenuOpenFile.c */,
+			);
+			name = "Open File";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -325,6 +339,7 @@
 				07BA17161DCFD1DA008C35F5 /* programMenuSortChooseType.c in Sources */,
 				073EFC9D1DAD8694003EFF93 /* machineTime.c in Sources */,
 				0702C42C1DAFEE2C006C31C3 /* programMenu.c in Sources */,
+				07BA17221DD132AB008C35F5 /* programMenuOpenFile.c in Sources */,
 				0702C4311DAFF26E006C31C3 /* programMenuView.c in Sources */,
 				07172BF81DCF8A4A00294710 /* programMenuSearch.c in Sources */,
 				0702C4151DAFDAE2006C31C3 /* saveMachineTimeStruct.c in Sources */,
@@ -339,6 +354,7 @@
 				0702C4091DAE5442006C31C3 /* customFileFunctions.c in Sources */,
 				071E709F1DBE206F0021E64D /* customGetInput.c in Sources */,
 				07172BFC1DCF8A7200294710 /* programMenuSort.c in Sources */,
+				07BA17251DD1E43D008C35F5 /* programMenuTempate.c in Sources */,
 				0702C40F1DAE5720006C31C3 /* IMachineTime.c in Sources */,
 				07235FAF1D8AB6FB00534408 /* main.c in Sources */,
 				0702C4061DAE51C6006C31C3 /* UnicodeMacOSLib.c in Sources */,

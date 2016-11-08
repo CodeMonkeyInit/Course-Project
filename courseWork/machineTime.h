@@ -15,6 +15,7 @@
 #include "UnicodeMacOSLib.h"
 #include "customFileFunctions.h"
 #include "customString.h"
+#include "searchStruct.h"
 
 #define MACHINE_FILE_HEADER "courseWork_FILE"
 #define TABLE_HEAD "\n┌──────────────────────────────────────────────────────────────────┐\n│   №│Код Кафедры│    Название Кафедры|По Плану|По Факту│Отклонения│"
@@ -38,6 +39,11 @@
 #define BEGINING 1
 #define ENDING 2
 #define EMPTY -1
+#define FILE_SAVED_SUCCESSFULY 0
+
+//SEARCH
+#define SUBSTRING_NOT_FOUND -1
+#define SEARCH_FAILED -1
 
 struct MachineTime *getMachineTimeStartingPointer();
 struct MachineTime *getTableEnd(struct MachineTime *start,long recordsCount, int mode);
@@ -49,6 +55,23 @@ int deleteRecord(struct MachineTime **record);
 struct MachineTime *createRecord(char **recordStrings);
 int parseBuffer(char *buffer,long startPosition);
 char *recordsToTable(struct MachineTime *begin, struct MachineTime *end);
-int saveFile(const char *path, int type);
+int saveFile(const char *path);
+
+//SORT
+bool sortByCafedraCode (struct MachineTime *a, struct MachineTime *b);
+bool sortByCafedraName (struct MachineTime *a, struct MachineTime *b);
+bool sortByTimePlanned (struct MachineTime *a, struct MachineTime *b);
+bool sortByTimeSpent (struct MachineTime *a, struct MachineTime *b);
+bool sortByDifference (struct MachineTime *a, struct MachineTime *b);
+bool sortByCafedraCodeDescending (struct MachineTime *a, struct MachineTime *b);
+bool sortByCafedraNameDescending (struct MachineTime *a, struct MachineTime *b);
+bool sortByTimePlannedDescending (struct MachineTime *a, struct MachineTime *b);
+bool sortByTimeSpentDescending (struct MachineTime *a, struct MachineTime *b);
+bool sortByDifferenceDescending (struct MachineTime *a, struct MachineTime *b);
+void sortStruct(bool (*sortFunction)(struct MachineTime *, struct MachineTime *));
+
+//SEARCH
+int getRecordsFound();
+MTsearch *searchInStruct(char *pattern);
 
 #endif /* machine_time_h */
