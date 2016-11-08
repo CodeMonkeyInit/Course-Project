@@ -56,6 +56,7 @@ struct MachineTime *createRecord(char **recordStrings);
 int parseBuffer(char *buffer,long startPosition);
 char *recordsToTable(struct MachineTime *begin, struct MachineTime *end);
 int saveFile(const char *path);
+void freeStructMem();
 
 //SORT
 bool sortByCafedraCode (struct MachineTime *a, struct MachineTime *b);

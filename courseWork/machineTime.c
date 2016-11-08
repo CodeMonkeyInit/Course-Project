@@ -15,12 +15,10 @@ void addRecord(struct MachineTime *record)
         machineTimeEnding -> next = record;
         machineTimeEnding = machineTimeEnding -> next;
     }
-    return;
 }
 
 struct MachineTime *createRecord(char **recordStrings)
 {
-    // TODO free mem
     struct MachineTime *newRecord = (struct MachineTime*) malloc(sizeof(struct MachineTime));
 
     strcpy(newRecord -> cafedraCode, recordStrings[CAFEDRA_CODE]);
@@ -68,4 +66,19 @@ int deleteRecord(struct MachineTime **record)
     }
     free(deleting);
     return position;
+}
+
+void freeStructMem()
+{
+    if (machineTimeBegining != NULL)
+    {
+        struct MachineTime *temp = machineTimeBegining, *deleting;
+        
+        while (NULL != temp)
+        {
+            deleting = temp;
+            temp = temp -> next;
+            free(deleting);
+        }
+    }
 }

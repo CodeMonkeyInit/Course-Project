@@ -142,6 +142,15 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		07080C1C1DD1E9DB0096A51A /* Main Menu */ = {
+			isa = PBXGroup;
+			children = (
+				0702C4281DAFEE2C006C31C3 /* programMenu.c */,
+				0702C4291DAFEE2C006C31C3 /* programMenu.h */,
+			);
+			name = "Main Menu";
+			sourceTree = "<group>";
+		};
 		070979221DCCFE020086C181 /* Add */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,9 +220,8 @@
 			isa = PBXGroup;
 			children = (
 				070979231DCD17690086C181 /* programMenuConstants.h */,
-				0702C4281DAFEE2C006C31C3 /* programMenu.c */,
-				0702C4291DAFEE2C006C31C3 /* programMenu.h */,
 				07BA17241DD1E43D008C35F5 /* programMenuTempate.c */,
+				07080C1C1DD1E9DB0096A51A /* Main Menu */,
 				07BA17231DD132D9008C35F5 /* Open File */,
 				0738FE6D1DB1484000312D03 /* View and Edit */,
 				07172BFD1DCF8A7E00294710 /* Sort */,

@@ -87,4 +87,5 @@ void startProgram()
     //TODO lastPath ini
     setExecutablePathAsWorkDir();
     startMenu();
+    freeStructMem();
 }
