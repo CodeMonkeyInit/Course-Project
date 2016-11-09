@@ -29,7 +29,7 @@
 #define BINARY_TYPE_FILE 1
 #define UNKNOWN_FILE_TYPE -1
 #define NOTHING_TO_SAVE -2
-#define RECORD_SIZE 102
+#define RECORD_SIZE 146
 #define TABLE_BOUNDRIES_SIZE 29
 #define CAFEDRA_NAME_FORMAT_LENGTH 20
 #define BUFFER_EMPTY -1
@@ -74,5 +74,6 @@ void sortStruct(bool (*sortFunction)(struct MachineTime *, struct MachineTime *)
 //SEARCH
 int getRecordsFound();
 MTsearch *searchInStruct(char *pattern);
+void freeSearchResults(MTsearch *head);
 
 #endif /* machine_time_h */

@@ -6,14 +6,15 @@
 #include <string.h>
 #include <locale.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "macKeys.h"
-#include "programMenuConstants.h"
 #include "programMenuAdd.h"
 #include "programMenuSearch.h"
 #include "customGetInput.h"
 #include "IMachineTime.h"
-#include <stdio.h>
+//CONSTANTS
 
+#include "programMenuConstants.h"
 
 typedef struct _menu
 {
@@ -49,5 +50,7 @@ void openFileMenu();
 void printSortMenu();
 
 void printTypeSortMenu(int field);
+
+void printError(WINDOW *win ,char *error);
 
 #endif /* program_menu_h */

@@ -74,7 +74,7 @@
 		071E709E1DBE206F0021E64D /* customGetInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customGetInput.h; sourceTree = "<group>"; };
 		071E70A01DBE3B5E0021E64D /* macKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = macKeys.h; sourceTree = "<group>"; };
 		07235FAB1D8AB6FB00534408 /* courseWork */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = courseWork; sourceTree = BUILT_PRODUCTS_DIR; };
-		07235FAE1D8AB6FB00534408 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		07235FAE1D8AB6FB00534408 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = main.c; path = courseWork/main.c; sourceTree = "<group>"; };
 		0738FE6E1DB2136800312D03 /* programMenuEdit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = programMenuEdit.h; sourceTree = "<group>"; };
 		0738FE6F1DB213F300312D03 /* programMenuEditRecord.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = programMenuEditRecord.c; sourceTree = "<group>"; };
 		079805C81D8D2B1D00E32B52 /* machineTime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = machineTime.c; sourceTree = "<group>"; };
@@ -183,6 +183,7 @@
 			children = (
 				07235FAC1D8AB6FB00534408 /* Products */,
 				07235FAD1D8AB6FB00534408 /* courseWork */,
+				07235FAE1D8AB6FB00534408 /* main.c */,
 			);
 			sourceTree = "<group>";
 		};
@@ -201,7 +202,6 @@
 				0702C4121DAFDA75006C31C3 /* machineTimeStruct */,
 				0702C40D1DAE5720006C31C3 /* IMachineTime.c */,
 				0702C40E1DAE5720006C31C3 /* IMachineTime.h */,
-				07235FAE1D8AB6FB00534408 /* main.c */,
 				0702C4131DAFDA9A006C31C3 /* Extras */,
 			);
 			path = courseWork;

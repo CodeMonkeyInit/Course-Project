@@ -13,12 +13,13 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 int getBlockSize();
 bool isUTF8charBeginning(char c);
 size_t utf8len(const char *s);
 bool isUnicodeMultibyteString(const char *string);
 char *formatUtf8String(char *utf8string, const size_t formatLength);
-
+bool isDigitOnly(char *string);
 
 #endif /* UnicodeMacOSLib_h */

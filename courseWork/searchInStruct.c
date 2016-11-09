@@ -8,8 +8,71 @@
 
 #include "machineTime.h"
 
+void updateSubstringPositionString(char *format ,char *pattern,char *whereToFind , int *position)
+{
+    char *tempString, *substring;
+    bool tempStringAllocked = false;
+    
+    if ( strcmp(format, "%s") )
+    {
+        tempString = malloc(sizeof(char) * 20 );
+        tempStringAllocked = true;
+        sprintf(tempString, format, whereToFind);
+    }
+    else
+    {
+        tempString = whereToFind;
+    }
+    
+    substring = strstr(tempString, pattern);
+    
+    if (NULL == substring)
+    {
+        *position = SUBSTRING_NOT_FOUND;
+    }
+    else
+    {
+        *position = (int) (substring - tempString);
+    }
+    
+    if (tempStringAllocked)
+    {
+        free(tempString);
+    }
+    
+}
+
+void updateSubstringPositionInt(char *format ,char *pattern,const int whereToFind , int *position)
+{
+    char tempString[20], *substring;
+    
+    sprintf(tempString, format, whereToFind);
+    substring = strstr(tempString, pattern);
+    
+    if (NULL == substring)
+    {
+        *position = SUBSTRING_NOT_FOUND;
+    }
+    else
+    {
+        *position = (int) (substring - tempString);
+    }
+    
+}
+
 int recordsFound;
 bool searchSuccesfull;
+
+void freeSearchResults(MTsearch *head)
+{
+    MTsearch *temp = head, *delete;
+    while(temp != NULL)
+    {
+        delete = temp;
+        temp = temp -> next;
+        free(delete);
+    }
+}
 
 int getRecordsFound()
 {
@@ -35,65 +98,12 @@ bool substringFound(SubstringPositions positions)
 SubstringPositions patternFound(struct MachineTime *record ,char *pattern)
 {
     SubstringPositions positions;
-    char timePlanned[20], timeUsed[20], timeDifference[20];
-    char *substring;
     
-    substring = strstr(record -> cafedraCode, pattern);
-    if (NULL == substring)
-    {
-        positions.cafedraCode = SUBSTRING_NOT_FOUND;
-    }
-    else
-    {
-        positions.cafedraCode = (int) (substring - record -> cafedraCode);
-    }
-    
-    substring = strstr(record -> cafedraName, pattern);
-    if (NULL == substring)
-    {
-        positions.cafedraName = SUBSTRING_NOT_FOUND;
-    }
-    else
-    {
-        positions.cafedraName = (int) (substring - record -> cafedraName);
-    }
-    //TODO needs refactor
-    sprintf(timePlanned, "%8d", record -> timeSpent.plan);
-    sprintf(timeUsed, "%8d", record -> timeSpent.realLife);
-    sprintf( timeDifference, "%10d", abs(record -> timeSpent.realLife - record -> timeSpent.plan) );
-    
-    
-    substring = strstr(timePlanned, pattern);
-    if (NULL == substring)
-    {
-        positions.timePlanned = SUBSTRING_NOT_FOUND;
-    }
-    else
-    {
-        positions.timePlanned = (int) (substring - timePlanned);
-    }
-    
-    substring = strstr(timeUsed, pattern);
-    
-    if (NULL == substring)
-    {
-        positions.timeSpent = SUBSTRING_NOT_FOUND;
-    }
-    else
-    {
-        positions.timeSpent = (int) (substring - timeUsed);
-    }
-    
-    substring = strstr(timeDifference, pattern);
-    
-    if (NULL == substring)
-    {
-        positions.timeDifference = SUBSTRING_NOT_FOUND;
-    }
-    else
-    {
-        positions.timeDifference = (int) (substring - timeDifference);
-    }
+    updateSubstringPositionString("%s", pattern, record -> cafedraName, &positions.cafedraName);
+    updateSubstringPositionString("%11.11s", pattern, record -> cafedraCode, &positions.cafedraCode);
+    updateSubstringPositionInt("%8d", pattern, record -> timeSpent.plan, &positions.timePlanned);
+    updateSubstringPositionInt("%8d", pattern, record -> timeSpent.realLife, &positions.timeSpent);
+    updateSubstringPositionInt("%10d", pattern, abs(record -> timeSpent.realLife - record -> timeSpent.plan), &positions.timeDifference);
     
     return positions;
 }
@@ -116,6 +126,7 @@ MTsearch *searchInStruct(char *pattern)
             {
                 searchTemp = start = malloc( sizeof(MTsearch) );
                 searchTemp -> previous = NULL;
+                searchTemp -> next = NULL;
             }
             else
             {
@@ -123,6 +134,7 @@ MTsearch *searchInStruct(char *pattern)
                 searchTemp -> next -> previous = searchTemp;
                 searchTemp = searchTemp -> next;
             }
+            
             searchTemp -> data = temp;
             searchTemp -> positions = positions;
             searchTemp -> next = NULL;

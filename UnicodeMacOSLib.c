@@ -15,6 +15,19 @@ int getBlockSize()
     return fileSystem.st_blksize;
 }
 
+bool isDigitOnly(char *string)
+{
+    while('\0' != *string)
+    {
+        if ( !isdigit(*string++) )
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
 bool isUnicodeMultibyteString(const char *string)
 {
     return utf8len(string) != strlen(string);

@@ -34,7 +34,7 @@ void toogleChoiceField(int field, int type)
                      currentChoice + TABLE_HEAD_SIZE,
                      CAFEDRA_CODE_TABLE_OFFSET,
                      CAFEDRA_CODE_LENGTH , type,
-                     2,
+                     MAIN_THEME_COLOR_PAIR,
                      NULL);
             break;
         case CAFEDRA_NAME:
@@ -42,7 +42,7 @@ void toogleChoiceField(int field, int type)
                      currentChoice + TABLE_HEAD_SIZE,
                      CAFEDRA_NAME_TABLE_OFFSET,
                      CAFEDRA_NAME_FORMAT_LENGTH , type,
-                     2,
+                     MAIN_THEME_COLOR_PAIR,
                      NULL);
             break;
         case TABLE_TIME_PLANNED:
@@ -50,7 +50,7 @@ void toogleChoiceField(int field, int type)
                      currentChoice + TABLE_HEAD_SIZE,
                      TIME_PLANNED_TABLE_OFFSET,
                      TIME_LENGTH , type,
-                     2,
+                     MAIN_THEME_COLOR_PAIR,
                      NULL);
             break;
         case TABLE_TIME_USED:
@@ -58,7 +58,7 @@ void toogleChoiceField(int field, int type)
                      currentChoice + TABLE_HEAD_SIZE,
                      TIME_USED_TABLE_OFFSET,
                      TIME_LENGTH , type,
-                     2,
+                     MAIN_THEME_COLOR_PAIR,
                      NULL);
             break;
         default:
@@ -69,7 +69,7 @@ void toogleChoiceField(int field, int type)
 
 void editMode()
 {
-    wattron(table,COLOR_PAIR(2));
+    wattron(table,COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
     curs_set(1);
     echo();
     char tempString[81];
@@ -126,7 +126,7 @@ void editMode()
     }
     noecho();
     somethingChanged = true;
-    wattroff(table, COLOR_PAIR(2));
+    wattroff(table, COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
     wrefresh(table);
     curs_set(0);
 }

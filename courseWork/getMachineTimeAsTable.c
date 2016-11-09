@@ -48,7 +48,6 @@ long getRecordCount(struct MachineTime *begin,struct MachineTime *end)
     {
         return 0;
     }
-    
     for (recordCount = 0;temp != end -> next ; recordCount++)
     {
         temp = temp -> next;

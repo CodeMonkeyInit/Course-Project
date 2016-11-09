@@ -68,6 +68,7 @@ int getString(WINDOW *win, int length,char *string)
         }
         else if ( KEY_ESC == key || isControlSymbol(key) )
         {
+            free(tempString);
             return INPUT_ABORTED;
         }
         else if ( MAC_BACKSPACE == key )
@@ -106,15 +107,19 @@ int getString(WINDOW *win, int length,char *string)
 
 int getNumeric(WINDOW *win, int *numberToRead ,int length)
 {
-    char temp[length * 4];
-    if ( INPUT_ABORTED == getString(win, length, temp) )
+    if (length > 0)
     {
-        return INPUT_ABORTED;
+        char temp[length * 4];
+        if ( INPUT_ABORTED == getString(win, length, temp) )
+        {
+            return INPUT_ABORTED;
+        }
+        else
+        {
+            *numberToRead = atoi(temp);
+        }
     }
-    else
-    {
-        *numberToRead = atoi(temp);
-    }
+    
     return 0;
 }
 
@@ -191,7 +196,7 @@ int windowGetInput(WINDOW *win,char *format,...)
     va_list variableArguments;
     va_start(variableArguments, format);
     
-    int inputResult;
+    int inputResult =  0;
     
     if ( WRONG_FORMAT == parseFormat(format, argument) )
     {

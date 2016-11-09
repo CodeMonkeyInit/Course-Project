@@ -17,7 +17,7 @@ int choicesNumber;
 
 void toogleChoice(int choice,int type)
 {
-    mvwchgat(table, choice + TABLE_HEAD_SIZE, 1, TABLE_CHOICE_WIDTH, type, 2, NULL);
+    mvwchgat(table, choice + TABLE_HEAD_SIZE, 1, TABLE_CHOICE_WIDTH, type, MAIN_THEME_COLOR_PAIR, NULL);
     wmove(table, 0, 0);
 }
 

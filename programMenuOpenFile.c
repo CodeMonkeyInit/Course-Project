@@ -11,7 +11,7 @@
 
 void openFileMenu()
 {
-    if ( getUserInputDialog("Введите путь у файлу", path) )
+    if ( getUserInputDialog("Введите полный путь или имя файла (.table - таблица, .bin - сжатый)", path) )
     {
         if ( FILE_LOADED == loadStruct(path) )
         {

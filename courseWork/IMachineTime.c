@@ -11,6 +11,33 @@
 
 char path[PATH_MAX];
 
+void loadPathFromSettingsFile()
+{
+    FILE *settingsFile = fopen("app.settings", "rb");
+    
+    if (NULL != settingsFile)
+    {
+        if (HEADERS_MATCH == checkFileHeader(settingsFile, MACHINE_FILE_HEADER) )
+        {
+            //get '\n'
+            fgetc(settingsFile);
+            fgets(path, sizeof(path), settingsFile);
+        }
+        fclose(settingsFile);
+    }
+}
+
+void saveFilePathToSettingsFile()
+{
+    FILE *settingsFile = fopen("app.settings", "wb");
+    
+    if (NULL != settingsFile)
+    {
+        fprintf(settingsFile, "%s\n%s", MACHINE_FILE_HEADER, path);
+        fclose(settingsFile);
+    }
+}
+
 void setExecutablePathAsWorkDir()
 {
     char executablePath[PATH_MAX];
@@ -84,8 +111,8 @@ int loadStruct(char *path)
 
 void startProgram()
 {
-    //TODO lastPath ini
     setExecutablePathAsWorkDir();
+    loadPathFromSettingsFile();
     startMenu();
     freeStructMem();
 }

@@ -8,7 +8,7 @@
 
 #include "programMenu.h"
 
-const int inputFieldOffsetX = 1;
+const int inputFieldOffsetX = 3;
 const int inputFieldOffsetY = DIALOG_HEIGHT - 5;
 
 char *userInput;
@@ -16,12 +16,17 @@ char *userInput;
 void getUserInput(WINDOW *win, int offsetY, int offsetX, bool *inputSuccess)
 {
     char format[10];
-    sprintf(format, "%%%ds", DIALOG_WIDTH - 2);
+    
+    wattron(win, A_REVERSE | A_BOLD | COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR));
+    
+    sprintf(format , "%%-%ds", INPUT_FIELD_LENGTH);
+    mvwprintw(win, offsetY, offsetX, format, " ");
     
     curs_set(1);
     echo();
-    mvwprintw(win, offsetY, offsetX, format, " ");
-    wmove(win, offsetY, offsetX);
+    wmove(win, offsetY, offsetX + 1);
+    sprintf(format , "%%-%ds", TEXT_FIELD_LENGTH);
+    
     if ( INPUT_ABORTED != windowGetInput(win, format, userInput) )
     {
         *inputSuccess = true;
@@ -30,8 +35,14 @@ void getUserInput(WINDOW *win, int offsetY, int offsetX, bool *inputSuccess)
     {
         *inputSuccess = false;
         wmove(win, inputFieldOffsetY, inputFieldOffsetX);
-        wprintw(win, "%50s", userInput);
+        wprintw(win, format, userInput);
+        
+        mvwchgat(win, inputFieldOffsetY, inputFieldOffsetX , INPUT_FIELD_LENGTH , A_REVERSE, MAIN_THEME_COLOR_PAIR, NULL);
+        wrefresh(win);
     }
+    
+    wattroff(win, A_REVERSE | A_BOLD | COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR));
+    
     curs_set(0);
     noecho();
 }
@@ -42,7 +53,9 @@ bool dialogKeypressHandeler(WINDOW *dialog, bool *inputSuccess, int *currentChoi
     
     switch (key)
     {
-        case KEY_UP:case KEY_DOWN:
+        case KEY_UP:
+        case KEY_DOWN:
+            
             if (CHOICE_OK_BUTTON == *currentChoice)
             {
                 *currentChoice = CHOICE_INPUT_FIELD;
@@ -52,7 +65,9 @@ bool dialogKeypressHandeler(WINDOW *dialog, bool *inputSuccess, int *currentChoi
                 *currentChoice = CHOICE_OK_BUTTON;
             }
             break;
+            
         case KEY_MAC_ENTER:
+            
             if ( (*currentChoice) == CHOICE_INPUT_FIELD )
             {
                 getUserInput(dialog, inputFieldOffsetY, inputFieldOffsetX, inputSuccess);
@@ -75,7 +90,7 @@ bool dialogKeypressHandeler(WINDOW *dialog, bool *inputSuccess, int *currentChoi
 
 bool getUserInputDialog(char *message, char *response)
 {
-    WINDOW *dialog;
+    WINDOW *dialog = NULL;
     int offsetX = (COLS - DIALOG_WIDTH) / 2;
     int offsetY = (LINES - DIALOG_HEIGHT) / 2;
     bool inputSuccess = false;
@@ -105,17 +120,19 @@ bool getUserInputDialog(char *message, char *response)
         
         printHelp(DIALOG_HELP);
         
-        box(dialog, 0, 0);
+        //box(dialog, 0, 0);
         wbkgd(dialog, COLOR_PAIR(2));
         mvwprintw(dialog, 3, 3, "%s", message);
         mvwprintw(dialog, buttonOffsetY, buttonOffsetX, "%s", OK_BUTTON);
         if (currentChoice == CHOICE_OK_BUTTON)
         {
-            mvwchgat(dialog, buttonOffsetY, buttonOffsetX - 2 , utf8len(OK_BUTTON) + 4 , A_REVERSE, 2, NULL);
+            mvwchgat(dialog, inputFieldOffsetY, inputFieldOffsetX , DIALOG_WIDTH - 6 , A_BOLD, ACTIVE_ELEMENT_COLOR_PAIR, NULL);
+            mvwchgat(dialog, buttonOffsetY, buttonOffsetX - 2 , utf8len(OK_BUTTON) + 4 , A_REVERSE, MAIN_THEME_COLOR_PAIR, NULL);
         }
         else
         {
-            mvwchgat(dialog, inputFieldOffsetY, inputFieldOffsetX , DIALOG_WIDTH - 2 , A_REVERSE, 2, NULL);
+            mvwchgat(dialog, inputFieldOffsetY, inputFieldOffsetX , DIALOG_WIDTH - 6 , A_REVERSE, MAIN_THEME_COLOR_PAIR, NULL);
+            mvwchgat(dialog, buttonOffsetY, buttonOffsetX - 2 , utf8len(OK_BUTTON) + 4 , A_BOLD, ACTIVE_ELEMENT_COLOR_PAIR, NULL);
         }
         
         wrefresh(dialog);
@@ -128,7 +145,7 @@ bool getUserInputDialog(char *message, char *response)
     }
     free(userInput);
     
-    wclear(dialog);
+    //wclear(dialog);
     delwin(dialog);
     clear();
     refresh();

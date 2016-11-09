@@ -45,9 +45,27 @@ bool keyWasPressed(int key)
     }
 }
 
+void printError(WINDOW *win ,char *error)
+{
+    char *clearErrorSpaceFormat = calloc ( 10, sizeof(char) );
+    
+    sprintf(clearErrorSpaceFormat, "%%%ds", COLS - 1);
+    
+    mvwprintw(win, 1, 1, clearErrorSpaceFormat , " ");
+    wmove(win, 1, 1);
+    
+    free(clearErrorSpaceFormat);
+    
+    wattron(win, COLOR_PAIR(5) | A_BOLD);
+    
+    waddstr(win, error);
+  
+    wattron(win, COLOR_PAIR(5) | A_BOLD);
+}
+
 void printHelp(int type)
 {
-    attron(COLOR_PAIR(1));
+    attron(COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR));
     switch (type)
     {
         case HELP_MENU:
@@ -63,16 +81,16 @@ void printHelp(int type)
             mvprintw(LINES - 1, 0, "Нажмите ↲ , чтобы продолжить");
             break;
         case ADD_HELP:
-            attron(COLOR_PAIR(2));
+            attron(COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
             mvprintw(LINES - 2, 1, "ESC - чтобы выйти, ↑↓ для навигации ↲ для потверждения");
-            attroff(COLOR_PAIR(2));
+            attroff(COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
             break;
         default:
             mvprintw(LINES - 1, 0, "Нажмите ↲ , чтобы продолжить help to be written...");
             break;
     }
     
-    attroff(COLOR_PAIR(1));
+    attroff(COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR));
 }
 
 void printMessage(char *message)
@@ -100,9 +118,10 @@ void printMessage(char *message)
         wbkgd(dialog, COLOR_PAIR(2));
         mvwprintw(dialog, 3, 3, "%s", message);
         mvwprintw(dialog, buttonOffsetY, buttonOffsetX, "%s", OK_BUTTON);
-        mvwchgat(dialog, buttonOffsetY, buttonOffsetX - 2 , utf8len(OK_BUTTON) + 4 , A_REVERSE, 2, NULL);
+        mvwchgat(dialog, buttonOffsetY, buttonOffsetX - 2 , utf8len(OK_BUTTON) + 4 , A_REVERSE, MAIN_THEME_COLOR_PAIR, NULL);
         
-        windowRefreshAndClear(dialog);
+        wrefresh(dialog);
+        //windowRefreshAndClear(dialog);
         delwin(dialog);
     } while ( !keyWasPressed(KEY_MAC_ENTER) );
     

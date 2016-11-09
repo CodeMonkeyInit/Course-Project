@@ -29,7 +29,7 @@ void updateSearchPointerHead()
 void colorSubstring(int startY, int startX ,char *pattern, int substingPosition)
 {
     int offsetX = startX + substingPosition - 1;
-    mvwchgat(searchResult, startY, offsetX, utf8len(pattern), A_BOLD, 3, NULL);
+    mvwchgat(searchResult, startY, offsetX, utf8len(pattern), A_BOLD, HIGHLIGHT_COLOR_PAIR, NULL);
 }
 
 void colorSearchResult(char *pattern)
@@ -151,6 +151,7 @@ void loadSearchPreviousPage()
             searchTableNeedsRefresh = true;
             
             searchResultHead = searchResultHead -> previous;
+            
             updateSearchPointerHead();
             updateSearchString();
         }
@@ -162,11 +163,14 @@ void printSearchResult(int helpType)
 {
     printHelp(helpType);
     
-    wattron(searchResult,COLOR_PAIR(2));
+    wattron( searchResult, COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) | A_BOLD | A_REVERSE );
     wprintw(searchResult, "%s", MENU_TABLE_HEAD);
+    wattroff(searchResult, COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) | A_BOLD | A_REVERSE  );
+    
+    wattron(searchResult,COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
     wprintw(searchResult, "%s", searchResultString);
     wprintw(searchResult, "%s", TABLE_BOTTOM);
-    wattroff(searchResult, COLOR_PAIR(2));
+    wattroff(searchResult, COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
     
     wrefresh(searchResult);
 }
@@ -195,7 +199,8 @@ bool searchKeypressHandler(int key)
             case KEY_DOWN:
                 if (NULL == searchResultTail)
                 {
-                    return EXIT;
+                    searchTableNeedsRefresh = false;
+                    break;
                 }
                 loadNextSearchPage();
                 break;
@@ -232,7 +237,7 @@ void printSearchResults(char *pattern)
     int offsetX = (COLS - TABLE_WIDTH) / 2,
     offsetY = ( LINES - (linesAvailable + SPACES_OTHER_THAN_TABLE) ) / 2 ;
     
-    currentPage = 0;
+    currentSearchPage = 0;
     
     searchResult = newwin(LINES,
                           TABLE_WIDTH,
@@ -258,8 +263,10 @@ void printSearchResults(char *pattern)
         free(searchResultString);
     }
     
-    wclear(searchResult);
+    freeSearchResults(searchResultPointer);
+    //wclear(searchResult);
     delwin(searchResult);
+    
     
     clear();
     refresh();

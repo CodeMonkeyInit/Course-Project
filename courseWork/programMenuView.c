@@ -22,12 +22,19 @@ bool controlsLocked;
 void printTable(int helpType)
 {
     printHelp(helpType);
-    wattron(table,COLOR_PAIR(2));
+   
+    wattron( table, COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) | A_BOLD | A_REVERSE);
     
     wprintw(table, "%s", MENU_TABLE_HEAD);
+    
+    wattroff(table, COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) | A_BOLD | A_REVERSE );
+    
+    wattron(table,COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
+    
     wprintw(table, "%s", tableString);
     wprintw(table, "%s", TABLE_BOTTOM);
-    wattroff(table, COLOR_PAIR(2));
+    
+    wattroff(table, COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
 }
 
 void loadNextPage()
@@ -140,6 +147,8 @@ void updateTable()
 
 void printStruct()
 {
+    clear();
+    refresh();
     controlsLocked = false;
     
     linesAvailable = LINES - SPACES_OTHER_THAN_TABLE;
@@ -175,7 +184,7 @@ void printStruct()
         free(tableString);
     }
     
-    wclear(table);
+    //wclear(table);
     delwin(table);
     
     clear();

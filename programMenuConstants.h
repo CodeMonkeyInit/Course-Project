@@ -9,6 +9,13 @@
 #ifndef programMenuConstants_h
 #define programMenuConstants_h
 
+//COLOR PAIRS
+#define ACTIVE_INPUT_COLOR_PAIR   1
+#define MAIN_THEME_COLOR_PAIR     2
+#define ACTIVE_ELEMENT_COLOR_PAIR 3
+#define HIGHLIGHT_COLOR_PAIR      4
+#define ERROR_COLOR_PAIR          5
+
 //MENU
 #define MENU_HEADER           0
 #define MENU_BORDERS          16
@@ -25,11 +32,15 @@
 #define DEFAULT_COLOR_PAIR    2
 
 //DIALOG
-#define DIALOG_WIDTH          50
+#define DIALOG_WIDTH          75
 #define DIALOG_HEIGHT         10
 #define OK_BUTTON             "OK"
 #define CHOICE_INPUT_FIELD    0
 #define CHOICE_OK_BUTTON      1
+#define INPUT_FIELD_MARGIN    6
+#define INPUT_FIELD_LENGTH    DIALOG_WIDTH - INPUT_FIELD_MARGIN
+#define TEXT_FIELD_MARGIN     2
+#define TEXT_FIELD_LENGTH     INPUT_FIELD_LENGTH - TEXT_FIELD_MARGIN
 
 //HELP
 #define HELP_MENU             0
@@ -54,10 +65,10 @@
 #define EXIT               true
 #define CONTINUE           false
 #define EMPTY_TABLE "\n│                      На этой странице записей нет!               │"
-#define MENU_TABLE_HEAD "┌──────────────────────────────────────────────────────────────────┐\n│   №│Код Кафедры│    Название Кафедры|По Плану|По Факту│Отклонения│"
+#define MENU_TABLE_HEAD "┌──────────────────────────────────────────────────────────────────┐\n│   №│Код Кафедры│    Название Кафедры│По Плану│По Факту│Отклонения│\n│    │           │                    │        │        │          │"
 
 //EDIT
-#define TABLE_HEAD_SIZE           2
+#define TABLE_HEAD_SIZE           3
 #define CAFEDRA_CODE_TABLE_OFFSET 6
 #define CAFEDRA_NAME_TABLE_OFFSET 18
 #define TIME_PLANNED_TABLE_OFFSET 39
@@ -80,8 +91,8 @@
 #define SORT_ABORTED 0
 
 //SEARCH
-#define SEARCH_TABLE_START       2
-#define CAFEDRA_CODE_OFFSET_X    13
+#define SEARCH_TABLE_START       3
+#define CAFEDRA_CODE_OFFSET_X    7
 #define CAFEDRA_NAME_OFFSET_X    19
 #define TIME_PLANNED_OFFSET_X    40
 #define TIME_SPENT_OFFSET_X      49

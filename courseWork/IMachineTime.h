@@ -21,9 +21,8 @@
 
 extern char path[PATH_MAX];
 
-void startMenu();
-int loadStructTable(FILE **machineTimeFile);
 int loadStruct(char * path);
 void startProgram();
+void saveFilePathToSettingsFile();
 
 #endif /* IMachineTime_h */
