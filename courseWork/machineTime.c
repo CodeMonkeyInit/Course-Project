@@ -1,10 +1,18 @@
 #include "machineTimeStruct.h"
 #include "machineTime.h"
 
-struct MachineTime *machineTimeBegining = NULL,*machineTimeEnding = NULL;
+struct MachineTime *machineTimeBegining,*machineTimeEnding;
+bool unsavedChangesExist;
+
+void initMachineTimeStruct()
+{
+    machineTimeBegining = NULL;
+    machineTimeEnding   = NULL;
+}
 
 void addRecord(struct MachineTime *record)
 {
+    unsavedChangesExist = true;
     if(NULL == machineTimeBegining)
     {
         machineTimeEnding = machineTimeBegining = record;
@@ -65,14 +73,17 @@ int deleteRecord(struct MachineTime **record)
         position = MIDDLE;
     }
     free(deleting);
+    
+    unsavedChangesExist = true;
+    
     return position;
 }
 
-void freeStructMem()
+void freeStructMem(struct MachineTime *begining)
 {
-    if (machineTimeBegining != NULL)
+    if (begining != NULL)
     {
-        struct MachineTime *temp = machineTimeBegining, *deleting;
+        struct MachineTime *temp = begining, *deleting;
         
         while (NULL != temp)
         {

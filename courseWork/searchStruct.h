@@ -1,11 +1,3 @@
-//
-//  searchStruct.h
-//  courseWork
-//
-//  Created by Денис Кулиев on 07.11.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #ifndef searchStruct_h
 #define searchStruct_h
 

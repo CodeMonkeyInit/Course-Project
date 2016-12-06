@@ -1,11 +1,3 @@
-//
-//  loadTableMachineTime.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 13.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "machineTime.h"
 
 char *loadToBuffer(FILE *file)
@@ -31,6 +23,7 @@ char *loadToBuffer(FILE *file)
 
 int parseMachineTimeRecord(char *record)
 {
+    //TODO переписать используz strstr
     const int OTHER_FIELDS_SIZE = 38,
     CAFEDRA_CODE_START = 16,
     CAFEDRA_CODE_END = 21,

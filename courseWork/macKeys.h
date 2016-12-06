@@ -1,11 +1,3 @@
-//
-//  macKeys.h
-//  courseWork
-//
-//  Created by Денис Кулиев on 24.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #ifndef macKeys_h
 #define macKeys_h
 

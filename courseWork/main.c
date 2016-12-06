@@ -1,7 +1,5 @@
-#include "IMachineTime.h"
-//TODO fix blinking when exiting from editMenu by disabling atribute instead of refreshing whole table if possible
-
+#include "MachineTimeController.h"
 int main(int argc, char **argv)
 {
-   startProgram();
+    startProgram();
 }

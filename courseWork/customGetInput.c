@@ -1,11 +1,3 @@
-//
-//  customGetInput.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 24.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "customGetInput.h"
 
 void tabToSpace(char * string)
@@ -54,28 +46,26 @@ int getString(WINDOW *win, int length,char *string)
     for (i = 0; i < utfLength ; i++)
     {
         key = wgetch(win);
-
+        
         tempString[i] = key;
-        if (KEY_MAC_ENTER == key)
+        if ( KEY_ESC == key )
+        {
+            free(tempString);
+            return INPUT_ABORTED;
+        }
+        else if ( KEY_MAC_ENTER == key || isControlSymbol(key) )
         {
             break;
         }
         else if ( ' ' == key)
         {
-            deleteCharacter(win, 1);
             i--;
             continue;
-        }
-        else if ( KEY_ESC == key || isControlSymbol(key) )
-        {
-            free(tempString);
-            return INPUT_ABORTED;
         }
         else if ( MAC_BACKSPACE == key )
         {
             if (i == 0)
             {
-                deleteCharacter(win, BACKSPACE_ONLY);
                 i--;
                 continue;
             }
@@ -86,17 +76,18 @@ int getString(WINDOW *win, int length,char *string)
             {
                 i--;
             }
-            deleteCharacter(win, BACKSPACE_AND_CHARACTER);
+            deleteCharacter(win, CHARACTER);
             continue;
         }
         if ( isUTF8charBeginning(key) )
         {
             utfCurrentLength++;
-            if (utfCurrentLength > length - 1)
+            if (utfCurrentLength > length)
             {
                 break;
             }
         }
+        waddch(win, key);
     }
     tempString[i] = '\0';
     strcpy(string, tempString);
@@ -142,10 +133,11 @@ int getType(char c)
 
 int parseFormat(const char *format, int *argument)
 {
+    const int FORMAT_MINIMAL_LENGTH = 2;
     int formatLength = (int) strlen(format);
     int i = 0;
     
-    if (formatLength < 2)
+    if (formatLength < FORMAT_MINIMAL_LENGTH)
     {
         return WRONG_FORMAT;
     }

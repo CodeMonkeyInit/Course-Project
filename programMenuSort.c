@@ -1,11 +1,3 @@
-//
-//  programMenuSort.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 06.11.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "programMenu.h"
 
 const char *sortChoices[] =

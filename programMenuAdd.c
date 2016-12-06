@@ -1,17 +1,11 @@
-//
-//  programMenuAdd.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 04.11.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "programMenuAdd.h"
 
 int currentChoiceAdd;
 WINDOW *add;
 int addLines;
 int addCols;
+int middlePositionX;
+int middlePositionY;
 char **recordStrings;
 
 const char *fields[] =
@@ -92,8 +86,8 @@ void toogleAddChoice(int type, int size)
         offsetX = size;
     }
     mvwchgat(add,
-             addLines / 4 + currentChoiceAdd,
-             addCols / 4 + offsetX,
+             middlePositionY + currentChoiceAdd,
+             middlePositionX + offsetX,
              size,
              type,
              MAIN_THEME_COLOR_PAIR,
@@ -104,20 +98,18 @@ void inputData()
 {
     char formatString[10];
     bool strictInput = false;
-    echo();
     curs_set(1);
     switch (currentChoiceAdd)
     {
         case CAFEDRA_CODE_CHOICE:
-            //баг с русскими сиволами
-            strcpy(formatString, "%-6s");
+            strcpy(formatString, "%-5s");
             strictInput = true;
             break;
         case CAFEDRA_NAME_CHOICE:
             strcpy(formatString, "%-20s");
             break;
         case TIME_PLANNED_CHOICE: case TIME_USED_CHOICE:
-            strcpy(formatString, "%-9s");
+            strcpy(formatString, "%-8s");
             break;
         default:
             return;
@@ -127,10 +119,10 @@ void inputData()
     wattron(add, A_REVERSE | A_BOLD | COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) );
     
     mvwprintw(add,
-              addLines / 4 + currentChoiceAdd,
-              addCols / 4 + NORMAL_CHOICE_SIZE,
+              middlePositionY + currentChoiceAdd,
+              middlePositionX + NORMAL_CHOICE_SIZE,
               "%25s", " ");
-    wmove(add, addLines / 4 + currentChoiceAdd, addCols / 4 + NORMAL_CHOICE_SIZE);
+    wmove(add, middlePositionY + currentChoiceAdd, middlePositionX + NORMAL_CHOICE_SIZE);
     
     if ( INPUT_ABORTED == windowGetInput(add, formatString, recordStrings[currentChoiceAdd]) || strictInput )
     {
@@ -142,8 +134,8 @@ void inputData()
             strcpy(recordStrings[currentChoiceAdd], "");
         }
         mvwprintw(add,
-                  addLines / 4 + currentChoiceAdd ,
-                  addCols / 4 + NORMAL_CHOICE_SIZE,
+                  middlePositionY + currentChoiceAdd ,
+                  middlePositionX + NORMAL_CHOICE_SIZE,
                   formatString,
                   recordStrings[currentChoiceAdd]);
     }
@@ -152,7 +144,6 @@ void inputData()
         wattroff(add, A_REVERSE | A_BOLD | COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) );
     }
     
-    noecho();
     curs_set(0);
 }
 
@@ -170,30 +161,33 @@ int addKeypressHandler(int key)
     switch (key)
     {
         case KEY_UP:
+            
             if (currentChoiceAdd > 0)
             {
                 currentChoiceAdd--;
             }
             else
             {
-                return CONTINUE;
+                break;
             }
             break;
+            
         case KEY_DOWN:
+            
             if (currentChoiceAdd < FIELD_COUNT)
             {
                 currentChoiceAdd++;
-                if (currentChoiceAdd == FIELD_COUNT)
-                {
-                    toogleAddChoice(A_REVERSE, ADD_BUTTON_SIZE);
-                }
+                
             }
-            else
+            
+            if (currentChoiceAdd == FIELD_COUNT)
             {
-                return CONTINUE;
+                toogleAddChoice(A_REVERSE, ADD_BUTTON_SIZE);
             }
             break;
+            
         case KEY_MAC_ENTER:
+            
             if (FIELD_COUNT == currentChoiceAdd)
             {
                 if ( inputCorrect() )
@@ -204,9 +198,12 @@ int addKeypressHandler(int key)
             }
             inputData();
             break;
+            
         case KEY_ESC:
+            
             return EXIT;
             break;
+            
         default:
             break;
     }
@@ -217,26 +214,30 @@ int addKeypressHandler(int key)
 
 void addNewMTRecord()
 {
+    const int MAX_LINES = FIELD_COUNT + 1;
+    const int FIELD_MAX_LENGTH = 51;
+    
     bool exit = false;
     addLines = LINES;
     addCols  = COLS;
     add = newwin(addLines, addCols, 0, 0);
     currentChoiceAdd = 0;
     
-    wbkgd(add, COLOR_PAIR(2));
+    middlePositionX = (addCols - FIELD_MAX_LENGTH) / 2;
+    middlePositionY = (addLines - MAX_LINES) / 2;
+    
+    wbkgd(add, COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
     
     for (int i = 0; i < FIELD_COUNT; i++)
     {
-        wmove(add, addLines / 4 + i, addCols / 4);
+        wmove(add, middlePositionY + i, middlePositionX);
         wprintw(add, "%s\n", fields[i]);
     }
-    wmove(add, addLines / 4 + FIELD_COUNT, addCols / 4);
+    wmove(add, middlePositionY + FIELD_COUNT, middlePositionX);
     wprintw(add, "%s\n", "                    ДОБАВИТЬ                         ");
     
     toogleAddChoice(A_REVERSE, NORMAL_CHOICE_SIZE);
-    //box(add, 0, 0);
-    printHelp(ADD_HELP);
-    //wrefresh(add);
+    printHelp(stdscr, ADD_HELP);
     
     recordStringsAllock();
     
@@ -259,7 +260,7 @@ void addNewMTRecord()
     }
     //windowRefreshAndClear(add);
     clear();
-    refresh();
+    //refresh();
     delwin(add);
     
     freeArrayOfStrings(recordStrings, FIELD_COUNT);

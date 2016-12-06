@@ -7,11 +7,13 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
+
 #include "macKeys.h"
 #include "programMenuAdd.h"
 #include "programMenuSearch.h"
 #include "customGetInput.h"
-#include "IMachineTime.h"
+#include "MachineTimeController.h"
 //CONSTANTS
 
 #include "programMenuConstants.h"
@@ -36,11 +38,11 @@ void initMenuParameters(MENU *parameters,
 int getStringMiddlePostition(const char *string, const int width);
 void windowRefreshAndClear(WINDOW *window);
 bool refreshIfNeeded();
-bool keyWasPressed(int key);
+bool keyWasPressed(WINDOW *win, int key);
 void printMessage(char *messageString);
 bool getUserInputDialog(char *message, char *response);
 void init_menu();
-void printHelp(int type);
+void printHelp(WINDOW *win, int type);
 void call_function(int function);
 void render_menu(MENU parameters);
 void printStruct();
@@ -49,8 +51,12 @@ void openFileMenu();
 
 void printSortMenu();
 
+void searchFunction();
+
 void printTypeSortMenu(int field);
 
 void printError(WINDOW *win ,char *error);
+
+void summaryMenu();
 
 #endif /* program_menu_h */

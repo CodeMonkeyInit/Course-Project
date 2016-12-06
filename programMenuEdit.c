@@ -1,57 +1,22 @@
-//
-//  programMenuEdit.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 13.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
+#include "programMenu.h"
+#include "machineTimeStruct.h"
+#include "programMenuEditTemplate.h"
 
-#include "programMenuEdit.h"
-
-int currentChoice;
-int currentField;
-struct MachineTime *currentChoicePointer;
-bool somethingDeleted;
-
-int choicesNumber;
-
-void toogleChoice(int choice,int type)
+void *getNextMachineTimeRecord(void *current)
 {
-    mvwchgat(table, choice + TABLE_HEAD_SIZE, 1, TABLE_CHOICE_WIDTH, type, MAIN_THEME_COLOR_PAIR, NULL);
-    wmove(table, 0, 0);
+    return ((struct MachineTime *) current) -> next;
 }
 
-void moveCursorDown()
+void *getPreviousMachineTimeRecord(void *current)
 {
-    if ( currentChoice >= choicesNumber)
-    {
-        currentChoice = choicesNumber;
-    }
-    else
-    {
-        toogleChoice(currentChoice,A_NORMAL);
-        currentChoicePointer = currentChoicePointer -> next;
-        currentChoice++;
-    }
+    return ((struct MachineTime *) current) -> previous;
 }
 
-void moveCursorUp()
-{
-    if (currentChoice <= 0)
-    {
-        currentChoice = 0;
-    }
-    else
-    {
-        toogleChoice(currentChoice,A_NORMAL);
-        currentChoicePointer = currentChoicePointer -> previous;
-        currentChoice--;
-    }
-}
-
-bool deleteSelected()
+bool deleteSelectedRecord()
 {
     int currentChoicesNumber;
+    int linesAvailable = LINES - SPACES_OTHER_THAN_TABLE;
+    
     if ( start == end )
     {
         start = end = NULL;
@@ -61,7 +26,7 @@ bool deleteSelected()
         start = start -> next;
     }
 
-    switch ( deleteRecord(&currentChoicePointer) )
+    switch ( deleteRecord((struct MachineTime **)&currentChoicePointer) )
     {
         case ENDING:
             currentChoice--;
@@ -72,7 +37,7 @@ bool deleteSelected()
         default:
             break;
     }
-    end = getTableEnd(start, LINES - 6 , GET_NORMAL);
+    end = getTableEnd(start, linesAvailable , GET_NORMAL);
     currentChoicesNumber = (int) getRecordCount(start, end) - 1;
     if ( currentChoicesNumber != choicesNumber )
     {
@@ -83,56 +48,27 @@ bool deleteSelected()
     return CONTINUE;
 }
 
-bool editKeypressHandler(int key)
+void printEditTable(int helpType)
 {
-    switch (key)
-    {
-        case KEY_DOWN:
-            moveCursorDown();
-            break;
-        case KEY_UP:
-            moveCursorUp();
-            break;
-        case KEY_MAC_ENTER:
-            editRecord();
-            break;
-        case MAC_BACKSPACE:
-            return deleteSelected();
-            break;
-        case KEY_ESC:
-            return EXIT;
-            break;
-        default:
-            break;
-    }
-    return CONTINUE;
+    updateTable();
+    printTable(helpType);
 }
 
-void editStruct(int linesAvailable)
+struct MachineTime *getCurrentEditChoiceRecord(void *choice)
 {
-    currentChoice = 0;
-    currentChoicePointer = start;
-    choicesNumber = (int) getRecordCount(start, end) - 1;
-    somethingDeleted = false;
-    
-    do
-    {
-        if (controlsLocked)
-        {
-            break;
-        }
-        
-        if (somethingDeleted)
-        {
-            wclear(table);
-            somethingDeleted = false;
-        }
-        
-        printTable(HELP_EDIT_MODE);
-        toogleChoice(currentChoice, A_REVERSE);
-        wrefresh(table);
-    
-    } while (editKeypressHandler( getch() ) != EXIT);
-    
-    toogleChoice(currentChoice, A_NORMAL);
+    return (struct MachineTime*) choice;
 }
+
+void editMachineTimeStruct()
+{
+    choicesNumber = (int) getRecordCount(start, end) - 1;
+    EditArguments arguments = initEditStructArguments(getNextMachineTimeRecord,
+                                                      getPreviousMachineTimeRecord,
+                                                      deleteSelectedRecord,
+                                                      printEditTable,
+                                                      getCurrentEditChoiceRecord,
+                                                      choicesNumber,
+                                                      start);
+    editStruct(table, arguments);
+}
+

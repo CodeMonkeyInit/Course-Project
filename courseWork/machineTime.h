@@ -1,11 +1,3 @@
-//
-//  machine_time.h
-//  courseWork
-//
-//  Created by Денис Кулиев on 17.09.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #ifndef machine_time_h
 #define machine_time_h
 
@@ -16,10 +8,11 @@
 #include "customFileFunctions.h"
 #include "customString.h"
 #include "searchStruct.h"
+#include "machineTimeSummaryStruct.h"
 
 #define MACHINE_FILE_HEADER "courseWork_FILE"
-#define TABLE_HEAD "\n┌──────────────────────────────────────────────────────────────────┐\n│   №│Код Кафедры│    Название Кафедры|По Плану|По Факту│Отклонения│"
-#define TABLE_BOTTOM "\n└──────────────────────────────────────────────────────────────────┘"
+#define TABLE_HEAD "\n┌──────────────────────────────────────────────────────────────────┐\n│   №│Код Кафедры│    Название Кафедры│По Плану│По Факту│Отклонения│\n├────┼───────────┼────────────────────┼────────┼────────┼──────────┤"
+#define TABLE_BOTTOM "\n└────┴───────────┴────────────────────┴────────┴────────┴──────────┘"
 #define CAFEDRA_CODE 0
 #define CAFEDRA_NAME 1
 #define TIME_USED 2
@@ -29,6 +22,7 @@
 #define BINARY_TYPE_FILE 1
 #define UNKNOWN_FILE_TYPE -1
 #define NOTHING_TO_SAVE -2
+#define BACKUP_FILE_CANNOT_BE_SAVED_MANUALY -3
 #define RECORD_SIZE 146
 #define TABLE_BOUNDRIES_SIZE 29
 #define CAFEDRA_NAME_FORMAT_LENGTH 20
@@ -45,6 +39,12 @@
 #define SUBSTRING_NOT_FOUND -1
 #define SEARCH_FAILED -1
 
+//VARIABLES
+extern bool unsavedChangesExist;
+
+//Struct
+void initMachineTimeStruct();
+
 struct MachineTime *getMachineTimeStartingPointer();
 struct MachineTime *getTableEnd(struct MachineTime *start,long recordsCount, int mode);
 long getRecordCount(struct MachineTime *begin,struct MachineTime *end);
@@ -55,8 +55,8 @@ int deleteRecord(struct MachineTime **record);
 struct MachineTime *createRecord(char **recordStrings);
 int parseBuffer(char *buffer,long startPosition);
 char *recordsToTable(struct MachineTime *begin, struct MachineTime *end);
-int saveFile(const char *path);
-void freeStructMem();
+int saveFile(const char *path, bool calledByUser);
+void freeStructMem(struct MachineTime *begining);
 
 //SORT
 bool sortByCafedraCode (struct MachineTime *a, struct MachineTime *b);
@@ -75,5 +75,8 @@ void sortStruct(bool (*sortFunction)(struct MachineTime *, struct MachineTime *)
 int getRecordsFound();
 MTsearch *searchInStruct(char *pattern);
 void freeSearchResults(MTsearch *head);
+
+//SUMMARY
+MTSummary getMTSummary();
 
 #endif /* machine_time_h */

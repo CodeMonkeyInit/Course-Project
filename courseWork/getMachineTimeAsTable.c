@@ -1,11 +1,3 @@
-//
-//  getMachineTimeAsTable.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 13.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "machineTime.h"
 #include "machineTimeStruct.h"
 

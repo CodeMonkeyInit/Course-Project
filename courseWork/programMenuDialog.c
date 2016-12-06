@@ -1,11 +1,3 @@
-//
-//  programMenuDialog.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 07.11.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "programMenu.h"
 
 const int inputFieldOffsetX = 3;
@@ -23,7 +15,6 @@ void getUserInput(WINDOW *win, int offsetY, int offsetX, bool *inputSuccess)
     mvwprintw(win, offsetY, offsetX, format, " ");
     
     curs_set(1);
-    echo();
     wmove(win, offsetY, offsetX + 1);
     sprintf(format , "%%-%ds", TEXT_FIELD_LENGTH);
     
@@ -44,7 +35,6 @@ void getUserInput(WINDOW *win, int offsetY, int offsetX, bool *inputSuccess)
     wattroff(win, A_REVERSE | A_BOLD | COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR));
     
     curs_set(0);
-    noecho();
 }
 
 bool dialogKeypressHandeler(WINDOW *dialog, bool *inputSuccess, int *currentChoice)
@@ -79,7 +69,7 @@ bool dialogKeypressHandeler(WINDOW *dialog, bool *inputSuccess, int *currentChoi
             }
             break;
         case KEY_ESC:
-            inputSuccess = false;
+            *inputSuccess = false;
             return EXIT;
             break;
         default:
@@ -118,9 +108,8 @@ bool getUserInputDialog(char *message, char *response)
         int buttonOffsetX = getStringMiddlePostition(OK_BUTTON, DIALOG_WIDTH);
         int buttonOffsetY = DIALOG_HEIGHT - 3;
         
-        printHelp(DIALOG_HELP);
+        printHelp(stdscr, DIALOG_HELP);
         
-        //box(dialog, 0, 0);
         wbkgd(dialog, COLOR_PAIR(2));
         mvwprintw(dialog, 3, 3, "%s", message);
         mvwprintw(dialog, buttonOffsetY, buttonOffsetX, "%s", OK_BUTTON);
@@ -144,10 +133,7 @@ bool getUserInputDialog(char *message, char *response)
         strcpy(response, userInput);
     }
     free(userInput);
-    
-    //wclear(dialog);
     delwin(dialog);
     clear();
-    refresh();
     return inputSuccess;
 }

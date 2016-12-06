@@ -1,20 +1,81 @@
-//
-//  programMenuSearch.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 06.11.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "programMenuSearch.h"
 #include "searchStruct.h"
+#include "programMenuSearchShared.h"
 
 WINDOW *searchResult;
 char *searchResultString;
+int choicesAvailable;
 MTsearch *searchResultHead, *searchResultTail, *searchResultPointer;
-bool searchTableNeedsRefresh, searchControlsLocked;
+bool searchTableNeedsRefresh, searchControlsLocked, searchPageClear;
 
 int currentSearchPage;
+int searchResultsOnscreen;
+
+int getPrintableResultsCount(int linesAvailble)
+{
+    MTsearch *temp = searchResultHead;
+    int resultsCount = 0;
+    
+    while ( (temp != NULL) && (resultsCount < linesAvailble) )
+    {
+        temp = temp -> next;
+        resultsCount++;
+    }
+    return resultsCount;
+}
+
+int deleteSearchResult(MTsearch **record)
+{
+    int position;
+    MTsearch *deleting = *record,
+             *previous = deleting -> previous,
+             *next = deleting -> next;
+    
+    if ( (NULL == previous) && (NULL == next) )
+    {
+        searchResultPointer = searchResultHead = searchResultTail = *record = NULL;
+        position = EMPTY;
+    }
+    else if (NULL == next)
+    {
+        //конец
+        
+        //и если результаты поиска пусты
+        if (searchResultTail == searchResultHead)
+        {
+            searchPageClear = true;
+            searchResultHead = NULL;
+        }
+        *record = previous;
+        previous -> next = NULL;
+        position = ENDING;
+    }
+    else if (NULL == previous)
+    {
+        //начало
+        searchResultPointer = searchResultHead = *record = next;
+        next -> previous = NULL;
+        position = BEGINING;
+    }
+    else
+    {
+        //середина
+        if (searchResultHead == *record)
+        {
+            searchResultHead = searchResultHead -> next;
+        }
+        *record = next;
+        next -> previous = previous;
+        previous -> next = next;
+        position = MIDDLE;
+    }
+    free(deleting);
+    
+    deleting = NULL;
+    
+    return position;
+}
+
 
 void updateSearchPointerHead()
 {
@@ -26,6 +87,7 @@ void updateSearchPointerHead()
         i++;
     }
 }
+
 void colorSubstring(int startY, int startX ,char *pattern, int substingPosition)
 {
     int offsetX = startX + substingPosition - 1;
@@ -78,26 +140,26 @@ void updateSearchString()
     int recordsFound = getRecordsFound();
     int linesAvailable = LINES - SPACES_OTHER_THAN_TABLE;
     int i = 0;
+    searchResultsOnscreen = getPrintableResultsCount(linesAvailable);
     
-    if ( (EMPTY_SEARCH != searchResultString) && (NULL != searchResultString) )
+    if (NULL != searchResultString)
     {
         free(searchResultString);
     }
     
-    if ( SEARCH_FAILED == recordsFound || (0 == recordsFound) )
+    if ( SEARCH_FAILED == recordsFound || (0 == recordsFound) ||  (0 == searchResultsOnscreen) )
     {
-        searchResultString = EMPTY_SEARCH;
+        searchControlsLocked = true;
+        searchResultString = malloc( sizeof(char) * strlen(EMPTY_SEARCH) + 1);
+        strcpy(searchResultString, EMPTY_SEARCH);
+        return;
     }
     else
     {
-        if (recordsFound > linesAvailable)
-        {
-            recordsFound = linesAvailable;
-        }
-        searchResultString = calloc( recordsFound * RECORD_SIZE, sizeof(char) );
+        searchResultString = calloc( searchResultsOnscreen * RECORD_SIZE, sizeof(char) );
     }
     
-    while ( (NULL != temp) && (i < linesAvailable) )
+    while ( (NULL != temp) && (i < searchResultsOnscreen) )
     {
         char *tempTableString = recordsToTable(temp -> data, temp -> data);
         strcat(searchResultString, tempTableString);
@@ -106,6 +168,8 @@ void updateSearchString()
         temp = temp -> next;
         i++;
     }
+    
+    choicesAvailable = i - 1;
 }
 
 void loadNextSearchPage()
@@ -150,19 +214,19 @@ void loadSearchPreviousPage()
             currentSearchPage--;
             searchTableNeedsRefresh = true;
             
-            searchResultHead = searchResultHead -> previous;
-            
             updateSearchPointerHead();
             updateSearchString();
         }
-        
     }
 }
 
-void printSearchResult(int helpType)
+void printSearchResultTable(int helpType)
 {
-    printHelp(helpType);
+    printHelp(stdscr, helpType);
     
+    printCurrentPageNumber(currentSearchPage);
+    
+    wmove(searchResult, 0, 0);
     wattron( searchResult, COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) | A_BOLD | A_REVERSE );
     wprintw(searchResult, "%s", MENU_TABLE_HEAD);
     wattroff(searchResult, COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) | A_BOLD | A_REVERSE  );
@@ -171,8 +235,6 @@ void printSearchResult(int helpType)
     wprintw(searchResult, "%s", searchResultString);
     wprintw(searchResult, "%s", TABLE_BOTTOM);
     wattroff(searchResult, COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
-    
-    wrefresh(searchResult);
 }
 
 bool searchKeypressHandler(int key)
@@ -208,11 +270,9 @@ bool searchKeypressHandler(int key)
                 loadSearchPreviousPage();
                 break;
             case KEY_MAC_ENTER:
-//TODO EditSearchResults
-//                editStruct();
-//                searchTableNeedsRefresh = true;
-//                clear();
-//                refresh();
+                editSearchResults(LINES - SPACES_OTHER_THAN_TABLE);
+                updateSearchString();
+                searchTableNeedsRefresh = true;
                 break;
             case KEY_ESC:
                 return EXIT;
@@ -226,11 +286,15 @@ bool searchKeypressHandler(int key)
 
 void printSearchResults(char *pattern)
 {
+    int previousPageSearchReultsCount = searchResultsOnscreen;
+    refresh();
     searchControlsLocked = false;
     searchTableNeedsRefresh = true;
+    searchResultTail = NULL;
+    searchResultString = NULL;
+    choicesAvailable = 0;
     
     searchResultPointer = searchResultHead = searchInStruct(pattern);
-    searchResultTail = NULL;
     
     int linesAvailable = LINES - SPACES_OTHER_THAN_TABLE;
     
@@ -243,7 +307,6 @@ void printSearchResults(char *pattern)
                           TABLE_WIDTH,
                           offsetY,
                           offsetX);
-    searchResultString = NULL;
     
     updateSearchString();
     
@@ -251,23 +314,22 @@ void printSearchResults(char *pattern)
     {
         if (searchTableNeedsRefresh)
         {
-            printSearchResult(HELP_TABLE);
+            if (previousPageSearchReultsCount != searchResultsOnscreen)
+            {
+                wclear(searchResult);
+                previousPageSearchReultsCount = searchResultsOnscreen;
+            }
+            printSearchResultTable(SEARCH_HELP);
             colorSearchResult(pattern);
-            windowRefreshAndClear(searchResult);
+            wrefresh(searchResult);
             searchTableNeedsRefresh = false;
         }
     } while ( EXIT != searchKeypressHandler( getch() ) );
-    
-    if (EMPTY_SEARCH != searchResultString)
-    {
-        free(searchResultString);
-    }
+
+    free(searchResultString);
     
     freeSearchResults(searchResultPointer);
-    //wclear(searchResult);
     delwin(searchResult);
     
-    
     clear();
-    refresh();
 }

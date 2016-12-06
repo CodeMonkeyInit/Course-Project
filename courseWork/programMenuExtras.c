@@ -1,10 +1,3 @@
-//
-//  programMenuExtras.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 13.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
 #include "programMenu.h"
 
 int _nCols,
@@ -33,9 +26,9 @@ bool refreshIfNeeded()
     }
 }
 
-bool keyWasPressed(int key)
+bool keyWasPressed(WINDOW *win, int key)
 {
-    if( key == getch() )
+    if( key == wgetch(win) )
     {
         return  true;
     }
@@ -47,7 +40,8 @@ bool keyWasPressed(int key)
 
 void printError(WINDOW *win ,char *error)
 {
-    char *clearErrorSpaceFormat = calloc ( 10, sizeof(char) );
+    const int FORMAT_MAX_LENGTH = 40;
+    char *clearErrorSpaceFormat = calloc ( FORMAT_MAX_LENGTH, sizeof(char) );
     
     sprintf(clearErrorSpaceFormat, "%%%ds", COLS - 1);
     
@@ -63,51 +57,71 @@ void printError(WINDOW *win ,char *error)
     wattron(win, COLOR_PAIR(5) | A_BOLD);
 }
 
-void printHelp(int type)
+void printHelp(WINDOW *win, int type)
 {
     attron(COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR));
+    
+    mvwprintw(win, LINES - 2, 0, "%80s", " ");
     switch (type)
     {
         case HELP_MENU:
-            mvprintw(LINES - 1, 0, "ESC - чтобы выйти без сохранения, ↑↓ для навигации ↲ для потверждения выбора");
+            
+            mvwprintw(win, LINES - 1, 0, "ESC - чтобы выйти без сохранения, ↑↓ для навигации ↲ для потверждения выбора");
             break;
+            
         case HELP_TABLE:
-            mvprintw(LINES - 1, 0, "ESC чтобы вернутся в меню, ↑↓ смена страниц  ↲ режим редактирования");
+            
+            mvwprintw(win, LINES - 2, 1, "ESC чтобы вернутся в меню, ↑↓ смена страниц  ↲ режим редактирования");
+            mvwprintw(win, LINES - 1, 1, "F5 поиск F8 сортировка");
             break;
+            
         case HELP_EDIT_MODE:
-            mvprintw(LINES - 1, 0, "ESC чтобы вернутся, ↑↓ движение вверх/вниз ↲ редактировать ← удалить запись");
+            
+            mvwprintw(win, LINES - 2, 1, "ESC чтобы вернутся, ↑↓ движение вверх/вниз ↲ редактировать ← удалить запись");
             break;
+            
         case MESSAGE_HELP:
-            mvprintw(LINES - 1, 0, "Нажмите ↲ , чтобы продолжить");
+            
+            mvwprintw(win, LINES - 2, 1, "Нажмите ↲ , чтобы продолжить");
             break;
+            
         case ADD_HELP:
+            
             attron(COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
-            mvprintw(LINES - 2, 1, "ESC - чтобы выйти, ↑↓ для навигации ↲ для потверждения");
+            mvwprintw(win, LINES - 2, 0, "%80s", " ");
+            mvwprintw(win, LINES - 2, 1, "ESC - чтобы выйти, ↑↓ для навигации ↲ для потверждения");
             attroff(COLOR_PAIR(MAIN_THEME_COLOR_PAIR));
             break;
+            
+        case DIALOG_HELP:
+            
+            mvwprintw(win, LINES - 1, 0, "ESC - чтобы вернуться, ↑↓ для навигации ↲ для потверждения выбора");
+            break;
+            
+        case SEARCH_HELP:
+            
+            mvwprintw(win, LINES - 2, 1, "ESC чтобы вернутся в меню, ↑↓ смена страниц  ↲ режим редактирования");
+            break;
+        
         default:
-            mvprintw(LINES - 1, 0, "Нажмите ↲ , чтобы продолжить help to be written...");
+            mvwprintw(win, LINES - 2, 1, "Нажмите ↲  или esc (если ↲ не работает), чтобы продолжить help to be written...");
             break;
     }
-    
     attroff(COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR));
 }
 
 void printMessage(char *message)
 {
+    WINDOW *dialog;
     clear();
-    refresh();
     
     do
     {
-        WINDOW *dialog;
         int offsetX = (COLS - DIALOG_WIDTH) / 2,
         offsetY = (LINES - DIALOG_HEIGHT) / 2;
         int buttonOffsetX = getStringMiddlePostition(OK_BUTTON, DIALOG_WIDTH),
             buttonOffsetY = DIALOG_HEIGHT - 3;
         refreshIfNeeded();
-        
-        printHelp(MESSAGE_HELP);
         
         dialog = newwin(DIALOG_HEIGHT,
                         DIALOG_WIDTH,
@@ -120,13 +134,14 @@ void printMessage(char *message)
         mvwprintw(dialog, buttonOffsetY, buttonOffsetX, "%s", OK_BUTTON);
         mvwchgat(dialog, buttonOffsetY, buttonOffsetX - 2 , utf8len(OK_BUTTON) + 4 , A_REVERSE, MAIN_THEME_COLOR_PAIR, NULL);
         
+        printHelp(stdscr, MESSAGE_HELP);
+        refresh();
+        
         wrefresh(dialog);
-        //windowRefreshAndClear(dialog);
-        delwin(dialog);
-    } while ( !keyWasPressed(KEY_MAC_ENTER) );
+    } while ( !keyWasPressed(dialog, KEY_MAC_ENTER) );
     
+    delwin(dialog);
     clear();
-    refresh();
 }
 
 

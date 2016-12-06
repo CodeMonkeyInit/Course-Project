@@ -1,11 +1,3 @@
-//
-//  programMenuView.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 13.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "programMenuTableExtras.h"
 
 int linesAvailable;
@@ -15,15 +7,32 @@ WINDOW *table;
 struct MachineTime *start,
                    *end;
 char *tableString;
-long currentPage;
+int currentPage;
 bool refreshTable;
 bool controlsLocked;
 
+void printCurrentPageNumber(int currentPage)
+{
+    const int offsetY = -1;
+    const int offsetX = -13;
+    
+    wattron(stdscr, COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) | A_BOLD);
+    
+    wmove(stdscr, LINES + offsetY, COLS + offsetX);
+    wprintw(stdscr, "Страница %3d", currentPage + 1);
+    
+    wattroff(stdscr, COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) | A_BOLD);
+}
+
 void printTable(int helpType)
 {
-    printHelp(helpType);
+    printHelp(stdscr, helpType);
+    
+    printCurrentPageNumber(currentPage);
+    
+    wmove(table, 0, 0);
    
-    wattron( table, COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) | A_BOLD | A_REVERSE);
+    wattron(table, COLOR_PAIR(ACTIVE_INPUT_COLOR_PAIR) | A_BOLD | A_REVERSE);
     
     wprintw(table, "%s", MENU_TABLE_HEAD);
     
@@ -51,6 +60,7 @@ void loadNextPage()
     temp = getTableEnd(temp, linesAvailable, GET_NORMAL);
     
     free(tableString);
+    
     tableString = recordsToTable(end -> next, temp);
     if ( tableString != NULL )
     {
@@ -109,17 +119,36 @@ bool keypressHandler(int key)
         switch (key)
         {
             case KEY_DOWN:
+                
                 loadNextPage();
                 break;
+                
             case KEY_UP:
+                
                 loadPreviousPage();
                 break;
+                
             case KEY_MAC_ENTER:
-                editStruct();
+                
+                editMachineTimeStruct(linesAvailable);
                 refreshTable = true;
                 clear();
                 refresh();
+                
                 break;
+            case KEY_F(8):
+                
+                printSortMenu();
+                refreshTable = true;
+                return EXIT;
+                
+                break;
+            case KEY_F(5):
+                
+                searchFunction();
+                return EXIT;
+                break;
+                
             case KEY_ESC:
                 return EXIT;
                 break;
@@ -132,7 +161,7 @@ bool keypressHandler(int key)
 
 void updateTable()
 {
-    if ( (NULL != tableString) && (EMPTY_TABLE != tableString) )
+    if (NULL != tableString)
     {
         free(tableString);
     }
@@ -140,7 +169,16 @@ void updateTable()
     tableString = recordsToTable(start, end);
     if (NULL == tableString)
     {
-        tableString  = EMPTY_TABLE;
+        if (0 == currentPage)
+        {
+            tableString = malloc(sizeof(char) * strlen(EMPTY_TABLE) + 1);
+            strcpy(tableString, EMPTY_TABLE);
+        }
+        else
+        {
+            tableString = malloc(sizeof(char) * strlen(EMPTY_PAGE) + 1);
+            strcpy(tableString, EMPTY_PAGE);
+        }
         controlsLocked = true;
     }
 }
@@ -173,20 +211,20 @@ void printStruct()
     {
         if (refreshTable)
         {
+            if ( (NULL != start) && (NULL == end -> next) )
+            {
+                wclear(table);
+            }
+            
             printTable(HELP_TABLE);
-            windowRefreshAndClear(table);
+            wrefresh(table);
             refreshTable = false;
         }
     } while ( EXIT != keypressHandler( getch() ) );
+
+    free(tableString);
     
-    if (EMPTY_TABLE != tableString)
-    {
-        free(tableString);
-    }
-    
-    //wclear(table);
     delwin(table);
     
     clear();
-    refresh();
 }

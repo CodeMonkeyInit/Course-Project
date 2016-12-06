@@ -1,11 +1,3 @@
-//
-//  customGetInput.h
-//  courseWork
-//
-//  Created by Денис Кулиев on 24.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #ifndef customGetInput_h
 #define customGetInput_h
 
@@ -26,8 +18,7 @@
 #define UNKNOWN_LENGTH 0
 #define WRONG_FORMAT -1
 #define INPUT_ABORTED -1
-#define BACKSPACE_AND_CHARACTER 3
-#define BACKSPACE_ONLY 2
+#define CHARACTER 1
 
 void tabToSpace(char * string);
 int windowGetInput(WINDOW *win, char *format,...);

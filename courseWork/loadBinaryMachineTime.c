@@ -1,22 +1,14 @@
-//
-//  loadBinaryMachineTime.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 13.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "machineTime.h"
 
 int loadBinary(FILE **binaryFile)
 {
-    const int MAX_LEN = 81;
+    const int CHAR_MAX_LENGTH = 81;
     
     char **temp = malloc(sizeof(char*) * RECORD_ENTRIES);
     
     for (int i = 0; i < RECORD_ENTRIES; i++)
     {
-        temp[i] = malloc(sizeof(char) * MAX_LEN);
+        temp[i] = malloc(sizeof(char) * CHAR_MAX_LENGTH);
     }
     
     while ( !feof(*binaryFile) )

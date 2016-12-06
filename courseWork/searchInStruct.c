@@ -1,30 +1,26 @@
-//
-//  searchSort.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 07.11.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "machineTime.h"
+
+int recordsFound;
+bool searchSuccesfull;
 
 void updateSubstringPositionString(char *format ,char *pattern,char *whereToFind , int *position)
 {
-    char *tempString, *substring;
+    const int HAYSTACK_MAX_SIZE = 81;
+    char *tempHaystackString, *substring;
     bool tempStringAllocked = false;
     
     if ( strcmp(format, "%s") )
     {
-        tempString = malloc(sizeof(char) * 20 );
+        tempHaystackString = malloc(sizeof(char) * HAYSTACK_MAX_SIZE);
         tempStringAllocked = true;
-        sprintf(tempString, format, whereToFind);
+        sprintf(tempHaystackString, format, whereToFind);
     }
     else
     {
-        tempString = whereToFind;
+        tempHaystackString = whereToFind;
     }
     
-    substring = strstr(tempString, pattern);
+    substring = strstr(tempHaystackString, pattern);
     
     if (NULL == substring)
     {
@@ -32,12 +28,13 @@ void updateSubstringPositionString(char *format ,char *pattern,char *whereToFind
     }
     else
     {
-        *position = (int) (substring - tempString);
+        int tempPosition = (int) (substring - tempHaystackString);
+        *position = getUtf8Index(tempHaystackString, tempPosition);
     }
     
     if (tempStringAllocked)
     {
-        free(tempString);
+        free(tempHaystackString);
     }
     
 }
@@ -59,9 +56,6 @@ void updateSubstringPositionInt(char *format ,char *pattern,const int whereToFin
     }
     
 }
-
-int recordsFound;
-bool searchSuccesfull;
 
 void freeSearchResults(MTsearch *head)
 {

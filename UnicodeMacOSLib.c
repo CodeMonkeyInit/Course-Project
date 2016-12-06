@@ -15,6 +15,21 @@ int getBlockSize()
     return fileSystem.st_blksize;
 }
 
+int getUtf8Index(char* utfString, int charIndex)
+{
+    int utfIndex, i;
+    
+    for (utfIndex = 0, i = 0; i < charIndex; utfString++, i++)
+    {
+        if ( isUTF8charBeginning(*utfString) )
+        {
+            utfIndex++;
+        }
+    }
+    
+    return utfIndex;
+}
+
 bool isDigitOnly(char *string)
 {
     while('\0' != *string)
@@ -64,12 +79,12 @@ char *formatUtf8String(char *utf8string, const size_t formatLength)
     char *formatedString;
     size_t utf8StringLength = utf8len(utf8string);
     
-    size_t spacesNumber = formatLength - utf8StringLength;
+    long spacesNumber = labs( (long)formatLength - (long)utf8StringLength );
     
     size_t charLength = strlen(utf8string);
     size_t formatStringSize = charLength * 4  + spacesNumber + 1;
     
-    formatedString = malloc(sizeof(char) * formatStringSize);
+    formatedString =(char*) malloc(sizeof(char) * formatStringSize);
     
     for (size_t i = 0; i < spacesNumber; i++)
     {

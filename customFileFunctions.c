@@ -1,11 +1,3 @@
-//
-//  customFileFunctions.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 12.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "customFileFunctions.h"
 
 int checkFileHeader(FILE *unknown, const char *refernceHeader)
@@ -50,6 +42,10 @@ int getFileType(const char *path)
     else if (NULL != strstr(path, ".bin"))
     {
         return BINARY_TYPE_FILE;
+    }
+    else if (NULL != strstr(path, ".txt"))
+    {
+        return TEXT_TYPE_FILE;
     }
     else
     {

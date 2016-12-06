@@ -1,11 +1,3 @@
-//
-//  programMenuSearch.h
-//  courseWork
-//
-//  Created by Денис Кулиев on 06.11.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #ifndef programMenuSearch_h
 #define programMenuSearch_h
 
@@ -14,5 +6,7 @@
 #include "machineTime.h"
 
 void printSearchResults(char *pattern);
+int deleteSearchResult(MTsearch **record);
+void editSearchResults();
 
 #endif /* programMenuSearch_h */

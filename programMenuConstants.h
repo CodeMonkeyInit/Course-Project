@@ -1,11 +1,3 @@
-//
-//  programMenuConstants.h
-//  courseWork
-//
-//  Created by Денис Кулиев on 04.11.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #ifndef programMenuConstants_h
 #define programMenuConstants_h
 
@@ -18,14 +10,15 @@
 
 //MENU
 #define MENU_HEADER           0
-#define MENU_BORDERS          16
+#define MENU_BORDERS          14
 #define CHOICE_SIZE           1
 #define ADD_FUNCTION          1
 #define VIEW_FUNCTION         2
 #define SORT_FUNCTION         3
 #define SEARCH_FUNCTION       4
-#define LOAD_FUNCTION         5
-#define EXIT_FUNCTION         6
+#define SUMMARY_FUNCTION      5
+#define LOAD_FUNCTION         6
+#define EXIT_FUNCTION         7
 #define MENU_WIDTH            40
 #define MENU_HIGHLIGHT_LENGTH MENU_WIDTH - 4
 #define TABLE_WIDTH           69
@@ -49,6 +42,8 @@
 #define MESSAGE_HELP          3
 #define ADD_HELP              4
 #define DIALOG_HELP           5
+#define SUMMARY_HELP          6
+#define SEARCH_HELP           7
 
 //ADD
 #define CAFEDRA_CODE_CHOICE 0
@@ -61,11 +56,21 @@
 
 //VIEW and EDIT
 #define TABLE_CHOICE_WIDTH 66
-#define SPACES_OTHER_THAN_TABLE 6
+#define SPACES_OTHER_THAN_TABLE 7
 #define EXIT               true
 #define CONTINUE           false
-#define EMPTY_TABLE "\n│                      На этой странице записей нет!               │"
-#define MENU_TABLE_HEAD "┌──────────────────────────────────────────────────────────────────┐\n│   №│Код Кафедры│    Название Кафедры│По Плану│По Факту│Отклонения│\n│    │           │                    │        │        │          │"
+
+#define EMPTY_TABLE "\n├────┴───────────┴────────────────────┴────────┴────────┴──────────┤"\
+                    "\n│                          Записей нет!                            │"\
+                    "\n├────┬───────────┬────────────────────┬────────┬────────┬──────────┤"
+
+#define EMPTY_PAGE "\n├────┴───────────┴────────────────────┴────────┴────────┴──────────┤"\
+                    "\n│                   На этой странице записей нет!                  │"\
+                    "\n├────┬───────────┬────────────────────┬────────┬────────┬──────────┤"
+
+#define MENU_TABLE_HEAD "┌────┬───────────┬────────────────────┬────────┬────────┬──────────┐"\
+                      "\n│   №│Код Кафедры│    Название Кафедры│По Плану│По Факту│Отклонения│"\
+                      "\n├────┼───────────┼────────────────────┼────────┼────────┼──────────┤"
 
 //EDIT
 #define TABLE_HEAD_SIZE           3
@@ -97,7 +102,10 @@
 #define TIME_PLANNED_OFFSET_X    40
 #define TIME_SPENT_OFFSET_X      49
 #define TIME_DIFFERENCE_OFFSET_X 58
-#define EMPTY_SEARCH             "\n│                       Ничего не найдено!                         │"
+
+#define EMPTY_SEARCH "\n├────┴───────────┴────────────────────┴────────┴────────┴──────────┤"\
+                     "\n│                       Ничего не найдено!                         │"\
+                     "\n├────┬───────────┬────────────────────┬────────┬────────┬──────────┤"
 
 
 #endif /* programMenuConstants_h */

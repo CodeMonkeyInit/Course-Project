@@ -1,11 +1,3 @@
-//
-//  programMenuTableVariables.h
-//  courseWork
-//
-//  Created by Денис Кулиев on 13.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #ifndef programMenuTableVariables_h
 #define programMenuTableVariables_h
 
@@ -17,12 +9,13 @@
 extern struct MachineTime *start,
 *end;
 extern char *tableString;
-extern long currentPage;
+extern int currentPage;
 extern WINDOW *table;
 extern bool controlsLocked;
 
 void printTable(int helpType);
-void editStruct();
+void editMachineTimeStruct();
 void updateTable();
+void printCurrentPageNumber(int currentPage);
 
 #endif /* programMenuTableVariables_h */

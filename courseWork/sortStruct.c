@@ -1,11 +1,3 @@
-//
-//  sortStruct.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 24.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "machineTime.h"
 #include "machineTimeStruct.h"
 
@@ -117,6 +109,8 @@ void sortStruct(bool (*sortFunction)(struct MachineTime *, struct MachineTime *)
     {
         return;
     }
+    unsavedChangesExist = true;
+    
     while (NULL != temp)
     {
         if (NULL == temp -> next)

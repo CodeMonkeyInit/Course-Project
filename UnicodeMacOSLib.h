@@ -21,5 +21,6 @@ size_t utf8len(const char *s);
 bool isUnicodeMultibyteString(const char *string);
 char *formatUtf8String(char *utf8string, const size_t formatLength);
 bool isDigitOnly(char *string);
+int getUtf8Index(char* utfString, int charIndex);
 
 #endif /* UnicodeMacOSLib_h */

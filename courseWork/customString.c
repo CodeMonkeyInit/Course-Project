@@ -1,11 +1,3 @@
-//
-//  customString.c
-//  courseWork
-//
-//  Created by Денис Кулиев on 12.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #include "customString.h"
 
 long countNewLines(char *buffer, long startPosition)
@@ -28,7 +20,8 @@ char *getStringFromBuffer(const char *buffer,long startPosition, long endPositio
     long i,j;
     
     long stringLength = endPosition - startPosition;
-    char *string = malloc(sizeof(char) * stringLength);
+    //ver2 вроде разобрался keep eye on this
+    char *string = malloc(sizeof(char) * stringLength + 1);
     
     for (i = startPosition, j = 0; i < endPosition; i++,j++)
     {

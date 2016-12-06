@@ -1,11 +1,3 @@
-//
-//  machineTimeStruct.h
-//  courseWork
-//
-//  Created by Денис Кулиев on 13.10.16.
-//  Copyright © 2016 Денис Кулиев. All rights reserved.
-//
-
 #ifndef machineTimeStruct_h
 #define machineTimeStruct_h
 
