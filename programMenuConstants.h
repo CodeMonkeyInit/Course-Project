@@ -18,7 +18,8 @@
 #define SEARCH_FUNCTION       4
 #define SUMMARY_FUNCTION      5
 #define LOAD_FUNCTION         6
-#define EXIT_FUNCTION         7
+#define SAVE_FUNCTION         7
+#define EXIT_FUNCTION         8
 #define MENU_WIDTH            40
 #define MENU_HIGHLIGHT_LENGTH MENU_WIDTH - 4
 #define TABLE_WIDTH           69
@@ -44,6 +45,7 @@
 #define DIALOG_HELP           5
 #define SUMMARY_HELP          6
 #define SEARCH_HELP           7
+#define SEARCH_EDIT_HELP      8
 
 //ADD
 #define CAFEDRA_CODE_CHOICE 0

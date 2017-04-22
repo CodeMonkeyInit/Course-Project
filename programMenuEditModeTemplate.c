@@ -1,6 +1,8 @@
 #include "programMenuEditTemplate.h"
 
 bool somethingChanged;
+
+//получить отступ по оси X для текущего поля
 int getOffsetX()
 {
     switch (currentField)
@@ -27,6 +29,7 @@ int getOffsetX()
     return -1;
 }
 
+// ввод времени
 int getTimeFromUser(WINDOW *win , int offsetY, int offsetX, bool *success)
 {
     int time;
@@ -119,6 +122,7 @@ void textInput(WINDOW *win, int offsetY, int offsetX, struct MachineTime *edit, 
     
     if ( INPUT_ABORTED != windowGetInput(win, inputFormat, tempString) )
     {
+        // если строка не многобайтовая(не содержит русских символов
         if ( (CAFEDRA_CODE == currentField) && !isUnicodeMultibyteString(tempString) )
         {
             strcpy(edit -> cafedraCode, tempString);

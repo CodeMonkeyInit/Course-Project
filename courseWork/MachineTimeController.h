@@ -12,7 +12,7 @@
 
 #define AUTO_SAVE_PERIODICITY_SECONDS 1
 
-#define BACKUP_FILENAME "MTbackup.table"
+#define BACKUP_FILENAME "MTbackup.bin"
 #define TABLE_START_OFFSET 351
 #define saveStruct(path, savedByUser) saveFile(path, savedByUser)
 

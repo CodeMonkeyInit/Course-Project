@@ -11,19 +11,21 @@ const char *menuChoices[] =
     "Поиск",
     "Заключение",
     "Открытие/Создание файла",
+    "Сохранить",
     "Сохранить и Выйти"
 };
 
-const int MENU_CHOICES_COUNT = 8;
+const int MENU_CHOICES_COUNT = 9;
 
 bool exitMenu;
 
+//найти позицию в которой строка будет по середине
 int getStringMiddlePostition(const char *string, const int width)
 {
     return ( width - (int)utf8len(string) ) / 2;
 }
 
-void init_menu()
+void initMenu()
 {
     setlocale(LC_ALL, "");
     initscr();
@@ -40,6 +42,8 @@ void init_menu()
     {
         start_color();
         
+        
+        //инициализация пар цветов
         init_pair(ACTIVE_INPUT_COLOR_PAIR, COLOR_WHITE, COLOR_BLACK);
         init_pair(MAIN_THEME_COLOR_PAIR,COLOR_WHITE, COLOR_BLUE);
         init_pair(ACTIVE_ELEMENT_COLOR_PAIR, COLOR_WHITE, COLOR_CYAN);
@@ -49,39 +53,51 @@ void init_menu()
     refresh();
 }
 
+int saveFunction()
+{
+    int result = saveStruct(path, true);
+    
+    result = saveStruct(path, true);
+    
+    if ( NOTHING_TO_SAVE == result )
+    {
+        printMessage("Нечего сохранять!");
+    }
+    else if ( UNKNOWN_FILE_TYPE == result)
+    {
+        strcat(path, ".bin");
+    }
+    else if ( FILE_SAVED_SUCCESSFULY != result )
+    {
+        printMessage("Файл не может быть сохранен введите другой путь");
+    }
+    else
+    {
+        printMessage("Файл успешно сохранен!");
+        openFile(path);
+    }
+    
+    return result;
+}
+
 void exitFunction()
 {
-    int result = FILE_NOT_OPEN;
+    int result = saveFunction();
     
     while ( FILE_SAVED_SUCCESSFULY != result )
     {
-        result = saveStruct(path, true);
-        
-        if ( NOTHING_TO_SAVE == result )
+        if (NOTHING_TO_SAVE == result)
         {
-            printMessage("Нечего сохранять!");
             break;
         }
-        else if ( UNKNOWN_FILE_TYPE == result)
-        {
-            strcat(path, ".bin");
-        }
-        else if ( FILE_SAVED_SUCCESSFULY != result )
-        {
-            printMessage("Файл не может быть сохранен введите другой путь");
-            getUserInputDialog("Введите полный путь или имя файла (.table - таблица, .bin - сжатый)", path);
-        }
-        else
-        {
-            printMessage("Файл успешно сохранен!");
-            openFile(path);
-        }
+        
+        getUserInputDialog("Введите полный путь или имя файла (.table - таблица, .bin - сжатый)", path);
+        result = saveFunction();
     }
     
     programDestructor();
     
     exit(0);
-    
 }
 
 void searchFunction()
@@ -93,8 +109,10 @@ void searchFunction()
     }
 }
 
-void call_function(int function)
+void callMenuFunction(int function)
 {
+    int result;
+    
     switch (function)
     {
         case ADD_FUNCTION:
@@ -125,6 +143,21 @@ void call_function(int function)
         case LOAD_FUNCTION:
             
             openFileMenu();
+            break;
+            
+        case SAVE_FUNCTION:
+            
+            result = saveFunction();
+            if ( FILE_SAVED_SUCCESSFULY != result )
+            {
+                if (result == NOTHING_TO_SAVE)
+                {
+                    break;
+                }
+                getUserInputDialog("Введите полный путь или имя файла (.table - таблица, .bin - сжатый)", path);
+                saveFunction();
+            }
+            
             break;
             
         case EXIT_FUNCTION:

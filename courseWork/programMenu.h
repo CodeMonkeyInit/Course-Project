@@ -41,9 +41,9 @@ bool refreshIfNeeded();
 bool keyWasPressed(WINDOW *win, int key);
 void printMessage(char *messageString);
 bool getUserInputDialog(char *message, char *response);
-void init_menu();
+void initMenu();
 void printHelp(WINDOW *win, int type);
-void call_function(int function);
+void callMenuFunction(int function);
 void render_menu(MENU parameters);
 void printStruct();
 

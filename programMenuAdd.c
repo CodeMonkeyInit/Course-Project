@@ -258,9 +258,7 @@ void addNewMTRecord()
             exit = true;
         }
     }
-    //windowRefreshAndClear(add);
     clear();
-    //refresh();
     delwin(add);
     
     freeArrayOfStrings(recordStrings, FIELD_COUNT);

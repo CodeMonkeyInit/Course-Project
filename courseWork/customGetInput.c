@@ -64,6 +64,7 @@ int getString(WINDOW *win, int length,char *string)
         }
         else if ( MAC_BACKSPACE == key )
         {
+            // удаляем букву с экрана и из финальной строки
             if (i == 0)
             {
                 i--;
@@ -155,7 +156,6 @@ int parseFormat(const char *format, int *argument)
         {
             lengthString[j] = format[i];
         }
-        
         if (1 != i)
         {
             lengthString [++j] = '\0';
@@ -163,6 +163,7 @@ int parseFormat(const char *format, int *argument)
         }
         else
         {
+             //если размер ввода не указан  например "%s"
             argument[ARGUMENT_LENGTH] = UNKNOWN_LENGTH;
         }
         

@@ -78,6 +78,7 @@ void printHelp(WINDOW *win, int type)
         case HELP_EDIT_MODE:
             
             mvwprintw(win, LINES - 2, 1, "ESC чтобы вернутся, ↑↓ движение вверх/вниз ↲ редактировать ← удалить запись");
+            mvwprintw(win, LINES - 1, 1, "%25s", "");
             break;
             
         case MESSAGE_HELP:
@@ -101,6 +102,16 @@ void printHelp(WINDOW *win, int type)
         case SEARCH_HELP:
             
             mvwprintw(win, LINES - 2, 1, "ESC чтобы вернутся в меню, ↑↓ смена страниц  ↲ режим редактирования");
+            break;
+            
+        case SEARCH_EDIT_HELP:
+            
+            mvwprintw(win, LINES - 2, 1, "ESC чтобы вернутся, ↑↓ движение вверх/вниз ↲ редактировать");
+            break;
+            
+        case SUMMARY_HELP:
+            
+            mvwprintw(win, LINES - 2, 1, "ESC - чтобы вернуться");
             break;
         
         default:

@@ -12,7 +12,6 @@ void initMachineTimeStruct()
 
 void addRecord(struct MachineTime *record)
 {
-    unsavedChangesExist = true;
     if(NULL == machineTimeBegining)
     {
         machineTimeEnding = machineTimeBegining = record;
@@ -23,6 +22,7 @@ void addRecord(struct MachineTime *record)
         machineTimeEnding -> next = record;
         machineTimeEnding = machineTimeEnding -> next;
     }
+    unsavedChangesExist = true;
 }
 
 struct MachineTime *createRecord(char **recordStrings)

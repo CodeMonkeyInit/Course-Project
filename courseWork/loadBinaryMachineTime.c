@@ -1,5 +1,5 @@
 #include "machineTime.h"
-
+#include <ncurses.h>
 int loadBinary(FILE **binaryFile)
 {
     const int CHAR_MAX_LENGTH = 81;
@@ -23,6 +23,11 @@ int loadBinary(FILE **binaryFile)
         
         free(temp[CAFEDRA_NAME]);
         
+        printw("\n%s %s %s %s", temp[CAFEDRA_CODE],
+               temp[CAFEDRA_NAME],
+               temp[TIME_PLANNED],
+               temp[TIME_USED]);
+        refresh();
         temp[CAFEDRA_NAME] = tempString;
         
         addRecord( createRecord(temp) );

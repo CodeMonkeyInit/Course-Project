@@ -127,10 +127,8 @@ void setExecutablePathAsWorkDir()
 void startMenu()
 {
     MENU parameters;
-    initMenuParameters(&parameters, menuChoices , MENU_CHOICES_COUNT, call_function);
-    setlocale(LC_ALL, "");
-    
-    init_menu();
+    initMenuParameters(&parameters, menuChoices , MENU_CHOICES_COUNT, callMenuFunction);
+    initMenu();
     
     if (!autosaveAvailable)
     {

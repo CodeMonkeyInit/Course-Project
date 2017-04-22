@@ -159,15 +159,16 @@ void summaryCallFunction(int function)
 
 void summaryMenu()
 {
+    MENU parameters;
+    
     MTsummary = getMTSummary();
     difference = MTsummary.timePlanned - MTsummary.timeSpend;
     additionHalf   = (MTsummary.timePlanned + MTsummary.timeSpend) / 2;
     
+    //вычисление процента от числа
     percent = fabs( (float)difference / additionHalf ) * 100;
     
-    MENU parameters;
     initMenuParameters(&parameters, summaryChoices , SUMMARY_CHOICES_COUNT, summaryCallFunction);
     render_menu(parameters);
-    
 }
 

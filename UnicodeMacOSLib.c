@@ -10,6 +10,7 @@
 
 int getBlockSize()
 {
+    // Получение размера блока на диске
     struct stat fileSystem;
     stat("/", &fileSystem);
     return fileSystem.st_blksize;
@@ -50,6 +51,7 @@ bool isUnicodeMultibyteString(const char *string)
 
 bool isUTF8charBeginning(char c)
 {
+    //проверка не равны ли первые два бита кода 0b10 т.к все многобайтовые utf-8 коды которые начинаются с 0b10 являются продолжениями символов
     if ( (c & 0xC0) != 0x80 )
     {
         return true;
@@ -65,7 +67,6 @@ size_t utf8len(const char *s)
     size_t length = 0;
     for (; *s != '\0'; s++)
     {
-        //проверка не равны ли первые два бита кода 0b10 т.к все многобайтовые utf-8 коды которые начинаются с 0b10 являются продолжениями символов
         if ( isUTF8charBeginning(*s) )
         {
             length++;
@@ -74,6 +75,7 @@ size_t utf8len(const char *s)
     return length;
 }
 
+// добавляет пробелы впереди слова для имитации форматирования
 char *formatUtf8String(char *utf8string, const size_t formatLength)
 {
     char *formatedString;

@@ -115,13 +115,11 @@ bool getUserInputDialog(char *message, char *response)
         mvwprintw(dialog, buttonOffsetY, buttonOffsetX, "%s", OK_BUTTON);
         if (currentChoice == CHOICE_OK_BUTTON)
         {
-            mvwchgat(dialog, inputFieldOffsetY, inputFieldOffsetX , DIALOG_WIDTH - 6 , A_BOLD, ACTIVE_ELEMENT_COLOR_PAIR, NULL);
             mvwchgat(dialog, buttonOffsetY, buttonOffsetX - 2 , utf8len(OK_BUTTON) + 4 , A_REVERSE, MAIN_THEME_COLOR_PAIR, NULL);
         }
         else
         {
             mvwchgat(dialog, inputFieldOffsetY, inputFieldOffsetX , DIALOG_WIDTH - 6 , A_REVERSE, MAIN_THEME_COLOR_PAIR, NULL);
-            mvwchgat(dialog, buttonOffsetY, buttonOffsetX - 2 , utf8len(OK_BUTTON) + 4 , A_BOLD, ACTIVE_ELEMENT_COLOR_PAIR, NULL);
         }
         
         wrefresh(dialog);

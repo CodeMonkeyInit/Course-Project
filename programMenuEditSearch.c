@@ -14,31 +14,6 @@ void *getPreviousSearchPointer(void *current)
 
 bool deleteSelectedSearchResult()
 {
-    searchPageClear = false;
-    deleteRecord(&( ((MTsearch *)currentChoicePointer)->data ));
-    
-    ( (MTsearch *)currentChoicePointer ) -> data = NULL;
-    
-    switch ( deleteSearchResult( (MTsearch **)&currentChoicePointer ) )
-    {
-        case ENDING:
-            if (!searchPageClear)
-            {
-                choicesAvailable--;
-                currentChoice--;
-                break;
-            }
-        case EMPTY:
-            searchTableNeedsRefresh = true;
-            searchControlsLocked = true;
-            return EXIT;
-        default:
-            break;
-    }
-    
-    choicesNumber = choicesAvailable;
-    
-    somethingDeleted = true;
     return CONTINUE;
 }
 
@@ -50,7 +25,7 @@ struct MachineTime *getCurrentSearchChoiceRecord(void *choice)
 void printSearchEditTable(int helpType)
 {
     updateSearchString();
-    printSearchResultTable(helpType);
+    printSearchResultTable(SEARCH_EDIT_HELP);
 }
 
 void editSearchResults()
